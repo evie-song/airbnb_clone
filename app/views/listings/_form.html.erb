@@ -1,0 +1,62 @@
+<%= form_with(model: listing) do |form| %>
+  <% if listing.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(listing.errors.count, "error") %> prohibited this listing from being saved:</h2>
+
+      <ul>
+        <% listing.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :about, style: "display: block" %>
+    <%= form.text_area :about %>
+  </div>
+
+  <div>
+    <%= form.label :default_price, style: "display: block" %>
+    <%= form.text_field :default_price %>
+  </div>
+
+  <div>
+    <%= form.label :bedroom_config, style: "display: block" %>
+    <%= form.text_field :bedroom_config %>
+  </div>
+
+  <div>
+    <%= form.label :bedroom_count, style: "display: block" %>
+    <%= form.number_field :bedroom_count %>
+  </div>
+
+  <div>
+    <%= form.label :bed_count, style: "display: block" %>
+    <%= form.number_field :bed_count %>
+  </div>
+
+  <div>
+    <%= form.label :bathroom_count, style: "display: block" %>
+    <%= form.number_field :bathroom_count %>
+  </div>
+
+  <div>
+    <%= form.label :host_id, style: "display: block" %>
+    <%= form.number_field :host_id %>
+  </div>
+
+  <div>
+    <%= form.label :address_id, style: "display: block" %>
+    <%= form.number_field :address_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

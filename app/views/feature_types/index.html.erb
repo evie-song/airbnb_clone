@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Feature types</h1>
+
+<div id="feature_types">
+  <% @feature_types.each do |feature_type| %>
+    <%= render feature_type %>
+    <p>
+      <%= link_to "Show this feature type", feature_type %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New feature type", new_feature_type_path %>
