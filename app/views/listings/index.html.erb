@@ -1,14 +1,55 @@
+<div class="listings-page-wrapper">
+
 <p style="color: green"><%= notice %></p>
 
 <h1>Listings</h1>
 
-<div id="listings">
+<div id="listings" class="listings-main">
   <% @listings.each do |listing| %>
-    <%= render listing %>
-    <p>
-      <%= link_to "Show this listing", listing %>
-    </p>
+    <div>
+      
+        <div class="listing-imgs-container">
+          <button class="fav-btn"><i class="material-icons fav-icon">favorite_border</i></button>
+          <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+          <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+          <a href="<%= listing_path listing.id %>">
+            <div class="listing-imgs-collection">
+              <% if listing.images.attached? %>
+                  <% listing.images.each_with_index do |image, index| %>
+                    <% if index == 0 %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => index }) %>
+                    <% elsif (index > 0) && (index < listing.images.length-1 ) %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                    <% else %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none last-img", :data => {:index => index }) %>
+                    <% end %>
+                  <% end %>
+              <% end %>
+            </div>
+          </a>
+        </div>
+        <div class="listing-title d-flex flex-row justify-content-between mt-2">
+          <div>
+            <%= listing.address.city %>, <%=listing.address.state%>
+          </div>
+          <div>
+            5.0
+          </div>
+        </div>
+        <div class="listing-distance-date">
+          <div class="">337 miles</div>
+          <div class="">Oct 16 - 21</div>
+        </div>
+        <div class="listing-unit-price">
+          $<span class="price-number"><%= listing.default_price %></span> night
+        </div>
+
+    </div>
+
+    
   <% end %>
 </div>
 
 <%= link_to "New listing", new_listing_path %>
+
+</div>

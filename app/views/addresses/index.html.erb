@@ -1,0 +1,11 @@
+<header><h1 class="display-4">Addresses</h1></header>
+
+<%= link_to 'Add address', new_address_path, class: 'btn btn-primary btn-lg' %>
+
+<div class="card">
+  <div class="card-block">
+    <ul>
+      <%= render @addresses %>
+    </ul>
+  </div>
+</div>

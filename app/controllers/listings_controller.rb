@@ -8,11 +8,16 @@ class ListingsController < ApplicationController
 
   # GET /listings/1 or /listings/1.json
   def show
+      
   end
 
   # GET /listings/new
   def new
-    @listing = Listing.new
+    @feature_types = FeatureType.all
+    @listing = Listing.new()
+    @property_types = PropertyType.all.map{ |p| { id: p.id, name: p.name }}
+
+    
   end
 
   # GET /listings/1/edit
@@ -21,17 +26,34 @@ class ListingsController < ApplicationController
 
   # POST /listings or /listings.json
   def create
-    @listing = Listing.new(listing_params)
+    @listing = Listing.create!(listing_params)
+    feature_list = params[:feature_list].split(",")
+    byebug
 
-    respond_to do |format|
-      if @listing.save
-        format.html { redirect_to listing_url(@listing), notice: "Listing was successfully created." }
-        format.json { render :show, status: :created, location: @listing }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @listing.errors, status: :unprocessable_entity }
+    if @listing.save
+      feature_list.each do |feature_num|
+        feature_id = feature_num.to_i 
+        listing_id = @listing.id
+        new_registration = FeatureRegistration.new({:listing_id => listing_id,:feature_id => feature_id})
+        new_registration.save
       end
+      redirect_to listing_url(@listing),notice: "Listing was successfully created." 
+    else
+      flash[:error] = "Failed to create new listing! errors: #{@listing.errors.full_messages.join(', ')}"
+      redirect_to new_listing_path({ listing: listing_params.to_h })
     end
+
+    
+
+    # respond_to do |format|
+    #   if @listing.save
+    #     format.html { redirect_to listing_url(@listing), notice: "Listing was successfully created." }
+    #     format.json { render :show, status: :created, location: @listing }
+    #   else
+    #     format.html { redirect_to new_listing_path, status: :unprocessable_entity }
+    #     format.json { render json: @listing.errors.to_json, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /listings/1 or /listings/1.json
@@ -65,6 +87,20 @@ class ListingsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def listing_params
-      params.require(:listing).permit(:title, :about, :default_price, :bedroom_config, :bedroom_count, :bed_count, :bathroom_count, :host_id, :address_id)
+      params.require(:listing).permit(
+        :title,
+        :about,
+        :default_price,
+        :bedroom_config,
+        :bedroom_count,
+        :bed_count,
+        :bathroom_count,
+        :user_id,
+        :address_id,
+        :property_type_id,
+        images: [],
+      ).tap do |p|
+        p[:bedroom_config] = JSON.parse(p[:bedroom_config])
+      end
     end
 end

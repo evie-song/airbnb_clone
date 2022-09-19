@@ -1,0 +1,30 @@
+<%= form_for @address do |f| %>
+
+  <fieldset class="form-group">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id, class: "form-control" %>
+  </fieldset>
+
+
+  <fieldset class="form-group">
+    <%= f.label :street %>
+    <%= f.text_field :street, class: "form-control" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :state %>
+    <%= f.text_field :state, class: "form-control" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :zip %>
+    <%= f.text_field :zip, class: "form-control" %>
+  </fieldset>
+
+  <fieldset class="form-group">
+    <%= f.label :country, 'Address' %>
+    <%= f.text_field :country, class: "form-control" %>
+  </fieldset>
+
+  <%= f.submit 'Add!', class: 'btn btn-primary' %>
+<% end %>

@@ -1,14 +1,328 @@
-<div id="<%= dom_id listing %>">
-  <p>
-    <strong>Title:</strong>
-    <%= listing.title %>
-  </p>
+<div class="container">
+<div class="listing-container">
+  <div class="listing-title-and-photoes">
+    <div class="h3 my-3"><%= listing.title %>
+    </div>
+    <div class="d-flex flex-row justify-content-between my-3">
+      <div class=""> 
+        <span>5.0</span>
+        <span> - </span>
+        <span>19 reviews</span>
+        <span> - </span>
+        <span>Superhost</span>
+        <span> - </span>
+        <span>Rome,Lazio,Italy</span>
+      </div>
+      <div class="">
+        <span>Share</span>
+        <span> - </span>
+        <span>saved</span>
+      </div>
+    </div>
+    <div class="my-3">
+      <div class="image-container">
+      <% if listing.images.attached? %>
+        <div class="column left">
+          <%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>
+        </div>
+        <div class="column right">
+          <div class="sub-row top">
+            <div class="sub-column left top">
+              <%= image_tag(url_for(listing.images[1]), :alt => "listing main img", :class => "listing-img") %>
+            </div>
+            <div class="sub-column right top">
+              <%= image_tag(url_for(listing.images[2]), :alt => "listing main img", :class => "listing-img") %>
+            </div>
+          </div>
+          <div class="sub-row"> 
+            <div class="sub-column left">
+              <%= image_tag(url_for(listing.images[3]), :alt => "listing main img", :class => "listing-img") %>
+            </div>
+            <div class="sub-column right">
+              <%= image_tag(url_for(listing.images[4]), :alt => "listing main img", :class => "listing-img") %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
 
-  <p>
-    <strong>About:</strong>
-    <%= listing.about %>
-  </p>
+  </div>
+  <div class="listing-main d-flex flex-row justify-content-between">
+    <div class="listing-details-container col-8">
+      <div class="listing-overview d-flex flex-row justify-content-between my-4">
+        <div>
+          <div class="h4">Entire rental unit hosted by Diana</div>
+          <div>
+            <span>2 guests</span>
+            <span> - </span>
+            <span>1 bedroom</span>
+            <span> - </span>
+            <span>1 bed</span>
+            <span> - </span>
+            <span>1 bath</span>
+          </div>
+        </div>
+        <div class="host-image-container">
+           <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+        </div>
+        
+      </div>
+      <div class="line-break"></div>
+      <div class="listing-highlights my-4">
+        <div class="d-flex flex-row my-4">
+          <div class="front-icon-container">
+            <i class="material-icons">account_circle</i>
+          </div>
+          <div class="lighlight-disc-container">
+            <div class="h6">Diana is a Superhost</div>
+            <div>Superhosts are experienced, highly rated hosts who are committed to providing great stays for guests.</div>
+          </div>
+        </div>
+        <div class="d-flex flex-row my-4">
+          <div class="front-icon-container">
+            <i class="material-icons">location_on</i>
+          </div>
+          <div class="lighlight-disc-container">
+            <div class="h6">Great location</div>
+            <div class="highlight">100% of recent guests gave the location a 5-star rating.</div>
+          </div>
+        </div>
+        <div class="d-flex flex-row my-4">
+          <div class="front-icon-container">
+            <i class="material-icons">vpn_key</i>
+          </div>
+          <div class="lighlight-disc-container">
+            <div class="h6">Great check-in experience</div>
+            <div>100% of recent guests gave the check-in process a 5-star rating.</div>
+          </div>
+        </div>
+      </div>
+      <div class="line-break"></div>
+      <div class="listing-about my-4">
+        <div class="my-4 line-clamp-3">
+          <%= listing.about %>
+        </div>
+        <div>
 
+          <button type="button" class="btn btn-link p-0" data-bs-toggle="modal" data-bs-target="#listingAboutModal">
+            Show more >
+          </button>
+
+          <div class="modal fade" id="listingAboutModal" tabindex="-1" aria-labelledby="listingAboutModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <%= listing.about %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <div class="line-break"></div>
+      <div class="listing-bedrooms my-4">
+        <div class="h4">Where you'll sleep</div>
+        <div class="container row my-4">
+          <% for bedroom_hash in listing.bedroom_config %>
+            <div class="col-4 p-1 text-center bedroom-display">
+              <div class="border bg-light rounded">
+                <h6 class="mt-3 mb-2 bedroom-title"><%= bedroom_hash["title"] %></h6>
+                <ul class="p-0">
+                  <% for bed_hash in bedroom_hash["beds"] %>
+                    <li>
+                      <span><%= bed_hash["count"] %></span>
+                      <span><%= bed_hash["type"] %><span>
+                    </li>
+                  <% end %>
+                </ul>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <div class="line-break"></div>
+      <div class="listing-amentities my-4">
+        <div class="h4">What this place offers</div>
+        <div class="feature-collection">
+          <% listing.features[0..5].each do |feature| %>
+            <div class="feature-container my-4" data-id="<%= feature.id %>">
+              <div class="my-2 d-flex flex-row align-middle">
+                <% begin %>
+                  <%= image_tag("feature_icons/#{feature.name.squish.downcase.tr(' ','_')}.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                <% rescue %>
+                  <%= image_tag("feature_icons/bathtub.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                <% end %>
+                <div class=""><%= feature.name %></div>
+              </div>
+            </div>
+          <% end %>
+
+          <button type="button" class="btn btn-outline-dark py-2 px-3 my-3" data-bs-toggle="modal" data-bs-target="#amenityAllModal">
+            <div class="fw-bold m-1">Show all <%= listing.features.count %> amenities</div>
+          </button>
+
+          <div class="modal fade" id="amenityAllModal" tabindex="-1" aria-labelledby="amenityAllModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-dialog">
+                <div class="modal-content p-3">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="amenityAllModalTitle">What this place offers</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <% @feature_types = [] %>
+                      <% listing.features.each do |f| %>
+                        <% @feature_types.append(f.feature_type.name) %>
+                      <% end %>
+                    <% @feature_types.uniq.each do |type| %>
+                      <div class="h6 mb-5">
+                      <%= type %>
+                      <% listing.features.select{ |f| f.feature_type.name == type }.each do |feature| %>
+                        <div class="feature-container my-4" data-id="<%= feature.id %>">
+                          <div class="my-2 d-flex flex-row align-middle fw-normal">
+                            <% begin %>
+                              <%= image_tag("feature_icons/#{feature.name.squish.downcase.tr(' ','_')}.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                            <% rescue %>
+                              <%= image_tag("feature_icons/bathtub.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                            <% end %>
+                            <div class=""><%= feature.name %></div>
+                          </div>
+                          <div class="line-break my-4"></div>
+                        </div>
+                      <% end %>
+                      </div>
+                    <% end %>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="line-break"></div>
+      <div class="listing-datepick my-4">
+        <div class="h4 my-4">Select check-in date</div>
+        <div container="container">
+          <div class="row">
+            <div class="col">
+              <%= month_calendar do |date| %>
+                <%= date %>
+              <% end %>
+            </div>
+            <div class="col">
+              <%= month_calendar(start_date: (Date.current+1.month).beginning_of_month) do |date| %>
+                <%= date %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      
+    </div>
+
+    <div class="listing-pricing col-4 my-4 ">
+      <div class="pricing-container ">
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-row justify-content-between align-items-center my-3">
+            <div class="">
+              <span class="fs-4">$100</span>
+              <span>night</span>
+            </div>
+            <div class="d-flex flex-row align-items-center">
+              <span class="fw-bold">5.0 star</span>
+              <span> - </span>
+              <a href="#" class="text-muted">20 reviews</a>
+            </div>
+          </div>
+          <div class="rounded border border-secondary border-opacity-50 my-3">
+            <div class="d-flex flex-row justify-content-between">
+              <div class="border-end border-bottom border-secondary border-opacity-50 flex-fill p-3" >Check-in</div>
+              <div class="border-bottom border-secondary border-opacity-50 flex-fill p-3">Check-out</div>
+            </div>
+            <div class="p-3">Guests</div>
+          </div>
+          <div class="my-3">
+            <button type="button" class="btn btn-danger p-3 w-100">Check availability</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="line-break"></div>
+
+  <div class="listing-reviews my-4">
+    <div class="h4 mb-4"><%= listing.comments.count %> reviews</div>
+    <div class="container">
+      <div class="row align-items-center">
+        <% if listing.comments.exists? %>
+          <% listing.comments.each do |comment| %>
+            <div class="col-lg-6 review-wrapper">
+              <div class="review-header d-flex flex-col mb-2">
+                <div class="user-icon-container">
+                  <%= image_tag("castle.webp", :alt => "host icon", :class => "user-icon") %>
+                </div>
+                <div>
+                  <div class="comment-user-name fw-bold"><%= comment.user.display_name %></div>
+                  <div class="comment-date text-black-50"><%= comment.created_at %></div>
+                </div>
+              </div>
+              <div class="review-body">
+                <%= comment.body %>
+              </div>
+              
+
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="line-break"></div>
+
+  <div class="listing-map my-4">
+    <div class="h4 my-4">Where you'll be</div>
+    <div id="map" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>"></div>
+    <div>
+      <%# image_tag "http://maps.googleapis.com/maps/api/staticmap?center=#{listing.address.latitude},#{listing.address.longitude}&markers=#{listing.address.latitude},#{listing.address.longitude}&zoom=7&size=640x400&key=AIzaSyCupp8TF3SP6EzAvNd71PbFFGTKw4s8Cmg", class: 'img-fluid img-rounded location-map-img', alt: "#{listing.address.full_address} on the map" %>
+    </div>
+  </div>
+
+  <div class="line-break"></div>
+
+  <div class="listing-host my-4">
+    <div class="h4">Hosted by XXX</div>
+  </div>
+
+  <div class="line-break"></div>
+
+  <div class="listing-rules my-4">
+    <div class="h4">Things to know</div>
+  </div>
+
+
+</div>
+<div id="<%= dom_id listing %>" class="d-none">
   <p>
     <strong>Default price:</strong>
     <%= listing.default_price %>
@@ -35,13 +349,22 @@
   </p>
 
   <p>
-    <strong>Host:</strong>
-    <%= listing.host_id %>
+    <strong>User:</strong>
+    <%= listing.user_id %>
   </p>
 
   <p>
     <strong>Address:</strong>
     <%= listing.address_id %>
   </p>
+
+</div>
+
+<div>
+  <%= link_to "Edit this listing", edit_listing_path(listing) %> |
+  <%= link_to "Back to listings", listings_path %>
+
+  <%= button_to "Destroy this listing", listing, method: :delete %>
+</div>
 
 </div>
