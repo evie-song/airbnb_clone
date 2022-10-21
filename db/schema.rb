@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_12_184518) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_03_201306) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -51,6 +51,18 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_184518) do
     t.float "latitude"
     t.float "longitude"
     t.index ["user_id"], name: "index_addresses_on_user_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "listing_id", null: false
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "cancellation_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_bookings_on_listing_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -121,11 +133,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_12_184518) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "addresses", "users"
+  add_foreign_key "bookings", "listings"
+  add_foreign_key "bookings", "users"
   add_foreign_key "comments", "listings"
   add_foreign_key "comments", "users"
   add_foreign_key "feature_registrations", "features"

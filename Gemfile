@@ -19,7 +19,7 @@ gem "puma", "~> 5.0"
 gem "importmap-rails"
 
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
-gem "turbo-rails"
+# gem "turbo-rails"
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
@@ -58,6 +58,12 @@ gem 'geocoder'
 # include simple calendar 
 gem "simple_calendar", "~> 2.4"
 
+#  include devise for user authentication
+gem 'devise'
+
+# include mini-magick for displaying images
+gem 'mini_magick'
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -82,3 +88,5 @@ group :test do
   gem "selenium-webdriver"
   gem "webdrivers"
 end
+
+gem "ruby-lsp", "~> 0.3.2", :group => :development

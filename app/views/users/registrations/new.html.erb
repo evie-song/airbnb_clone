@@ -1,0 +1,91 @@
+<div class="text-center fw-bold text-dark">Sign up</div>
+<div class="line-break my-3"></div>
+
+<div class="login-page-content p-4">
+  <% if notice %>
+    <p class="alert alert-success"><%= notice %></p>
+  <% end %>
+  <% if alert %>
+    <p class="alert alert-danger"><%= alert %></p>
+  <% end %>
+  <p class="custom-alert alert alert-danger d-none"></p>
+  <div class="mb-3 h4">Welcome to Airbnb</div>
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
+    <div class="border border-secondary rounded">
+      <div class="border-bottom border-secondary login-input-wrapper">
+        <div class="">
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "Email" %>
+        </div>
+      </div>
+      <div class="border-bottom border-secondary login-input-wrapper">
+        <div class="">
+          <%= f.password_field :password, autocomplete: "new-password", placeholder: "Password (6 characters minimum)" %>
+        </div>
+      </div>
+      <div class="login-input-wrapper">
+        <div class="">
+          <%= f.password_field :password_confirmation, autocomplete: "new-password",  placeholder: "Password confirmation" %>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions w-100 my-3">
+      <%= f.submit "Sign up", class:"login-btn", id: 'signupButton'%>
+    </div>
+  <% end %>
+  <div class="option-change-overwrap">
+    <div class="d-flex align-items-center option-change-or">
+      or
+    </div>
+  </div>
+
+  <div class="w-100">
+    <div class="">
+      <a href="<%= user_session_url(format: :json)%>" class="nav-link loginOrSignupBtn" >
+        <div class="login-switch-btn">
+          <span>Switch to Log in</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <div class="w-100">
+    <%# link_to "switch to log in", user_session_url(format: :json), class:"nav-link loginOrSignupBtn"%>
+  </div>
+</div>
+
+
+
+<div class="d-none">
+  <h2>Sign up???</h2>
+
+  <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+    <%= render "users/shared/error_messages", resource: resource %>
+
+    <div class="field">
+      <%= f.label :email %><br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    <div class="actions">
+      <%= f.submit "Sign up" %>
+    </div>
+  <% end %>
+
+  <%= render "users/shared/links" %>
+
+</div class="d-none">

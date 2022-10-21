@@ -18,12 +18,52 @@
       <% date_range.each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
-              <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
-                <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
+            <% if passed_options[:show_booked_dates] %>
+              <% if @booked_dates.include? day.to_date %>
+                <%= content_tag :td, data: {date: day.to_date.to_s }, class: [calendar.td_classes_for(day), "booked"].join(' ') do %>
+                  <div class="date-overwrapper">
+                    <div class="date-wrapper" data-date="<%= day.to_date %>">
+                      <p>
+                          <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                            <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
+                          <% else %>
+                            <% passed_block.call day.day, sorted_events.fetch(day, []) %>
+                          <% end %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
               <% else %>
-                <% passed_block.call day.day, sorted_events.fetch(day, []) %>
+                <%= content_tag :td, data: {date: day.to_date.to_s }, class: [calendar.td_classes_for(day), "unbooked"].join(' ') do %>
+                  <div class="date-overwrapper">
+                    <div class="date-wrapper" data-date="<%= day.to_date %>">
+                      <p>
+                          <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                            <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
+                          <% else %>
+                            <% passed_block.call day.day, sorted_events.fetch(day, []) %>
+                          <% end %>
+                      </p>
+                    </div>
+                  </div>
+                <% end %>
               <% end %>
+            <% else %>
+              
+              <%= content_tag :td, data: {date: day.to_date.to_s }, class: calendar.td_classes_for(day) do %>
+                <div class="date-overwrapper">
+                  <div class="date-wrapper" data-date="<%= day.to_date %>">
+                    <p>
+                        <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                          <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
+                        <% else %>
+                          <% passed_block.call day.day, sorted_events.fetch(day, []) %>
+                        <% end %>
+                    </p>
+                  </div>
+                </div>
+              <% end %>
+
             <% end %>
           <% end %>
         </tr>

@@ -1,0 +1,296 @@
+<header class="sticky-top">
+    <nav class="custom-navbar navbar sticky-top navbar-expand-lg d-flex flex-column">
+        <div class="container-fluid">
+            <div class="nav-brand-wrapper">
+                <%= link_to "Airbnb", root_path, class: "navbar-brand" %>
+            </div>
+            <div class="search-bar-overwrap">
+                <form class="d-flex" role="search">
+                    <div class="search-bar-col where">
+                        <span>Anywhere</span>
+                    </div>
+                    <div class="column-break"></div>
+                    <div class="search-bar-col when">
+                        <span>Any week</span>
+                    </div>
+                    <div class="column-break"></div>
+                    <div class="search-bar-col who">
+                        <span>Add guests</span>
+                        
+                    </div>
+                    <div class="search-glass-container d-flex justify-content-center align-items-center">
+                        <i class="material-icons search-glass-icon">search</i>
+                    </div>
+                </form>
+            </div>
+            <div class="extend-search-overwrap d-flex flex-column align-items-center d-none">
+                <div class="experience-type-overwrap d-flex align-items-center">
+                    <div class="experience-type-wrapper">
+                        <div class="experience-type">Stays</div>
+                    </div>
+                    <div class="experience-type-wrapper">
+                        <div class="experience-type border-0">Experiences</div>
+                    </div>
+                    <div class="experience-type-wrapper">
+                         <div class="experience-type border-0">Online Experiences</div>
+                    </div>
+                    
+                </div>
+                <div class="extend-search-container-wrapper">
+                    <div class="extend-search-container d-flex align-items-center justify-content-between ">
+                        <div class="search-item-wrapper where flex-grow-1 d-flex flex-column align-items-start">
+                            <div class="search-item-title">Where</div>
+                            <input class="search-item-note border-0 region-input" placeholder="Search destinations">
+                            <div class="search-popover region d-none">
+                                <div class="font-14 fw-semibold mb-4">Search by region</div>
+                                <div class="container map-overwrap">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_world.jpeg", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">I'm flexible</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_europe.webp", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">Europe</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_mexico.webp", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">Mexico</div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_south_america.webp", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">South America</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_italy.webp", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">Italy</div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="map-icon-container">
+                                                <%= image_tag("map_icon_caribbean.webp", :alt => "map", :class => "map-icon") %>
+                                            </div>
+                                            <div class="map-address">Caribbean</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="check-in-out-wrapper d-flex align-items-center">
+                            <div class="search-item-wrapper check-in d-flex flex-column align-items-start">
+                                <div class="search-item-title">Check in</div>
+                                <input type="text" class="header-check-in-date" name="checkin_date" value="" placeholder="Add dates" readonly>
+                            </div>
+                            <div class="search-item-wrapper check-out d-flex flex-column align-items-start">
+                                <div class="search-item-title">Check out</div>
+                                <input type="text" class="header-check-out-date" name="checkout_date" value="" placeholder="Add dates" readonly>
+                            </div>
+                            <div class="search-popover date d-none">
+                                <div class="calendar-container" id="headerCalendar">
+                                    <%= render partial: "simple_calendar/custom_double_side_calendar", locals: { show_booked_dates: false }%>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <div class="date-clear-btn">Clear dates</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="search-item-wrapper who last d-flex align-items-center">
+                            <div class=" d-flex flex-column align-items-start">
+                                <div class="search-item-title">Who</div>
+                                <input type="text" class="guest-summary" name="guest_summary" value="" placeholder="Add guests" readonly>
+                            </div>
+                            <div class="search-btn-wrapper d-flex align-items-center">
+                                <div class="d-flex justify-content-center align-items-center">
+                                    <i class="material-icons">search</i>
+                                </div>
+                                <div class="search-title">Search</div>
+                            </div>
+                            <div class="search-popover guest d-none">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">Adults</div>
+                                        <div class="fw-light font-15 text-muted">Age 13 or above</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn-round minus change-not-allowed">
+                                            <div class="minus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28"></path></svg>
+                                                <%# image_tag("minus_icon.svg", :alt => "plus icon", :class => "minus-icon") %>
+                                            </div>
+                                        </button>
+                                        <div class="counter-num adult">0</div>
+                                        <button class="btn-round plus">
+                                            <div class="plus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28m-14-14v28"></path></svg>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="line-break my-3"></div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">Children</div>
+                                        <div class="fw-light font-15 text-muted">Age 2 or 12</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn-round minus change-not-allowed">
+                                            <div class="minus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28"></path></svg>
+                                            </div>
+                                        </button>
+                                        <div class="counter-num children">0</div>
+                                        <button class="btn-round plus">
+                                            <div class="plus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28m-14-14v28"></path></svg>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="line-break my-3"></div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">Infants</div>
+                                        <div class="fw-light font-15 text-muted">Under 2</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn-round minus change-not-allowed">
+                                            <div class="minus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28"></path></svg>
+                                            </div>
+                                        </button>
+                                        <div class="counter-num infant">0</div>
+                                        <button class="btn-round plus">
+                                            <div class="plus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28m-14-14v28"></path></svg>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="line-break my-3"></div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <div class="fw-semibold">Pets</div>
+                                        <div class="fw-normal font-15 text-muted text-decoration-underline">Bringing a service animal?</div>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <button class="btn-round minus change-not-allowed">
+                                            <div class="minus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28"></path></svg>
+                                            </div>
+                                        </button>
+                                        <div class="counter-num pet">0</div>
+                                        <button class="btn-round plus">
+                                            <div class="plus-icon-wrapper">
+                                                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="presentation" focusable="false" style="display: block; fill: none; height: 12px; width: 12px; stroke: currentcolor; stroke-width: 5.33333; overflow: visible;"><path d="m2 16h28m-14-14v28"></path></svg>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="btn-wrapper">
+                    <span class="font-14 weight-500">Become of host</span>
+                </div>
+                <div class="btn-wrapper d-flex justify-content-center align-items-center">
+                    <i class="material-icons font-20">language</i>
+                </div>
+                <div class="login-overwrap d-flex align-items-center">
+                    <div class="icon-container d-flex justify-content-center align-items-center">
+                        <i class="material-icons font-20">menu</i>
+                    </div>
+                    <% if user_signed_in? %>
+                        <% if current_user.avatar.attached? %>
+                            <div class="user-icon-wrapper d-flex justify-content-center align-items-center">
+                                <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+                            </div>
+                        <% else %>
+                            <div class="user-icon-wrapper logged-in d-flex justify-content-center align-items-center">
+                                <i class="material-icons ">person</i>
+                            </div>
+                        <% end %>
+                    <% else %>
+                        <div class="user-icon-wrapper d-flex justify-content-center align-items-center">
+                            <i class="material-icons ">person</i>
+                        </div>
+                    <% end %>
+                    <div class="login-popover d-none">
+                        <% if user_signed_in? %>
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Log out", destroy_user_session_path, method: :delete, class:"nav-link" %>
+                            </div>
+                            
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Edit profile", edit_user_registration_path, class:"nav-link" %>
+                            </div>
+
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Change password", users_change_password_path, class:"nav-link" %>
+                            </div>
+                        <% else %>
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Log in", user_session_url(format: :json), class:"nav-link loginOrSignupBtn", id: 'loginModalButton'%>
+                            </div>
+                            
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Sign up", new_user_registration_url(format: :json), class:"nav-link loginOrSignupBtn", id: 'signupModalButton' %>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+            <div id="customModal" class="custom-modal d-none">
+                <div class="custom-modal-content">
+                    <span class="close-login-modal material-icons">&#xe5cd;</span>
+                    <div id="modal-custom-content" class="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="line-break"></div>
+    <%# <nav class="navbar navbar-expand-lg bg-light px-5 py-3">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lakefront</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lakefront</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lakefront</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lakefront</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Lakefront</a>
+                </li>
+                </ul> 
+            </div>
+            <button type="button" class="btn btn-outline-secondary">Secondary</button>
+        </div>
+    </nav> %>
+</header>

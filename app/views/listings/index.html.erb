@@ -1,12 +1,12 @@
 <div class="listings-page-wrapper">
 
 <p style="color: green"><%= notice %></p>
-
+<h2><%= session['whatever'] %></h2>
 <h1>Listings</h1>
 
 <div id="listings" class="listings-main">
   <% @listings.each do |listing| %>
-    <div>
+    <div class="listing-block" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-rate="<%= ActionController::Base.helpers.number_to_currency(listing.default_price,  precision: 0) %>">
       
         <div class="listing-imgs-container">
           <button class="fav-btn"><i class="material-icons fav-icon">favorite_border</i></button>
@@ -48,6 +48,9 @@
 
     
   <% end %>
+</div>
+<div id="searchMap" class="listings-map" data-marker="<%= image_path("custom_oval.svg")%>">
+
 </div>
 
 <%= link_to "New listing", new_listing_path %>

@@ -1,0 +1,12 @@
+<div class="cost-breakdown">
+  <% costs.each do |title, value| %>
+    <div class="cost-type">
+      <div class="cost-type-title"><%= title%></div>
+      <div class="cost-amount"><%= ActionController::Base.helpers.number_to_currency(value) %></div>
+    </div>
+  <% end %>
+<div class="line-break"></div>
+<div class="cost-total">
+  <div class="cost-total-title">Total before taxes</div>
+  <div class="total-amount"><%= ActionController::Base.helpers.number_to_currency(total) %></div>
+</div>

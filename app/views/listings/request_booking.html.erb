@@ -1,0 +1,103 @@
+<div class="container p-5">
+  <div class="h2 mb-3">Request to book</div>
+  <div class="d-flex flex-row justify-content-between">
+    <div class="col-6 ">
+      <div class="my-4">
+        <div class="h5 mb-4">Your Trip </div>
+        <div class="d-flex flex-row justify-content-between mb-4">
+          <div class="">
+            <div class="h6">Your Trip </div>
+            <div class=""><%= @start_date %> to <%= @end_date %> </div>
+          </div>
+          <div>
+            Edit
+          </div>
+        </div>
+        <div class="d-flex flex-row justify-content-between mb-4">
+          <div>
+            <div class="h6">Guests </div>
+            <div class="">2 guests </div>
+          </div>
+          <div>
+            Edit
+          </div>
+        </div>
+      </div>
+      <div class="line-break"></div>
+      <div class="my-4">
+        <div class="h5 mb-4">Required for your trip </div>
+        <div class="mb-4">
+          <div class="h6 mb-1">Message the Host </div>
+          <div class="font-14 fw-light">Let the Host know why you're traveling and when you'll check in.</div>
+        </div>
+        <div class="d-flex flex-row mb-4">
+          <div class="user-icon-container">
+            <img alt="host icon" class="user-icon"
+              src="/assets/castle-de832d91042e8e33d7f0e286cabaa2d512a842447769a38c0a8aac0c2a4b7c17.webp">
+          </div>
+          <div>
+            <div class="comment-user-name fw-bold">Diane</div>
+            <div class="comment-date text-black-50">Joined in 2010</div>
+          </div>
+        </div>
+        <div class="mb-b">
+          <form>
+            <textarea class="form-control" id="exampleFormControlTextarea1"
+              rows="3"></textarea>
+          </form>
+        </div>
+      </div>
+      <div class="my-2">
+        <form method="POST" action="<%= listing_booking_confirmation_path(@listing_id) %>">
+          <input type="hidden" name="start_date" value="<%= @start_date %>">
+          <input type="hidden" name="end_date" value="<%= @end_date %>">
+          <input type="hidden" name="listing_id" value="<%= @listing_id %>">
+          <button type="submit" class="btn request-booking-btn">Request to book</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-5">
+      <div class="price-summary-container">
+        <div class="my-4">
+          <div class="d-flex flex-row mb-4">
+            <div class="listing-icon-container">
+              <img alt="listing icon" class="listing-icon"
+                src="/assets/castle-de832d91042e8e33d7f0e286cabaa2d512a842447769a38c0a8aac0c2a4b7c17.webp">
+            </div>
+            <div class="d-flex flex-column justify-content-between">
+              <div>
+                <div class="font-13 text-black-50">Entire rental unit</div>
+                <div class="font-15">Charming and bright penthouse with terrace</div>
+              </div>
+              <div class="d-flex flex-row align-items-center font-13">
+                <i class="material-icons small-start-icon">star</i>
+                <span class="average-star">5.0</span>
+                <span>&nbsp;•&nbsp;</span>
+                <span class="">3 reviews</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="line-break"></div>
+        <div class="my-4">
+          <div class="h5 mb-4">Price details </div>
+          <% @cost_obj["costs"].each do |title, value| %>
+            <div class="cost-type">
+              <div class="cost-type-title"><%= title%></div>
+              <div class="cost-amount"><%= ActionController::Base.helpers.number_to_currency(value)%></div>
+            </div>
+          <% end %>
+        </div>
+        <div class="line-break"></div>
+
+        <div class="my-4">
+          <div class="cost-total">
+            <div class="cost-total-title">Total before taxes</div>
+            <div class="total-amount"><%=ActionController::Base.helpers.number_to_currency(@cost_obj["total"]) %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
