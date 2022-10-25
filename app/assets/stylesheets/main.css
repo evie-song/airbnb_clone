@@ -25,6 +25,20 @@ input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #FFF inset; 
 }
 
+.pr-10px {
+    padding-right: 10px;
+} 
+
+.pl-50px {
+    padding-left: 50px;
+}
+
+.dotted-border {
+    border: 1px #e4dbdb dotted;
+    border-radius: 4px;
+    padding: 10px 10px 10px;
+}
+
 /* Navbar styling */
 .nav-brand-wrapper {
     width: 170px;
@@ -112,6 +126,23 @@ input:-webkit-autofill {
     height: 30px;
     width: 30px;
     margin-left: 6px;
+}
+
+.user-icon-wrapper.medium {
+    height: 40px;
+    width: 40px;
+    margin-left: 0;
+    margin-right: 16px;
+}
+
+.user-icon-wrapper.large {
+    height: 100px;
+    width: 100px;
+    margin-left: 0;
+} 
+
+.user-icon-wrapper.large .material-icons {
+    font-size: 50px;
 }
 
 .user-icon-wrapper.logged-in {
@@ -557,6 +588,18 @@ button.js-add-bed-btn {
 
 .bedroom-display .display-wrapper {
     height: 100%;
+    position: relative;
+}
+
+.bedroom-display .display-wrapper .button-wrapper {
+    position:absolute;
+    right: 5px;
+    top: 10px;
+    display: none;
+}
+
+.bedroom-collection.edit-view .bedroom-display .display-wrapper .button-wrapper{
+    display: unset;
 }
 
 tr.example-row-bed-config {
@@ -771,7 +814,8 @@ input.guest-count {
 
 .btn.availability-btn,
 .btn.reserve-btn,
-.btn.request-booking-btn {
+.btn.request-booking-btn, 
+.btn.save-listing-btn {
     height: 48px;
     background-image: linear-gradient(to right, #e71f4d , #d70566);
     color: white;

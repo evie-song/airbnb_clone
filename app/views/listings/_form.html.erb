@@ -11,18 +11,46 @@
     </div>
   <% end %>
 
-  <div class="mb-4">
-    <label class="form-label h5">Property Type</label>
-    <div class="input-group mb-3">
-      <div class="input-group-text">
-        Options
+  <div class="d-flex justify-content-between">
+    <div class="mb-4 w-75 pr-10px">
+      <%= form.label :address_id, style: "display: block", :class => "h5" %>
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          Address 
+        </div>
+        <select name="listing[address_id]" class="custom-select flex-grow-1 form-control" id="listing_adddress_id">
+          <option <% if !listing.address.present? %> selected <%end%> >Choose...</option>
+          <% for address in current_user.addresses %>
+            <option 
+              <% if listing.address.present? %> 
+                <% if listing.address.full_address == address.full_address %>
+                  selected 
+                <% end %>
+              <%end%> 
+              value="<%= address.id %>"><%= address.full_address %>
+            </option>
+          <% end %>
+        </select>
       </div>
-      <select name="listing[property_type_id]" class="custom-select flex-grow-1 form-control" id="propertyTypeSelect">
-        <option selected>Choose...</option>
-        <% for type in @property_types %>
-          <option value="<%= type[:id] %>"><%= type[:name] %></option>
+    </div>
+
+    <div class="mb-4 w-25 pl-50px">
+      <%= form.label "Host", style: "display: block", :class => "h5" %>
+      <div class="d-flex align-items-center">
+        <% if current_user.avatar.attached? %>
+          <div class="user-icon-wrapper medium d-flex justify-content-center align-items-center">
+              <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+          </div>
+        <% else %>
+          <div class="user-icon-wrapper medium logged-in d-flex justify-content-center align-items-center">
+            <i class="material-icons ">person</i>
+          </div>
         <% end %>
-      </select>
+        <div>
+          <%= current_user.display_name %>
+        </div>
+        <input type="hidden" name="listing[user_id]" id="listing_user_id" value=<%= current_user.id %> readonly>
+      </div>
     </div>
   </div>
 
@@ -32,44 +60,109 @@
   </div>
 
   <div class="mb-4">
+    <%= form.label :description, style: "display: block", :class => "form-label h5" %>
+    <%= form.rich_text_area :description, :class => "form-control"  %>
+  </div>
+
+  <div class="mb-4 d-none">
     <%= form.label :about, style: "display: block", :class => "form-label h5" %>
     <%= form.text_area :about, :class => "form-control"  %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label "Listing Images", style: "display: block", :class => "form-label h5" %>
-    <%= form.file_field :images, multiple: true, :class => "form-control"  %>
-  </div>
-
-  <div class="mb-4">
-    <%= form.label :default_price, style: "display: block", :class => "form-label h5" %>
-    <%= form.text_field :default_price, :class => "form-control"  %>
-  </div>
-
-
-  <div class="bedroom-collection mb-4 container p-0">
-    <label class="form-label h5">Bedroom list</label>
-    <div class="row mb-3 container">
-      <input class="bedroom-config" type="hidden" name="listing[bedroom_config]" value="[]">
-      <input class="bedroom-count" type="hidden" name="listing[bedroom_count]" value="0">
-      <input class="bed-count" type="hidden" name="listing[bed_count]" value="0">
-      <div class="col-4 p-1 example-bedroom-display text-center d-none">
-        <div class="border bg-light rounded">
-          <h6 class="mt-3 mb-2 bedroom-title">Bedroom name</h6>
-          <ul class="p-0">
-            <li class="example-bed-config-display">
-              <span class="bed-count">1</span>
-              <span class="bed-type">king bed</span>
-            </li>
-          </ul>
+  <div class="d-flex justify-content-between">
+    <div class="mb-4 w-25 pr-10px">
+      <label class="form-label h5">Property Type</label>
+      <div class="input-group mb-3">
+        <div class="input-group-text">
+          Options
         </div>
+        <select name="listing[property_type_id]" class="custom-select flex-grow-1 form-control" id="propertyTypeSelect">
+          <option  
+            <% if !listing.property_type_id.present? %>
+              selected 
+            <% end %>>
+            Choose...
+          </option>
+          <% for type in @property_types %>
+            <option 
+               <% if listing.property_type_id.present? %>
+                <% if listing.property_type.name == type[:name] %>
+                  selected 
+                <% end %>
+              <% end %>
+            value="<%= type[:id] %>"><%= type[:name] %>
+            </option>
+          <% end %>
+        </select>
       </div>
     </div>
 
-    <button type="button" class="btn btn-primary mb-4 add-bedroom-btn" data-bs-toggle="modal" data-bs-target="#newBedroomModal">
-      Add a bedroom
-    </button>
+    <div class="mb-4 w-25 pr-10px">
+      <%= form.label "Listing Images", style: "display: block", :class => "form-label h5" %>
+      <%= form.file_field :images, multiple: true, :class => "form-control"  %>
+    </div>
 
+    <div class="mb-4 w-25 pr-10px">
+      <%= form.label :bathroom_count, style: "display: block", :class => "form-label h5" %>
+      <%= form.number_field :bathroom_count, :class => "form-control" %>
+    </div>
+
+    <div class="mb-4 w-25 pr-10px">
+      <%= form.label "Default price ($USD)", style: "display: block", :class => "form-label h5" %>
+      <%= form.text_field :default_price, :class => "form-control"  %>
+    </div>
+  </div>
+  
+  <div class="bedroom-collection mb-4 container p-0 edit-view">
+    <label class="form-label h5">Bedroom list</label>
+    <div class="dotted-border">
+      <div class="row mb-3 container">
+        <input class="bedroom-config" type="hidden" name="listing[bedroom_config]" value=
+          <% if listing.bedroom_config.present? %>
+            "<%= listing.bedroom_config.to_json %>"
+          <% else %>
+            "[]"
+          <% end %>
+        >
+        <input class="bedroom-count" type="hidden" name="listing[bedroom_count]" value=
+          <% if listing.bedroom_config.present? %>
+            "<%= listing.bedroom_config.length %>"
+          <% else %>
+            "0"
+          <% end %>
+        >
+        <input class="bed-count" type="hidden" name="listing[bed_count]" value=
+          <% if listing.bedroom_config.present? %>
+            "<%= listing.get_total_bed_count %>"
+          <% else %>
+            "0"
+          <% end %>
+        >
+        <% if listing.bedroom_config.present? %>
+          <% for bedroom_hash in listing.bedroom_config %>
+            <%= render :partial => "bedroom_display", :locals => {:bedroom_hash => bedroom_hash} %>
+          <% end %>
+        <% end %>
+        <div class="col-4 p-1 example-bedroom-display text-center d-none edit-view">
+          <div class="border bg-light rounded h-100 display-wrapper">
+            <div class="button-wrapper">
+              <button type="button" class="btn-close"></button>
+            </div>
+            <h6 class="mt-3 mb-2 bedroom-title">Bedroom name</h6>
+            <ul class="p-0">
+              <li class="example-bed-config-display">
+                <span class="bed-count">1</span>
+                <span class="bed-type">king bed</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn btn-outline-danger mb-4 add-bedroom-btn" data-bs-toggle="modal" data-bs-target="#newBedroomModal">
+        Add a bedroom
+      </button>
+    </div>
     <div class="modal fade new-bedroom-modal" id="newBedroomModal" tabindex="-1" aria-labelledby="newBedroomModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -132,40 +225,45 @@
     </div>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :bathroom_count, style: "display: block", :class => "form-label h5" %>
-    <%= form.number_field :bathroom_count, :class => "form-control" %>
-  </div>
+  
 
   <div class="mb-4">
     <div class="form-label h5">Feature Registration</div>
-    <input class="feature-list" type="hidden" name="feature_list" value="">
-    <div class="feature-display">
-      <% for feature_type in @feature_types%>
-        <div class="my-4 feature-type-container d-none" data-id="<%= feature_type.id %>">
-          <div class="h6 mb-4"><%= feature_type.name %></div>
-          <% for feature in feature_type.features %>
-            <div class="feature-container d-none" data-id="<%= feature.id %>">
-              <div class="my-2 d-flex flex-row align-middle">
-                <% begin %>
-                  <%= image_tag("feature_icons/#{feature.name.squish.downcase.tr(' ','_')}.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
-                <% rescue %>
-                  <%= image_tag("feature_icons/bathtub.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
-                <% end %>
-                <div class=""><%= feature.name %></div>
+    <div class="dotted-border">
+      <input class="feature-list" type="hidden" name="feature_list" value="<%= listing.get_feature_list_in_str %>">
+      <div class="feature-display mb-3">
+        <% for feature_type in @feature_types%>
+          <div class="my-4 feature-type-container 
+            <% if !listing.get_registered_feature_types.include? feature_type.name %>
+              d-none
+            <% end %>" data-id="<%= feature_type.id %>">
+            <div class="h6 mb-4"><%= feature_type.name %></div>
+            <% for feature in feature_type.features %>
+              <div class="feature-container
+                <% if !listing.features.include? feature %>
+                  d-none
+                <% end %>" data-id="<%= feature.id %>">
+                <div class="my-2 d-flex flex-row align-middle">
+                  <% begin %>
+                    <%= image_tag("feature_icons/#{feature.name.squish.downcase.tr(' ','_')}.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                  <% rescue %>
+                    <%= image_tag("feature_icons/bathtub.svg", :alt => feature.name + " icon", :class => "feature-icon") %>
+                  <% end %>
+                  <div class=""><%= feature.name %></div>
+                </div>
+                <div class="line-break"></div>
               </div>
-              <div class="line-break"></div>
-            </div>
-           
-          <% end %>
-        </div>
-      <% end %>
+            
+            <% end %>
+          </div>
+        <% end %>
 
+      </div>
+
+      <button type="button" class="btn btn-outline-danger mb-4 add-features-btn" data-bs-toggle="modal" data-bs-target="#featureRegistration">
+      Register Features
+      </button>
     </div>
-
-    <button type="button" class="btn btn-primary mb-4 add-features-btn" data-bs-toggle="modal" data-bs-target="#featureRegistration">
-    Register Features
-    </button>
 
     <div class="modal fade new-bedroom-modal" id="featureRegistration" tabindex="-1" aria-labelledby="featureModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -184,7 +282,11 @@
                   <% for feature in feature_type.features %>
                     <div class="input-group mb-3">
                       <div class="input-group-text">
-                        <input class="form-check-input mt-0 js-feature-checkbox" type="checkbox" value="">
+                        <input class="form-check-input mt-0 js-feature-checkbox" type="checkbox" value=""
+                          <% if listing.features.include? feature %>
+                            checked
+                          <% end %>
+                        >
                         <input class="feature-id" type="hidden" value="<%= feature.id %>">
                       </div>
                       <div class="input-group-text flex-grow-1"><%= feature.name %></div>
@@ -196,24 +298,17 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary js-add-bedroom" data-bs-dismiss="modal">Add bedroom</button>
+            <button type="button" class="btn btn-primary js-add-bedroom" data-bs-dismiss="modal">Register features</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :user_id, style: "display: block", :class => "h5" %>
-    <%= form.number_field :user_id %>
-  </div>
+ 
 
   <div class="mb-4">
-    <%= form.label :address_id, style: "display: block", :class => "h5" %>
-    <%= form.number_field :address_id %>
+    <%= form.submit :class => "btn w-100 save-listing-btn" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.submit :class => "btn btn-primary h5" %>
-  </div>
 <% end %>

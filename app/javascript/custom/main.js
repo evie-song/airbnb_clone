@@ -96,6 +96,10 @@ $(document).ready(function(){
 		const currentBedroom = $('.bedroom-display').length
 		const defaultBedroomName = 'Bedroom ' + (currentBedroom + 1)
 		$('input.bedroom-name').val(defaultBedroomName)
+		const $alertEle = $('#newBedroomModal .modal-body .alert')
+			if (!$alertEle.hasClass('d-none')) {
+				$alertEle.addClass('d-none')
+			}
 	})
 
 	// Focus on bedroom name input when modal is open. 
@@ -110,22 +114,21 @@ $(document).ready(function(){
 		const $newBedType = $selectedbtn.closest('tr').find('.js-new-bed-type').find('select').val()
 		if ($newBedType === "blank") {
 			console.log(' blank')
+			$('td.js-new-bed-type select').focus()
 		} else {
-			console.log('not blank')
+			const $alertEle = $('#newBedroomModal .modal-body .alert')
+			if (!$alertEle.hasClass('d-none')) {
+				$alertEle.addClass('d-none')
+			}
+			const $newBedCount = $selectedbtn.closest('tr').find('.js-new-bed-count').find('input').val()
+			const $newRow = $('tr.example-row-bed-config').clone()
+			$newRow.find('.bed-type').text($newBedType)
+			$newRow.find('.bed-count').text($newBedCount)
+			$newRow.removeClass('example-row-bed-config')
+			$newRow.addClass('bed-config-row')
+			$newRow.insertBefore('tr.example-row-bed-config')
+			$('select.form-select').val('blank')
 		}
-		const $alertEle = $('#newBedroomModal .modal-body .alert')
-		if (!$alertEle.hasClass('d-none')) {
-			$alertEle.addClass('d-none')
-		}
-		
-		const $newBedCount = $selectedbtn.closest('tr').find('.js-new-bed-count').find('input').val()
-		const $newRow = $('tr.example-row-bed-config').clone()
-		$newRow.find('.bed-type').text($newBedType)
-		$newRow.find('.bed-count').text($newBedCount)
-		$newRow.removeClass('example-row-bed-config')
-		$newRow.addClass('bed-config-row')
-		$newRow.insertBefore('tr.example-row-bed-config')
-		$('select.form-select').val('blank')
 	})
 
 	// Remove a new bed config for a new bedroom. 
@@ -189,8 +192,44 @@ $(document).ready(function(){
 			const $bedCountEle = $bedroomDisplay.siblings('input.bed-count')
 			const totalBedCount = (parseInt($bedCountEle.val()) + bedroomConfigObj["bed_count"])
 			$bedCountEle.val(totalBedCount)
+
+			// close the modal window.
+			$('#newBedroomModal').modal('toggle');
 		}
-		
+	})
+
+	// Remove a bedroom
+	$(document).on('click', ".bedroom-display .button-wrapper", function(){
+		// remove the bedroom diaplay div.
+		const $bedroomDisplayEle = $(this).closest('.bedroom-display')
+		$bedroomDisplayEle.addClass('d-none')
+
+		// set value of bedroom_config input.
+		const $bedroomConfigEle = $bedroomDisplayEle.siblings('input.bedroom-config')
+		const $bedroomTitle = $bedroomDisplayEle.find('.bedroom-title').text()
+		let configArray = JSON.parse($bedroomConfigEle.val())
+		for (const index in configArray) {
+			if (configArray[index]["title"] === $bedroomTitle ) {
+				configArray.splice(index, 1)
+			}
+		}
+		$bedroomConfigEle.val(JSON.stringify(configArray))
+
+		// set value of bed_count input.
+		const $bedroomCountEle = $bedroomDisplayEle.siblings('input.bedroom-count')
+		const totalBedroomCount = (parseInt($bedroomCountEle.val()) - 1)
+		$bedroomCountEle.val(totalBedroomCount)
+
+		// set value of bed_count input. 
+		const $bedCountEle = $bedroomDisplayEle.siblings('input.bed-count')
+		const $bedCount = $bedroomDisplayEle.find('li span.bed-count')
+		let bedNum = 0
+		$bedCount.each(function(){
+			bedNum = bedNum + (parseInt($(this).text()))
+		})
+		console.log($bedCountEle, $bedCount, bedNum)
+		const totalBedCount = (parseInt($bedCountEle.val()) - bedNum)
+		$bedCountEle.val(totalBedCount)
 	})
 
 	// Check and uncheck feature checkboxes. 
@@ -893,24 +932,16 @@ $(document).ready(function(){
 			url: $form[0].action,
 			data: form_data,
 			success: (res) => {
-				console.log('success', res)
-				// window.location.reload()
+				window.location.replace(res.redirect_url)
 			},
-			error: (res) => {		
-				console.log(res)		
-				const url = $('#signupModalButton').attr('href')
-				$.get({
-					url: url,
-					success: function(response){
-						const $customModal = $('#customModal')
-						$customModal.find('#modal-custom-content').html(response.partial)
-						$customModal.find('#modal-custom-content').find('.custom-alert').text(res.responseText)
-						$customModal.find('#modal-custom-content').find('.custom-alert').removeClass('d-none')
-					},
-					failure: function(errors){
-						console.log(errors, "failure")
-					}
-				})
+			error: (res) => {
+				console.log(res)
+				// debugger	
+				// const url = $('#signupModalButton').attr('href')
+				const $customModal = $('#customModal')
+				$customModal.find('#modal-custom-content').html(res.responseJSON.partial)
+				// $customModal.find('#modal-custom-content').find('.custom-alert').text(res.responseText)
+				// $customModal.find('#modal-custom-content').find('.custom-alert').removeClass('d-none')
 			},
 		})
 	})

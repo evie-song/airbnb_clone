@@ -27,7 +27,7 @@ class ListingsController < ApplicationController
 
   # POST /listings or /listings.json
   def create
-    byebug
+    # byebug
     @listing = Listing.create!(listing_params)
     feature_list = params[:feature_list].split(",")
 
@@ -63,20 +63,62 @@ class ListingsController < ApplicationController
 
   # PATCH/PUT /listings/1 or /listings/1.json
   def update
-    respond_to do |format|
-      if @listing.update(listing_params)
-        format.html do
-          redirect_to listing_url(@listing),
-                      notice: "Listing was successfully updated."
-        end
-        format.json { render :show, status: :ok, location: @listing }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json do
-          render json: @listing.errors, status: :unprocessable_entity
-        end
+    new_feature_list = params[:feature_list].split(",")
+    existing_feature_list = @listing.get_feature_list_in_str.split(",")
+
+    features_to_remove = []
+    features_to_add = []
+    new_feature_list.each do |new_feature|
+      if !existing_feature_list.include? new_feature
+        features_to_add.append(new_feature.to_i)
       end
     end
+    existing_feature_list.each do |existing_feature|
+      if !new_feature_list.include? existing_feature
+        features_to_remove.append(existing_feature.to_i)
+      end
+    end
+
+    if @listing.update(listing_params)
+      features_to_add.each do |feature_num|
+        feature_id = feature_num.to_i
+        listing_id = @listing.id
+        new_registration =
+          FeatureRegistration.new(
+            { listing_id: listing_id, feature_id: feature_id }
+          )
+        new_registration.save
+      end
+      features_to_remove.each do |feature_num|
+        feature_id = feature_num.to_i
+        listing_id = @listing.id
+        feature_registration =
+          FeatureRegistration.find_by(
+            listing_id: listing_id,
+            feature_id: feature_id
+          )
+        feature_registration.destroy
+      end
+      redirect_to listing_url(@listing),
+                  notice: "Listing was successfully updated."
+    else
+      format.html { render :edit, status: :unprocessable_entity }
+    end
+
+    # respond_to do |format|
+    #   if @listing.update(listing_params)
+    #     format.html do
+    #       redirect_to listing_url(@listing),
+    #                   notice: "Listing was successfully updated."
+    #     end
+    #     format.json { render :show, status: :ok, location: @listing }
+    #   else
+    #     format.html { render :edit, status: :unprocessable_entity }
+    #     format.json do
+    #       render json: @listing.errors, status: :unprocessable_entity
+    #     end
+    #   end
+    # end
   end
 
   # DELETE /listings/1 or /listings/1.json
@@ -178,6 +220,7 @@ class ListingsController < ApplicationController
         :user_id,
         :address_id,
         :property_type_id,
+        :description,
         images: []
       )
       .tap { |p| p[:bedroom_config] = JSON.parse(p[:bedroom_config]) }

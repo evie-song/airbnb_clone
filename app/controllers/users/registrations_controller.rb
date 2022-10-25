@@ -6,38 +6,56 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    partial =
-      render_to_string(
-        template: "users/registrations/new",
-        formats: [:html],
-        layout: false,
-        locals: {
-          resource: User.new
-        }
-      )
-    return render json: { partial: partial }
-    # respond_to do |format|
-    #   format.html { super }
+    # partial =
+    #   render_to_string(
+    #     template: "users/registrations/new",
+    #     formats: [:html],
+    #     layout: false,
+    #     locals: {
+    #       resource: User.new
+    #     }
+    #   )
+    # return render json: { partial: partial }
+    respond_to do |format|
+      format.html { super }
 
-    #   format.json do
-    #     partial =
-    #       render_to_string(
-    #         template: "users/registrations/new",
-    #         formats: [:html],
-    #         layout: false,
-    #         locals: {
-    #           resource: User.new
-    #         }
-    #       )
-    #     return render json: { partial: partial }
-    #   end
-    # end
+      format.json do
+        partial =
+          render_to_string(
+            template: "users/registrations/new",
+            formats: [:html],
+            layout: false,
+            locals: {
+              resource: User.new
+            }
+          )
+        return render json: { partial: partial }
+      end
+    end
   end
 
   # POST /resource
   def create
-    byebug
-    super
+    new_user = User.new(params[:user].permit!.to_h)
+    # byebug
+
+    if new_user.save
+      sign_in(new_user)
+      return render json: { redirect_url: edit_user_registration_url }
+      # redirect_to root_path
+    else
+      partial =
+        render_to_string(
+          template: "users/registrations/new",
+          formats: [:html],
+          layout: false,
+          locals: {
+            resource: new_user
+          }
+        )
+      return render json: { partial: partial }, status: 400
+    end
+    # super
   end
 
   # GET /resource/edit

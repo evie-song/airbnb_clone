@@ -8,7 +8,13 @@
     <%= render "users/shared/error_messages", resource: resource %>
       <div class="profile-image-wrapper">
         <div class="host-image-container">
-            <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+          <% if current_user.avatar.attached? %>
+                  <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+          <% else %>
+              <div class="user-icon-wrapper large logged-in d-flex justify-content-center align-items-center">
+                  <i class="material-icons ">person</i>
+              </div>
+          <% end %>
         </div>
         <div class="">
             <%= f.file_field :avatar %>

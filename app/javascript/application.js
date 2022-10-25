@@ -9,3 +9,5 @@ import "bootstrap"
 import "custom/main"
 
 
+import "trix"
+import "@rails/actiontext"
