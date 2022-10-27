@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     get "users/change_password" => "users/registrations#change_password"
+    get "users/trips" => "users/sessions#trips"
   end
 
   resources :bookings
@@ -17,6 +18,7 @@ Rails.application.routes.draw do
     post :calculate_cost
     get :request_booking
     post :booking_confirmation
+    post :remove_image
   end
   resources :addresses, except: %i[update edit destroy]
 

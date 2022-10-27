@@ -6,7 +6,7 @@
 
 <div id="listings" class="listings-main">
   <% @listings.each do |listing| %>
-    <div class="listing-block" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-rate="<%= ActionController::Base.helpers.number_to_currency(listing.default_price,  precision: 0) %>">
+    <div class="listing-block" data-id="<%= listing.id %>" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-rate="<%= ActionController::Base.helpers.number_to_currency(listing.default_price,  precision: 0) %>">
       
         <div class="listing-imgs-container">
           <button class="fav-btn"><i class="material-icons fav-icon">favorite_border</i></button>

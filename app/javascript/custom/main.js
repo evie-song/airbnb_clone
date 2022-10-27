@@ -45,7 +45,9 @@ $(document).ready(function(){
 			zoom: 10,
 		})
 
-		const infoWindow = new google.maps.InfoWindow();
+		const infoWindow = new google.maps.InfoWindow({
+			maxWidth: 210,
+		});
 
 		const $listingBlocks = $('.listing-block')
 
@@ -54,6 +56,7 @@ $(document).ready(function(){
 			const $latitude = $(this).data('lat')
 			const $coordinates = { lat: $latitude, lng: $longitude }
 			const $rate = $(this).data('rate')
+			const $listingID = $(this).data('id')
 			marker = new google.maps.Marker ({
 				position: $coordinates,
 				icon: {
@@ -67,8 +70,9 @@ $(document).ready(function(){
 					fontSize: "14px",
 					fontWeight: "500"
 				},
-				title: `The rate for this listing is ${$rate}.`,
+				title: `${$listingID}`,
 				map: map,
+				
 			});
 
 			// marker.addListener("click", () => {
@@ -79,10 +83,11 @@ $(document).ready(function(){
 
 			google.maps.event.addListener(marker, "click", (function(marker) {
 				return function(evt) {
-					const content = marker.getTitle();
-					
+					const listingID = marker.getTitle();
+					const $content = $(`.listing-block[data-id="${listingID}"]`)
+					console.log($content, $content[0].outerHTML)
 
-					infoWindow.setContent(content);
+					infoWindow.setContent($content[0].outerHTML);
 					infoWindow.open(map, marker);
 				}
 			})(marker));
@@ -921,6 +926,7 @@ $(document).ready(function(){
 		})
 	})
 
+	// When sign up successfullly, log in the account and redirect to the home page. when not sign up successully, show error message in the pop over window.
 	$(document).on('click', '#signupButton', (e)=>{
 		console.log('signup clicked')
 		e.preventDefault()
@@ -944,6 +950,30 @@ $(document).ready(function(){
 				// $customModal.find('#modal-custom-content').find('.custom-alert').removeClass('d-none')
 			},
 		})
+	})
+
+	// click the remove image button to remove a listing image. 
+	$(document).on('click', ".remove-img-btn", function(){
+		const $btnClicked = $(this)
+		const $imgEle = $btnClicked.closest('.listing-img-container')
+		const imgId = $imgEle.data('id')
+		const listingId = $imgEle.data('listing')
+		const url = $imgEle.data('url')
+		$imgEle.addClass('d-none')
+		
+		 $.post({
+			url: url,
+			data: {
+				"image_blob_id": imgId,
+				"listing_id": listingId
+			},
+			success: (res) => {
+				console.log('suuccess', res)
+			}, 
+			error: (res) => {
+				console.log('errors', res)
+			}
+		 })
 	})
 });
 

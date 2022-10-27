@@ -28,10 +28,11 @@ class ListingsController < ApplicationController
   # POST /listings or /listings.json
   def create
     # byebug
-    @listing = Listing.create!(listing_params)
+    @listing = Listing.new(listing_params)
     feature_list = params[:feature_list].split(",")
 
     if @listing.save
+      save_images(@listing)
       feature_list.each do |feature_num|
         feature_id = feature_num.to_i
         listing_id = @listing.id
@@ -80,6 +81,7 @@ class ListingsController < ApplicationController
     end
 
     if @listing.update(listing_params)
+      save_images(@listing)
       features_to_add.each do |feature_num|
         feature_id = feature_num.to_i
         listing_id = @listing.id
@@ -189,7 +191,7 @@ class ListingsController < ApplicationController
 
   def booking_confirmation
     booking = Booking.new
-    booking.user_id = 1
+    booking.user_id = params["user_id"]
     booking.listing_id = params["listing_id"]
     booking.start_date = params["start_date"]
     booking.end_date = params["end_date"]
@@ -198,7 +200,22 @@ class ListingsController < ApplicationController
     redirect_to booking_path(booking.id)
   end
 
+  def remove_image
+    img_blob_id = params["image_blob_id"]
+    listing_id = params["listing_id"]
+    listing = Listing.find(listing_id)
+    img = listing.images.find_by(blob_id: img_blob_id)
+    img.purge
+    return render json: { partial: "image removed" }
+  end
+
   private
+
+  def save_images(listing)
+    if params[:listing][:images].present?
+      params[:listing][:images].each { |image| listing.images.attach(image) }
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_listing
@@ -220,8 +237,7 @@ class ListingsController < ApplicationController
         :user_id,
         :address_id,
         :property_type_id,
-        :description,
-        images: []
+        :description
       )
       .tap { |p| p[:bedroom_config] = JSON.parse(p[:bedroom_config]) }
   end

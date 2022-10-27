@@ -11,10 +11,10 @@
     </div>
   <% end %>
 
-  <div class="d-flex justify-content-between">
-    <div class="mb-4 w-75 pr-10px">
-      <%= form.label :address_id, style: "display: block", :class => "h5" %>
-      <div class="input-group mb-3">
+  <div class="d-flex justify-content-between my-4">
+    <div class="w-75 pr-10px">
+      <%= form.label :address_id, style: "display: block", :class => "h5 my-3" %>
+      <div class="input-group">
         <div class="input-group-text">
           Address 
         </div>
@@ -34,8 +34,8 @@
       </div>
     </div>
 
-    <div class="mb-4 w-25 pl-50px">
-      <%= form.label "Host", style: "display: block", :class => "h5" %>
+    <div class="w-25 pl-50px mb-2">
+      <%= form.label "Host", style: "display: block", :class => "h5 my-3" %>
       <div class="d-flex align-items-center">
         <% if current_user.avatar.attached? %>
           <div class="user-icon-wrapper medium d-flex justify-content-center align-items-center">
@@ -54,24 +54,19 @@
     </div>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :title, style: "display: block", :class => "form-label h5" %>
+  <div class="mb-5">
+    <%= form.label :title, style: "display: block", :class => "form-label h5 my-3" %>
     <%= form.text_field :title, :class => "form-control" %>
   </div>
 
-  <div class="mb-4">
-    <%= form.label :description, style: "display: block", :class => "form-label h5" %>
+  <div class="mb-3">
+    <%= form.label :description, style: "display: block", :class => "form-label h5 my-3" %>
     <%= form.rich_text_area :description, :class => "form-control"  %>
   </div>
 
-  <div class="mb-4 d-none">
-    <%= form.label :about, style: "display: block", :class => "form-label h5" %>
-    <%= form.text_area :about, :class => "form-control"  %>
-  </div>
-
-  <div class="d-flex justify-content-between">
-    <div class="mb-4 w-25 pr-10px">
-      <label class="form-label h5">Property Type</label>
+  <div class="d-flex justify-content-between mb-2">
+    <div class="mb-4 w-30 pr-10px">
+      <label class="form-label h5 my-4">Property Type</label>
       <div class="input-group mb-3">
         <div class="input-group-text">
           Options
@@ -97,24 +92,37 @@
       </div>
     </div>
 
-    <div class="mb-4 w-25 pr-10px">
-      <%= form.label "Listing Images", style: "display: block", :class => "form-label h5" %>
-      <%= form.file_field :images, multiple: true, :class => "form-control"  %>
-    </div>
-
-    <div class="mb-4 w-25 pr-10px">
-      <%= form.label :bathroom_count, style: "display: block", :class => "form-label h5" %>
+    <div class="mb-4 w-30 pr-10px">
+      <%= form.label :bathroom_count, style: "display: block", :class => "form-label h5 my-4" %>
       <%= form.number_field :bathroom_count, :class => "form-control" %>
     </div>
 
-    <div class="mb-4 w-25 pr-10px">
-      <%= form.label "Default price ($USD)", style: "display: block", :class => "form-label h5" %>
+    <div class="mb-4 w-30 pr-10px">
+      <%= form.label "Default price ($USD)", style: "display: block", :class => "form-label h5 my-4" %>
       <%= form.text_field :default_price, :class => "form-control"  %>
     </div>
   </div>
+
+  <div class="mb-4 pr-10px">
+    <%= form.label "Listing Images", style: "display: block", :class => "form-label h5" %>
+    <%= form.file_field :images, multiple: true, :class => "form-control my-4"  %>
+    <% if listing.images.attached? %>
+      <% listing.images.each do |image| %>
+        <div class="d-flex align-items-center pb-2 listing-img-container" data-id="<%= image.blob_id %>" data-listing="<%= image.record_id %>" data-url="<%= listing_remove_image_url(listing.id) %>">
+          <div class="image-representation">
+            <%= image_tag image, :class => "listing-img" %>
+          </div>
+          <div class="d-flex flex-column align-items-center justify-content-evenly h-100px">
+            <%= image.filename %>
+            <button type="button" class="btn btn-outline-warning remove-img-btn">Remove Image</button>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
   
-  <div class="bedroom-collection mb-4 container p-0 edit-view">
-    <label class="form-label h5">Bedroom list</label>
+  <div class="bedroom-collection mb-4 container p-0 edit-view mb-5">
+    <label class="form-label h5 my-3">Bedroom list</label>
     <div class="dotted-border">
       <div class="row mb-3 container">
         <input class="bedroom-config" type="hidden" name="listing[bedroom_config]" value=
@@ -227,8 +235,8 @@
 
   
 
-  <div class="mb-4">
-    <div class="form-label h5">Feature Registration</div>
+  <div class="mb-5">
+    <div class="form-label h5 my-3">Feature Registration</div>
     <div class="dotted-border">
       <input class="feature-list" type="hidden" name="feature_list" value="<%= listing.get_feature_list_in_str %>">
       <div class="feature-display mb-3">
@@ -304,8 +312,6 @@
       </div>
     </div>
   </div>
-
- 
 
   <div class="mb-4">
     <%= form.submit :class => "btn w-100 save-listing-btn" %>

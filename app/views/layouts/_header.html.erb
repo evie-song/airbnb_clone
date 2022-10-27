@@ -232,6 +232,19 @@
                     <% end %>
                     <div class="login-popover d-none">
                         <% if user_signed_in? %>
+
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Trips", users_trips_path, class:"nav-link" %>
+                            </div>
+
+                            <div class="line-break my-2"></div>
+
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Manage listing", users_change_password_path, class:"nav-link" %>
+                            </div>
+
+                            <div class="line-break my-2"></div>
+
                             <div class="signin-option-wrapper">
                                 <%= link_to "Log out", destroy_user_session_path, method: :delete, class:"nav-link" %>
                             </div>
@@ -243,6 +256,9 @@
                             <div class="signin-option-wrapper">
                                 <%= link_to "Change password", users_change_password_path, class:"nav-link" %>
                             </div>
+
+                            
+
                         <% else %>
                             <div class="signin-option-wrapper">
                                 <%= link_to "Log in", user_session_url(format: :json), class:"nav-link loginOrSignupBtn", id: 'loginModalButton'%>
