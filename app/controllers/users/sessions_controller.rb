@@ -59,6 +59,11 @@ class Users::SessionsController < Devise::SessionsController
     render template: "users/sessions/trips"
   end
 
+  def hosting_page
+    @user = current_user
+    render template: "users/sessions/hosting_page"
+  end
+
   protected
 
   # If you have extra params to permit, append them to the sanitizer.

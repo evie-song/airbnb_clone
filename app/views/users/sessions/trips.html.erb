@@ -1,6 +1,6 @@
 <div class="container p-5">
   <div class="h2 mb-3">Trips</div>
-  <div>
+  <div class="my-5">
 		<div class="h5 mb-3">Upcoming reservations</div>
 		<div class="w-75">
 			<% @user.bookings.each do |booking| %>
@@ -33,5 +33,9 @@
 				</div>
 			<% end %>
 		</div>
+	</div>
+
+	<div>
+		<div class="h5 my-5">Where you’ve been</div>
 	</div>
 </div>

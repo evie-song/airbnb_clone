@@ -29,7 +29,13 @@
         <span class="font-13 fw-semibold text-decoration-underline">Save</span>
       </div>
     </div>
-    <div class="my-3">
+    <div class="my-3 image-wrapper">
+      <button type="button" class="show-all-img-btn">
+        <i class="material-icons small-apps-icon">apps</i>
+        <span>Show all photos</span>
+      </button>
+
+
       <div class="image-container">
       <% if listing.images.attached? %>
         <div class="column left">
@@ -357,6 +363,7 @@
   <div class="listing-rules my-4">
     <div class="h4">Things to know</div>
   </div>
+  
 
 
 </div>
@@ -403,6 +410,46 @@
   <%= link_to "Back to listings", listings_path %>
 
   <%= button_to "Destroy this listing", listing, method: :delete %>
+</div>
+
+<div id="photoGalleryModal" class="photo-modal custom-modal d-none">
+  <div class="custom-modal-header">
+     <div class="d-flex align-items-center close-btn">
+        <i class="material-icons">chevron_left</i>
+    </div>
+     <div class="d-flex align-items-center">
+        <i class="material-icons small-start-icon">share</i>
+        <span>&nbsp;</span>
+        <span class="font-13 fw-semibold text-decoration-underline" >Share</span>
+        <span>&nbsp;&nbsp;</span>
+        <i class="material-icons small-start-icon">favorite_border</i>
+        <span>&nbsp;</span>
+        <span class="font-13 fw-semibold text-decoration-underline">Save</span>
+      </div>
+  </div>
+  <div class="custom-modal-content">
+    <div class="all-img-modal">
+      <div class="image-gallery-wrapper">
+        <div class="gallery-container mb-2">
+          <div class="single-row-example mb-1">
+          </div>
+          <div class="double-row-example mb-1 d-flex">
+            <div class="left">
+            </div>
+            <div class="right">
+            </div>
+          </div>
+        </div>
+
+        <% if listing.images.attached? %>
+          <% listing.images.each do |img| %>
+            <%= image_tag(url_for(img), :alt => "listing main img", :class => "listing-img original-img d-none") %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 </div>

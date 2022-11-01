@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   devise_scope :user do
     get "users/change_password" => "users/registrations#change_password"
     get "users/trips" => "users/sessions#trips"
+    get "users/hosting_page" => "users/sessions#hosting_page"
   end
 
   resources :bookings

@@ -774,6 +774,7 @@ $(document).ready(function(){
 				const $customModal = $('#customModal')
 				$customModal.find('#modal-custom-content').html(response.partial)
 				$customModal.removeClass('d-none')
+				disable_body_scroll()
 			},
 			failure: function(errors){
 				console.log(errors, "failure")
@@ -784,6 +785,7 @@ $(document).ready(function(){
 	$(document).on('click', ".close-login-modal", function(){
 		const $customModal = $('#customModal')
 		$customModal.addClass('d-none')
+		reactivate_body_scroll()
 	})
 
 	// in the extend search area, click plus or minus button to change guest count.
@@ -975,6 +977,97 @@ $(document).ready(function(){
 			}
 		 })
 	})
+
+	// close custom image gallery modal
+	$(document).on('click', ".photo-modal .close-btn", function() {
+		// close the gallery modal
+		const galleryModal = $('#photoGalleryModal')
+		galleryModal.addClass('d-none')
+
+		// hide header 
+		const header = $('header.sticky-top')
+		header.removeClass('d-none')
+
+		reactivate_body_scroll()
+	}) 
+		
+	
+
+	// create custom image gallery for listing photos. 
+	$(document).on('click', ".show-all-img-btn", function(){
+		// open the gallery modal
+		const galleryModal = $('#photoGalleryModal')
+		galleryModal.removeClass('d-none')
+
+		// hide header 
+		const header = $('header.sticky-top')
+		header.addClass('d-none')
+
+		const $allImgs = $('.original-img')
+		const $photoContainer = $('.gallery-container')
+		const $singleRowExampleEle = $('.gallery-container .single-row-example')
+		const $doubleRowExampleEle = $('.gallery-container .double-row-example')
+		let imgType
+		let singleRowFlag = true
+
+		let pendingImgCount = 0
+		let pendingImgIndex
+
+		let newSingleRow
+		let newDoubleRow
+
+		// let pendingImg = [{"type": "long", "index": 1}]
+
+		$allImgs.each(function(index, ele){
+			
+			const height = ele.height
+			const width = ele.width
+			if (height >= width ) {
+				imgType = "long"
+			} else {
+				imgType = "short"
+			}
+			if (singleRowFlag) {
+				if (imgType === "short") {
+					newSingleRow =  $singleRowExampleEle.clone()
+					newSingleRow.html(ele)
+					$photoContainer.append(newSingleRow)
+					singleRowFlag = !singleRowFlag
+				} else {
+					pendingImgCount ++
+					pendingImgIndex = index
+				}
+			} else {
+				if (pendingImgCount === 0 ) {
+					pendingImgCount ++
+					pendingImgIndex = index
+				} else {
+					newDoubleRow = $doubleRowExampleEle.clone()
+					newDoubleRow.find('.right').html(ele)
+					newDoubleRow.find('.left').html($allImgs[pendingImgIndex])
+					$photoContainer.append(newDoubleRow)
+					pendingImgCount --
+					pendingImgIndex = null
+					singleRowFlag = !singleRowFlag
+				}
+			}
+		})
+		$('.gallery-container img').removeClass('d-none')
+		$allImgs.removeClass('original-img')
+		disable_body_scroll()
+
+		// focus on the first img
+		$('#photoGalleryModal').animate({ scrollTop: 0 }, 0)
+	})
+
+	function disable_body_scroll() {
+		$('body.custom-body').addClass('hide-overflow')
+	}
+
+	function reactivate_body_scroll() {
+		$('body.custom-body').removeClass('hide-overflow')
+	}
+
 });
 
 
