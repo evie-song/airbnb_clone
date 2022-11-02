@@ -901,6 +901,37 @@ $(document).ready(function(){
 		$('.search-bar-col.who span').text(unpact_guest_obj_to_guest_count_only(guestOjb))
 	})
 
+	// search by region function in the extended search bar for destination. 
+	$(document).on('click', ".map-icon-container", function(e){
+		e.stopPropagation()
+		const $mapIconSelected = $(this).find('img.map-icon')
+		const $locationName = $(this).siblings('.map-address').text()
+		const $locationInput = $('input.region-input')
+
+		if ($('.map-icon-container .map-icon.selected').length) {
+			console.log('map selected previously')
+			const $selctedPreviously = $('.map-icon-container .map-icon.selected')
+			if ($selctedPreviously[0] === $mapIconSelected[0]) {
+			} else {
+				$selctedPreviously.removeClass('selected')
+			}
+		}
+
+		$mapIconSelected.addClass('selected')
+
+		if ($locationName === "I'm flexible") {
+			$locationInput.val('')
+		} else {
+			$locationInput.val($locationName)
+		}
+		
+		$('.search-item-wrapper.check-in').addClass('focused')
+		$('.search-popover.date').removeClass('d-none')
+		$('.search-item-wrapper.where').removeClass('focused')
+		$('.search-popover.region').addClass('d-none')
+
+	})
+
 	// when log in successfully, redirect to home page, when not log in successfully, show error message in the pop over window. 
 	$(document).on('click', '#loginButton', (e)=>{
 		e.preventDefault()

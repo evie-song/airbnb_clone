@@ -276,6 +276,11 @@ input:-webkit-autofill {
     font-weight: 300;
 }
 
+.search-item-note.region-input {
+    color: black;
+    font-weight: 400;
+}
+
 .search-item-wrapper.check-in input,
 .search-item-wrapper.check-out input {
     padding: 0;
@@ -356,7 +361,10 @@ input.guest-summary {
     height: 100%;
     border-radius: 10px;
     border: 1px #bfbfbf solid;
+}
 
+.map-icon.selected {
+    border: 2px black solid;
 }
 
 .map-address {
