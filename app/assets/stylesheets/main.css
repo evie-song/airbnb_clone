@@ -386,21 +386,23 @@ input.guest-summary {
 
 .btn-round {
     border-radius: 50%;
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border: 1px grey solid;
     display: flex;
     align-items: center;
     background-color: white;
 }
 
-.search-popover.guest .btn-round.change-not-allowed {
+.search-popover.guest .btn-round.change-not-allowed,
+.listing-popover.guest .btn-round.change-not-allowed {
     cursor: not-allowed;
     border-color: rgb(235, 235, 235);
     color:  rgb(235, 235, 235);;
 }
 
-.search-popover.guest button.btn-round:not(.btn-round.change-not-allowed):hover {
+.search-popover.guest button.btn-round:not(.btn-round.change-not-allowed):hover,
+.listing-popover.guest button.btn-round:not(.btn-round.change-not-allowed):hover  {
     border-color: black;
     color: black;
 }
@@ -408,9 +410,11 @@ input.guest-summary {
 .counter-num {
     padding: 0 13px;
     width: 40px;
+    font-size: 15px;
 }
 
-.search-popover.guest button.btn-round {
+.search-popover.guest button.btn-round,
+.listing-popover.guest button.btn-round {
     color: grey;
 }
 
@@ -820,10 +824,24 @@ input.check-in-date,
 input.check-out-date,
 input.guest-count {
     border: none;
-    max-width: 90px;
     padding: 0;
     font-weight: 300;
     font-size: 15px;
+}
+
+input.check-in-date,
+input.check-out-date {
+    max-width: 90px;
+}
+
+input.guest-count {
+    max-width: 100%;
+}
+
+.guest-selection.focused {
+    border: 1px black solid;
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 .charging-note {
@@ -851,6 +869,28 @@ input.guest-count {
 .cost-type-tittle {
     text-decoration: underline;
 }
+
+
+.guest-selection {
+    position: relative;
+}
+
+.listing-popover.guest {
+    position: absolute;
+    top: 220px;
+    width: 88%;
+    background-color: white;
+    box-shadow: rgb(0 0 0 / 12%) 0px 6px 16px;
+    border: 1px solid rgb(221, 221, 221);
+    border-radius: 12px;
+    padding: 18px 14px 28px;
+}
+
+.listing-popover.guest .line-break {
+    height: 0;
+}
+
+
 
 .btn.availability-btn,
 .btn.reserve-btn,
@@ -1300,9 +1340,6 @@ td.future.date-in-between-selected .date-overwrapper {
 .past-trip-widget .img-wrapper img {
     border-radius: 7px;
 }
-
-
-
 /*  end of trips page styling */
 
 /* listing photo gallery styling */
@@ -1364,3 +1401,4 @@ td.future.date-in-between-selected .date-overwrapper {
 }
 
 /* end of listing photo gallery styling  */
+

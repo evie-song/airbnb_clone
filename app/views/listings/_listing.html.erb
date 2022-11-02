@@ -229,6 +229,9 @@
 
     <div class="listing-pricing col-4 my-4 ">
       <div class="pricing-container ">
+        <div class="listing-popover guest d-none">
+          <%= render partial: "listings/popover_guest" %>
+        </div>
         <form id="booking-request-form" action="<%= listing_calculate_cost_path(listing) %>" method="POST">
           <div class="d-flex flex-column">
             <div class="d-flex flex-row justify-content-between align-items-center my-3">
@@ -256,9 +259,9 @@
                   <input name="end_date" class="check-out-date" type="text" placeholder="Add date" readonly>
                 </div>
               </div>
-              <div class="p-2">
+              <div class="p-2 guest-selection d-flex flex-column">
                 <div class="guests-title">Guests</div>
-                <input name="guest_count" class="guest-count" type="text" placeholder="1 guest">
+                <input name="guest_count" class="guest-count" type="text" placeholder="1 guest" readonly>
               </div>
             </div>
             <div class="my-2 availability-btn-wrapper">

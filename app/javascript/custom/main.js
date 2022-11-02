@@ -688,6 +688,16 @@ $(document).ready(function(){
 		if (!$userPopover.hasClass('d-none')) {
 			$userPopover.addClass('d-none')
 		}
+
+		// hide listing guest popover window
+		const $listingGuestPopover = $('.listing-popover.guest')
+		if (!$listingGuestPopover.hasClass('d-none')) {
+			if (!$listingGuestPopover[0].contains(event.target)) {
+				$listingGuestPopover.addClass('d-none')
+				$('.guest-selection').removeClass('focused')
+			}
+
+		}
 	})
 
 	// search bar functions
@@ -796,9 +806,11 @@ $(document).ready(function(){
 
 	// in the extend search area, click plus or minus button to change guest count.
 	// function to update guest summary after clicking plus o minus btn. 
-	$(document).on('click', ".search-popover.guest button.btn-round", function(){
+	$(document).on('click', ".search-popover.guest button.btn-round, .listing-popover.guest button.btn-round", function(e){
+		e.stopPropagation()
 		const $btnClicked = $(this)
 		const $counterEle = $btnClicked.siblings('.counter-num')
+		const $wrapper = $btnClicked.closest('.guest')
 		let $counter = Number($counterEle.text())
 		
 		if ($btnClicked.hasClass('plus')) {
@@ -811,12 +823,12 @@ $(document).ready(function(){
 
 			// if adult count is 0, adding other guests automatically adds 1 adult guest. 
 			if (!$counterEle.hasClass('adult')) {
-				const $adultCounterEle = $('.counter-num.adult')
+				const $adultCounterEle = $wrapper.find('.counter-num.adult')
 				const $adultMinusBtn = $adultCounterEle.siblings('.btn-round.minus')
-				if ($('.counter-num.adult').text() === "0") {
+				if (($adultCounterEle.text() === "0")) {
 					$adultCounterEle.text(1)
 					$adultMinusBtn.addClass('change-not-allowed')
-				} else if ($('.counter-num.adult').text() == "1") {
+				} else if ($adultCounterEle.text() == "1") {
 					$adultMinusBtn.addClass('change-not-allowed')
 				}
 			} 
@@ -834,16 +846,20 @@ $(document).ready(function(){
 				$counterEle.text($counter)
 			}
 			// allow or not allow adult counter to go below one depending on if there is any other types of guests. 
-			if (((!$counterEle.hasClass('adult')) && ($counter === 0) && ($('.counter-num.adult').text() == "1")) || (($counterEle.hasClass('adult')) && ($counter === 1))) {
-				if (($('.counter-num.children').text() === "0") && ($('.counter-num.infant').text() === "0") && ($('.counter-num.pet').text() === "0")) {
-					$('.counter-num.adult').siblings('.btn-round.minus').removeClass('change-not-allowed')
+			const $adultCounterEle = $wrapper.find('.counter-num.adult')
+			const $childrenCounterEle = $wrapper.find('.counter-num.children')
+			const $infantCounterEle = $wrapper.find('.counter-num.infant')
+			const $petCounterEle = $wrapper.find('.counter-num.pet')
+			if (((!$counterEle.hasClass('adult')) && ($counter === 0) && ($adultCounterEle.text() == "1")) || (($counterEle.hasClass('adult')) && ($counter === 1))) {
+				if (($childrenCounterEle.text() === "0") && ($infantCounterEle.text() === "0") && ($petCounterEle.text() === "0")) {
+					$adultCounterEle.siblings('.btn-round.minus').removeClass('change-not-allowed')
 				} else {
-					$('.counter-num.adult').siblings('.btn-round.minus').addClass('change-not-allowed')
+					$adultCounterEle.siblings('.btn-round.minus').addClass('change-not-allowed')
 				}
 			}
 		}
 
-		const $counterEles = $('.search-popover.guest .counter-num')
+		const $counterEles = $wrapper.find('.counter-num')
 		let guestCount = 0
 		let infantCount = 0 
 		let petCount = 0
@@ -897,8 +913,22 @@ $(document).ready(function(){
 			return null
 		}
 
-		$('input[name="guest_summary"]').val(unpack_guest_obj(guestOjb))
-		$('.search-bar-col.who span').text(unpact_guest_obj_to_guest_count_only(guestOjb))
+		if ($wrapper.hasClass('search-popover')) {
+			$('input[name="guest_summary"]').val(unpack_guest_obj(guestOjb))
+			$('.search-bar-col.who span').text(unpact_guest_obj_to_guest_count_only(guestOjb))
+		} else if ($wrapper.hasClass('listing-popover')) {
+			$('input[name="guest_count"]').val(unpack_guest_obj(guestOjb))
+		}
+	})
+
+	// open the guest popover window on listing page.
+	$(document).on('click', '.guest-selection input[name="guest_count"]', function (){
+		const $guestPopover = $('.listing-popover.guest')
+		const $guestWrapper = $('.guest-selection')
+		if ($guestPopover.hasClass('d-none')) {
+			$guestPopover.removeClass('d-none')
+			$guestWrapper.addClass('focused')
+		}
 	})
 
 	// search by region function in the extended search bar for destination. 
@@ -924,7 +954,7 @@ $(document).ready(function(){
 		} else {
 			$locationInput.val($locationName)
 		}
-		
+
 		$('.search-item-wrapper.check-in').addClass('focused')
 		$('.search-popover.date').removeClass('d-none')
 		$('.search-item-wrapper.where').removeClass('focused')
