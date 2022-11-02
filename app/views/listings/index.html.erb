@@ -1,57 +1,64 @@
 <div class="listings-page-wrapper">
+<div class="listings-wrapper">
 
-<p style="color: green"><%= notice %></p>
-<h2><%= session['whatever'] %></h2>
-<h1>Listings</h1>
+  <p style="color: green"><%= notice %></p>
+  <h2><%= session['whatever'] %></h2>
 
-<div id="listings" class="listings-main">
-  <% @listings.each do |listing| %>
-    <div class="listing-block" data-id="<%= listing.id %>" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-rate="<%= ActionController::Base.helpers.number_to_currency(listing.default_price,  precision: 0) %>">
-      
-        <div class="listing-imgs-container">
-          <button class="fav-btn"><i class="material-icons fav-icon">favorite_border</i></button>
-          <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
-          <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
-          <a href="<%= listing_path listing.id %>">
-            <div class="listing-imgs-collection">
-              <% if listing.images.attached? %>
-                  <% listing.images.each_with_index do |image, index| %>
-                    <% if index == 0 %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => index }) %>
-                    <% elsif (index > 0) && (index < listing.images.length-1 ) %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
-                    <% else %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none last-img", :data => {:index => index }) %>
+  <div id="listings" class="listings-main">
+    <% @listings.each do |listing| %>
+      <div class="listing-block" data-id="<%= listing.id %>" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-rate="<%= ActionController::Base.helpers.number_to_currency(listing.default_price,  precision: 0) %>">
+        
+          <div class="listing-imgs-container">
+            <button class="fav-btn"><i class="material-icons fav-icon">favorite_border</i></button>
+            <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+            <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+            <a href="<%= listing_path listing.id %>">
+              <div class="listing-imgs-collection">
+                <% if listing.images.attached? %>
+                    <% listing.images.each_with_index do |image, index| %>
+                      <% if index == 0 %>
+                        <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => index }) %>
+                      <% elsif (index > 0) && (index < listing.images.length-1 ) %>
+                        <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                      <% else %>
+                        <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none last-img", :data => {:index => index }) %>
+                      <% end %>
                     <% end %>
-                  <% end %>
-              <% end %>
+                <% end %>
+              </div>
+            </a>
+          </div>
+          <div class="listing-title d-flex flex-row justify-content-between mt-2">
+            <div>
+              <%= listing.address.city %>, <%=listing.address.state%>
             </div>
-          </a>
-        </div>
-        <div class="listing-title d-flex flex-row justify-content-between mt-2">
-          <div>
-            <%= listing.address.city %>, <%=listing.address.state%>
+            <div>
+              5.0
+            </div>
           </div>
-          <div>
-            5.0
+          <div class="listing-distance-date">
+            <div class="">337 miles</div>
+            <div class="">Oct 16 - 21</div>
           </div>
-        </div>
-        <div class="listing-distance-date">
-          <div class="">337 miles</div>
-          <div class="">Oct 16 - 21</div>
-        </div>
-        <div class="listing-unit-price">
-          $<span class="price-number"><%= listing.default_price %></span> night
-        </div>
+          <div class="listing-unit-price">
+            $<span class="price-number"><%= listing.default_price %></span> night
+          </div>
 
-    </div>
-
-    
-  <% end %>
+      </div>
+      
+    <% end %>
+  </div>
 </div>
-<div id="searchMap" class="listings-map" data-marker="<%= image_path("custom_oval.svg")%>">
+<div class="map-wrapper d-none">
+  <div id="searchMap" class="listings-map" data-marker="<%= image_path("custom_oval.svg")%>">
 
+  </div>
 </div>
+
+<button type="button" class="btn btn-primary switch-to-map-btn">Show Map</button>
+<button type="button" class="btn btn-primary switch-to-listing-btn d-none">Show Listing</button>
+
+
 <% if user_signed_in? %>
   <%= link_to "New listing", new_listing_path %>
 <% end %>

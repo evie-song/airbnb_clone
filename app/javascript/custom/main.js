@@ -678,6 +678,7 @@ $(document).ready(function(){
 				$('.search-bar-overwrap').removeClass('d-none')
 				const $listingPage = $('.body-main-wrapper')
 				$listingPage.removeClass('readonly')
+				$('.main-page-overlay').removeClass('darkened')
 
 				reactivate_body_scroll()
 			}
@@ -691,7 +692,7 @@ $(document).ready(function(){
 
 		// hide listing guest popover window
 		const $listingGuestPopover = $('.listing-popover.guest')
-		if (!$listingGuestPopover.hasClass('d-none')) {
+		if (($listingGuestPopover.length) && (!$listingGuestPopover.hasClass('d-none'))) {
 			if (!$listingGuestPopover[0].contains(event.target)) {
 				$listingGuestPopover.addClass('d-none')
 				$('.guest-selection').removeClass('focused')
@@ -737,6 +738,7 @@ $(document).ready(function(){
 		// make main page read only. 
 		const $listingPage = $('.body-main-wrapper')
 		$listingPage.addClass('readonly')
+		$('.main-page-overlay').addClass('darkened')
 
 		disable_body_scroll()
 		
@@ -1137,6 +1139,27 @@ $(document).ready(function(){
 		$('body.custom-body').removeClass('hide-overflow')
 	}
 
+	// switch betweem the map and listing view on listing index page
+	// switch to map view. 
+	$(document).on('click', ".switch-to-map-btn, .switch-to-listing-btn", function(){
+		const $mapEle = $('.map-wrapper')
+		const $listingsEle = $('.listings-wrapper')
+		const $switchToMap = $('.switch-to-map-btn')
+		const $switchToListing = $('.switch-to-listing-btn')
+
+		const $btnClicked = $(this)
+		if ($btnClicked.hasClass('switch-to-map-btn')) {
+			$mapEle.removeClass('d-none')
+			$listingsEle.addClass('d-none')
+			$switchToMap.addClass('d-none')
+			$switchToListing.removeClass('d-none')
+		} else if ($btnClicked.hasClass('switch-to-listing-btn')) {
+			$mapEle.addClass('d-none')
+			$listingsEle.removeClass('d-none')
+			$switchToMap.removeClass('d-none')
+			$switchToListing.addClass('d-none')
+		}
+	})
 });
 
 
