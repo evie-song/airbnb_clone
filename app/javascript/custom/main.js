@@ -9,22 +9,24 @@ $(document).ready(function(){
 		
 		map = new google.maps.Map($("#map")[0], {
 			center: $coordinates,
-			zoom: 13,
+			zoom: 12,
 		})
 
 		marker = new google.maps.Marker ({
 			position: $coordinates,
-			// icon: {
-			// 	url: $mapEle.data('marker'),
-			// 	size: new google.maps.Size(50, 50),
-			// 	scaledSize: new google.maps.Size(50, 50),
-			// 	anchor: new google.maps.Point(0, 50)
-			// },
+			icon: {
+				url: $mapEle.data('marker'),
+				size: new google.maps.Size(46, 46),
+				scaledSize: new google.maps.Size(46, 46),
+				// anchor: new google.maps.Point(0, 50)
+			},
+
+			// icon: { size: new google.maps.Size(120, 120)},
 			label: {
 				text: "\ue88a", // codepoint from https://fonts.google.com/icons
 				fontFamily: "Material Icons",
 				color: "#ffffff",
-				fontSize: "20px",
+				fontSize: "24px",
 			},
 			map: map,
 		});
@@ -676,6 +678,8 @@ $(document).ready(function(){
 				$('.search-bar-overwrap').removeClass('d-none')
 				const $listingPage = $('.body-main-wrapper')
 				$listingPage.removeClass('readonly')
+
+				reactivate_body_scroll()
 			}
 		}
 
@@ -723,6 +727,8 @@ $(document).ready(function(){
 		// make main page read only. 
 		const $listingPage = $('.body-main-wrapper')
 		$listingPage.addClass('readonly')
+
+		disable_body_scroll()
 		
 	})
 
@@ -1060,10 +1066,12 @@ $(document).ready(function(){
 		$('#photoGalleryModal').animate({ scrollTop: 0 }, 0)
 	})
 
+	// disable the any click or scroll function of the overflow content
 	function disable_body_scroll() {
 		$('body.custom-body').addClass('hide-overflow')
 	}
 
+	// reactivate the any click or scroll function of the overflow content
 	function reactivate_body_scroll() {
 		$('body.custom-body').removeClass('hide-overflow')
 	}

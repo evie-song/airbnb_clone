@@ -58,6 +58,11 @@ input:-webkit-autofill {
 /* Navbar styling */
 .nav-brand-wrapper {
     width: 170px;
+    z-index: 100;
+}
+
+.header-options-wrapper {
+    z-index: 100;
 }
 
 .search-bar-overwrap,
@@ -848,6 +853,13 @@ input.guest-count {
     color: white;
 }
 
+.btn.availability-btn:hover,
+.btn.reserve-btn:hover,
+.btn.request-booking-btn:hover, 
+.btn.save-listing-btn:hover {
+    color: white;
+}
+
 .modal#amenityAllModal .modal-dialog,
 .modal#reviewsAllModal .modal-dialog {
     min-width: 750px;
@@ -1264,6 +1276,24 @@ td.future.date-in-between-selected .date-overwrapper {
     height: 30px;
     overflow: hidden;
 }
+
+.past-trip-widget {
+    display: inline-block;
+    width: 33%;
+    height: 80px;
+}
+
+.past-trip-widget .img-wrapper {
+    height: 100%;
+    width: 80px;
+    margin-right: 14px;
+}
+
+.past-trip-widget .img-wrapper img {
+    border-radius: 7px;
+}
+
+
 
 /*  end of trips page styling */
 

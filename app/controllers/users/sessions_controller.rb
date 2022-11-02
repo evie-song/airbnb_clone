@@ -56,6 +56,17 @@ class Users::SessionsController < Devise::SessionsController
 
   def trips
     @user = current_user
+    all_trips = current_user.bookings
+
+    @future_trips =
+      all_trips.where("start_date >= ? ", Date.today).order("start_date")
+
+    @past_trips =
+      all_trips
+        .where("start_date < ? ", Date.today)
+        .order("start_date")
+        .reverse_order
+
     render template: "users/sessions/trips"
   end
 

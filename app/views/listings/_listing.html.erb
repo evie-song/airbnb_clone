@@ -349,13 +349,14 @@
 
   <div class="listing-map my-4">
     <div class="h4 my-4">Where you'll be</div>
-    <div id="map" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-marker="<%= image_path("home-svgrepo-com.svg")%>" ></div>
+    <p class="font-15 mb-4"><%= listing.address.city %>, <%= listing.address.state %>, <%= listing.address.country %></p>
+    <div id="map" class="mb-5" data-lat="<%= listing.address.latitude %>" data-lon="<%= listing.address.longitude %>" data-marker="<%= image_path("pink-circle-marker.svg")%>" ></div>
   </div>
 
   <div class="line-break"></div>
 
   <div class="listing-host my-4">
-    <div class="h4">Hosted by XXX</div>
+    <div class="h4">Hosted by <%=listing.user.display_name%></div>
   </div>
 
   <div class="line-break"></div>
