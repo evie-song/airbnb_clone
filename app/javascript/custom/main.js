@@ -431,11 +431,12 @@ $(document).ready(function(){
 
 		// actions for when a listing calendar date is clicked.
 		if (!$headerCalendar) {
-			console.log('listing calendar function only')
-
-			// temp commented
+	
 			const $checkInInput = $('.listing-pricing input.check-in-date')
 			const $checkOutInput = $('.listing-pricing input.check-out-date')
+			const $checkinHeader = $('.listing-datepick .datepick-header.checkin')
+			const $checkoutHeader = $('.listing-datepick .datepick-header.checkout')
+			const $dateSummaryHeader = $('.listing-datepick .datepick-header.summary')
 
 			// actions for when both start date and end date have been selected. 
 			if ($calandarContainer.find('td.end-date-selected').length) {
@@ -445,6 +446,11 @@ $(document).ready(function(){
 				//clear the date inputs and pricing info in cost summary section. 
 				clear_listing_date_inputs()
 				switch_to_check_availability()
+
+				// swap the datepick header to "select checkout date"
+				$checkoutHeader.removeClass('d-none')
+				$dateSummaryHeader.addClass('d-none')
+
 			}
 
 			// actions for when start date gets selected.
@@ -485,6 +491,10 @@ $(document).ready(function(){
 					$unbookedDates.addClass('available-end-date')
 				}
 
+				// swap the datepick header to "select checkout date"
+				$checkinHeader.addClass('d-none')
+				$checkoutHeader.removeClass('d-none')
+
 			// actions for when end date gets selected. 
 			} else {
 				assign_end_date_and_adjust_classes($dateEleSelected, $dateSelected, $calandarContainer)
@@ -511,15 +521,41 @@ $(document).ready(function(){
 				})
 
 				switch_to_reserve()
+
+				// swap the datepick header to summary header
+				const dateCount = (new Date($('input.check-out-date').val())).getDate() - (new Date($('input.check-in-date').val())).getDate()
+				const $dateCountEle = $('.listing-datepick .day-count')
+				const $checkinDateEle = $('.listing-datepick .checkin-date')
+				const $checkoutDateEle = $('.listing-datepick .checkout-date')
+				const checkinDate = (new Date($('input.check-in-date').val())).toLocaleString("en-GB", {
+					month: "short",
+					day: "numeric",
+					year: "numeric",
+				  });
+				
+				const checkoutDate = (new Date($('input.check-out-date').val())).toLocaleString("en-GB", {
+					month: "short",
+					day: "numeric",
+					year: "numeric",
+				  });
+
+				$checkinDateEle.text(checkinDate)
+				$checkoutDateEle.text(checkoutDate)
+
+				if (dateCount === 1) {
+					$dateCountEle.text(`${dateCount} night`)
+				} else if (dateCount > 1) {
+					$dateCountEle.text(`${dateCount} nights`)
+				}
+
+				$checkoutHeader.addClass('d-none')
+				$dateSummaryHeader.removeClass('d-none')
 			}	
 
 		// actions for when a header calendar date is clicked.
 		} else if ($headerCalendar) {
-			console.log('header calendar function only')
 			const $searchCheckInInput = $('.search-item-wrapper.check-in input.header-check-in-date')
 			const $searchCheckOutInput = $('.search-item-wrapper.check-out input.header-check-out-date')
-
-			console.log($searchCheckInInput,$searchCheckOutInput)
 
 			// actions for when both start date and end date have been selected. 
 			if ($calandarContainer.find('td.end-date-selected').length) {
@@ -551,12 +587,11 @@ $(document).ready(function(){
 
 			}
 		}
-		
 	})
 
 	// for both listing and header calendars. 
 	// style the duration dates when hovering end date elements after a start date has been picked. 
-	$(document).on( "mouseenter", "td.future.after-start-date.available-end-date", function(){
+	$(document).on( "mouseenter", "td.future.after-start-date.available-end-date, #headerCalendar td.future.after-start-date", function(){
 		const $dateHovered = $(this)
 		const $date = new Date($dateHovered.data('date'))
 		const $dateStart = $('td.start-date-selected')
@@ -581,7 +616,7 @@ $(document).ready(function(){
 		})
 	})
 
-	$(document).on( "mouseleave", "td.future.after-start-date.available-end-date", function(){
+	$(document).on( "mouseleave", "td.future.after-start-date.available-end-date, #headerCalendar td.future.after-start-date", function(){
 		const $dateHovered = $(this)
 		const $date = new Date($dateHovered.data('date'))
 		const $dateStart = $('td.start-date-selected')
@@ -610,7 +645,6 @@ $(document).ready(function(){
 	// click clear dates button to remove currently selected check in and check out dates.
 	$(document).on('click', ".date-clear-btn", function(){
 		const $calandarContainer = $(this).parent().siblings('.calendar-container')
-		console.log($calandarContainer.attr('id'))
 		if ($calandarContainer.find('td.end-date-selected').length) {
 			clear_added_date_classes($calandarContainer)
 		} else if ($calandarContainer.find('td.start-date-selected').length) {
@@ -622,6 +656,16 @@ $(document).ready(function(){
 		if ($calandarContainer.attr('id') == "listingCalendar") {
 			clear_listing_date_inputs()
 			switch_to_check_availability()
+
+			// swap the datepick header to "select check-in date"
+			const $checkinHeader = $('.listing-datepick .datepick-header.checkin')
+			const $checkoutHeader = $('.listing-datepick .datepick-header.checkout')
+			const $dateSummaryHeader = $('.listing-datepick .datepick-header.summary')
+
+			$checkinHeader.removeClass('d-none')
+			$checkoutHeader.addClass('d-none')
+			$dateSummaryHeader.addClass('d-none')
+			
 		} else if ($calandarContainer.attr('id') == "headerCalendar" ) {
 			$('.search-item-wrapper.check-in input.header-check-in-date').val('')
 			$('.search-item-wrapper.check-out input.header-check-out-date').val('')
@@ -778,14 +822,20 @@ $(document).ready(function(){
 	})
 
 	// show and hide custom login modal.
-	$(document).on('click', '.loginOrSignupBtn', function(event){
+	$(document).on('click', '.loginOrSignupBtn, #redirect-to-signin-btn', function(event){
 		event.stopPropagation()
 		const $loginPopover = $('.login-popover')
 		$loginPopover.addClass('d-none')
 
 		event.preventDefault()
 		
-		const url = $(this).attr('href')
+		let url 
+		if ($(this).hasClass('reserve-btn')) {
+			url = $('#loginModalButton').attr('href')
+		} else {
+			url = $(this).attr('href')
+		}
+		
 		$.get({
 			url: url,
 			success: function(response){
@@ -841,9 +891,14 @@ $(document).ready(function(){
 
 		} else if ($btnClicked.hasClass('minus')) {
 			if ($counter >= 1) {
-				if ($counter === 1) {
-					$btnClicked.addClass('change-not-allowed')
+				if (($wrapper.hasClass('listing-popover')) && ($counterEle.hasClass('adult')) && ($counter === 2)) {
+							$btnClicked.addClass('change-not-allowed')
+				} else {
+					if ($counter === 1) {
+						$btnClicked.addClass('change-not-allowed')
+					}
 				}
+				
 				$counter--
 				$counterEle.text($counter)
 			}
@@ -852,11 +907,13 @@ $(document).ready(function(){
 			const $childrenCounterEle = $wrapper.find('.counter-num.children')
 			const $infantCounterEle = $wrapper.find('.counter-num.infant')
 			const $petCounterEle = $wrapper.find('.counter-num.pet')
-			if (((!$counterEle.hasClass('adult')) && ($counter === 0) && ($adultCounterEle.text() == "1")) || (($counterEle.hasClass('adult')) && ($counter === 1))) {
-				if (($childrenCounterEle.text() === "0") && ($infantCounterEle.text() === "0") && ($petCounterEle.text() === "0")) {
-					$adultCounterEle.siblings('.btn-round.minus').removeClass('change-not-allowed')
-				} else {
-					$adultCounterEle.siblings('.btn-round.minus').addClass('change-not-allowed')
+			if ($wrapper.hasClass('search-popover')) {
+				if (((!$counterEle.hasClass('adult')) && ($counter === 0) && ($adultCounterEle.text() == "1")) || (($counterEle.hasClass('adult')) && ($counter === 1))) {
+					if (($childrenCounterEle.text() === "0") && ($infantCounterEle.text() === "0") && ($petCounterEle.text() === "0")) {
+						$adultCounterEle.siblings('.btn-round.minus').removeClass('change-not-allowed')
+					} else {
+						$adultCounterEle.siblings('.btn-round.minus').addClass('change-not-allowed')
+					}
 				}
 			}
 		}
@@ -928,8 +985,10 @@ $(document).ready(function(){
 		const $guestPopover = $('.listing-popover.guest')
 		const $guestWrapper = $('.guest-selection')
 		if ($guestPopover.hasClass('d-none')) {
+			$('.listing-popover.guest .counter-num.adult').text(1)
 			$guestPopover.removeClass('d-none')
 			$guestWrapper.addClass('focused')
+
 		}
 	})
 
@@ -1061,7 +1120,6 @@ $(document).ready(function(){
 	}) 
 		
 	
-
 	// create custom image gallery for listing photos. 
 	$(document).on('click', ".show-all-img-btn", function(){
 		// open the gallery modal
@@ -1140,7 +1198,6 @@ $(document).ready(function(){
 	}
 
 	// switch betweem the map and listing view on listing index page
-	// switch to map view. 
 	$(document).on('click', ".switch-to-map-btn, .switch-to-listing-btn", function(){
 		const $mapEle = $('.map-wrapper')
 		const $listingsEle = $('.listings-wrapper')
@@ -1159,6 +1216,14 @@ $(document).ready(function(){
 			$switchToMap.removeClass('d-none')
 			$switchToListing.addClass('d-none')
 		}
+	})
+
+	// when click on check in or check out input on listing page, jump to the "Select dates" section
+	$(document).on('click', '.pricing-container input[name="start_date"], .pricing-container input[name="end_date"]', function(){
+		const $datepickEle = $('.listing-datepick')
+		const yOffset = -100
+		const y = $datepickEle[0].getBoundingClientRect().top  + window.pageYOffset + yOffset
+		window.scrollTo({top: y, behavior: 'smooth'});
 	})
 });
 

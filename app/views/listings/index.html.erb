@@ -55,8 +55,14 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-primary switch-to-map-btn">Show Map</button>
-<button type="button" class="btn btn-primary switch-to-listing-btn d-none">Show Listing</button>
+<button type="button" class="switch-to-map-btn d-flex align-items-center">
+  <div>Show map</div>
+  <i class="material-icons">map</i>
+</button>
+<button type="button" class="switch-to-listing-btn d-none d-flex align-items-center">
+  <div>Show listing</div>
+  <i class="material-icons">format_list_bulleted</i>
+</button>
 
 
 <% if user_signed_in? %>

@@ -16,7 +16,7 @@
         <div class="d-flex flex-row justify-content-between mb-4">
           <div>
             <div class="h6">Guests </div>
-            <div class="">2 guests </div>
+            <div class=""><%= @guest_count %> </div>
           </div>
           <div>
             Edit
@@ -32,8 +32,11 @@
         </div>
         <div class="d-flex flex-row mb-4">
           <div class="user-icon-container">
-            <img alt="host icon" class="user-icon"
-              src="/assets/castle-de832d91042e8e33d7f0e286cabaa2d512a842447769a38c0a8aac0c2a4b7c17.webp">
+            <% if @listing.user.avatar.attached? %>
+              <%= image_tag @listing.user.avatar, :alt => "host icon", :class => "host-icon" %>
+            <% else %>
+              <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+            <% end %>
           </div>
           <div>
             <div class="comment-user-name fw-bold">Diane</div>
@@ -63,19 +66,29 @@
         <div class="my-4">
           <div class="d-flex flex-row mb-4">
             <div class="listing-icon-container">
-              <img alt="listing icon" class="listing-icon"
+              <% if @listing.images.attached? %>
+                <%= image_tag(url_for(@listing.images[0]), :alt => "listing image", :class => "listing-icon") %>
+              <% else %>
+                <img alt="listing icon" class="listing-icon"
                 src="/assets/castle-de832d91042e8e33d7f0e286cabaa2d512a842447769a38c0a8aac0c2a4b7c17.webp">
+              <% end %>
             </div>
             <div class="d-flex flex-column justify-content-between">
               <div>
-                <div class="font-13 text-black-50">Entire rental unit</div>
-                <div class="font-15">Charming and bright penthouse with terrace</div>
+                <div class="font-13 text-black-50"><%= @listing.property_type.name %></div>
+                <div class="font-15"><%= @listing.title %></div>
               </div>
               <div class="d-flex flex-row align-items-center font-13">
                 <i class="material-icons small-start-icon">star</i>
                 <span class="average-star">5.0</span>
                 <span>&nbsp;•&nbsp;</span>
-                <span class="">3 reviews</span>
+                <% if @listing.comments.length > 1 %>
+                  <span class=""><%= @listing.comments.length %> reviews</span>
+                <% elsif @listing.comments.length == 1 %>
+                  <span class=""><%= @listing.comments.length %> review</span>
+                <% else %>
+                  <span class="">NEW</span>
+                <% end %>
               </div>
             </div>
           </div>

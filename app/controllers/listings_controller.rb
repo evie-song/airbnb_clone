@@ -140,6 +140,8 @@ class ListingsController < ApplicationController
     @start_date = params["start_date"]
     @end_date = params["end_date"]
     @listing_id = params["listing_id"]
+    @guest_count = params["guest_count"]
+    @listing = Listing.find(@listing_id)
   end
 
   # listing_calculate_cost
@@ -151,6 +153,7 @@ class ListingsController < ApplicationController
     listing_id = params["listing_id"].to_i
     listing = Listing.find(listing_id)
     base_total = (listing.default_price.to_i * duration)
+    guest_count = params["guest_count"]
 
     costs = {
       "$#{listing.default_price.to_i} x #{duration} nights": base_total,
@@ -172,7 +175,8 @@ class ListingsController < ApplicationController
                       cost_obj: locals,
                       start_date: start_date,
                       end_date: end_date,
-                      listing_id: listing_id
+                      listing_id: listing_id,
+                      guest_count: guest_count
                     )
       end
 

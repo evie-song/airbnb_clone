@@ -66,8 +66,30 @@ input:-webkit-autofill {
 .switch-to-map-btn,
 .switch-to-listing-btn {
     position:sticky;
-    bottom: 30px;
+    bottom: 60px;
     left: 47%;
+    background-color: #222222;
+    color: white;
+    border: unset;
+    font-size: 13px;
+    border-radius: 45px;
+    padding: 12px 18px;
+}
+
+.switch-to-map-btn .material-icons,
+.switch-to-listing-btn .material-icons {
+    font-size: 18px;
+    margin-left: 6px;
+}
+
+.switch-to-map-btn,
+.switch-to-listing-btn { 
+    transition: all .2s ease-in-out; 
+}
+
+.switch-to-map-btn:hover,
+.switch-to-listing-btn:hover { 
+    transform: scale(1.03); 
 }
 
 
@@ -908,19 +930,19 @@ input.guest-count {
     height: 0;
 }
 
-
-
 .btn.availability-btn,
-.btn.reserve-btn,
+.reserve-btn,
 .btn.request-booking-btn, 
 .btn.save-listing-btn {
     height: 48px;
     background-image: linear-gradient(to right, #e71f4d , #d70566);
     color: white;
+    border: unset;
+    border-radius: 0.375rem;
 }
 
 .btn.availability-btn:hover,
-.btn.reserve-btn:hover,
+.reserve-btn:hover,
 .btn.request-booking-btn:hover, 
 .btn.save-listing-btn:hover {
     color: white;
@@ -1229,7 +1251,8 @@ input.guest-count {
 .future.after-start-date.unbooked.after-first-booked-date {
     color: grey;
     font-weight: 300;
-    text-decoration: line-through
+    text-decoration: line-through;
+    pointer-events: none;
 }
 
 .past .date-wrapper:hover,
