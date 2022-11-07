@@ -137,8 +137,10 @@ class ListingsController < ApplicationController
 
   def request_booking
     @cost_obj = params["cost_obj"]
-    @start_date = params["start_date"]
-    @end_date = params["end_date"]
+    # @start_date = params["start_date"]
+    # @end_date = params["end_date"]
+    @start_date = Date.strptime(params["start_date"])
+    @end_date = Date.strptime(params["end_date"])
     @listing_id = params["listing_id"]
     @guest_count = params["guest_count"]
     @listing = Listing.find(@listing_id)

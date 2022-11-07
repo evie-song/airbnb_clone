@@ -6,6 +6,6 @@ class Address < ApplicationRecord
   after_validation :geocode
 
   def full_address
-    [street, city, state, country].compact.join(",")
+    [street, city, state, country].reject(&:empty?).compact.join(", ")
   end
 end

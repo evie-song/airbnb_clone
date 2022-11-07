@@ -7,7 +7,11 @@
         <div class="d-flex flex-row justify-content-between mb-4">
           <div class="">
             <div class="h6">Your Trip </div>
-            <div class=""><%= @start_date %> to <%= @end_date %> </div>
+            <% if @start_date.month == @end_date.month %>
+              <div class=""><%= @start_date.strftime('%b %-d') %> - <%= @end_date.strftime('%-d') %>, <%= @end_date.strftime('%Y')%></div>
+            <% else %>
+              <div class=""><%= @start_date.strftime('%b %-d') %> - <%= @end_date.strftime('%b %-d') %>, <%= @end_date.strftime('%Y')%></div>
+            <% end %>
           </div>
           <div>
             Edit

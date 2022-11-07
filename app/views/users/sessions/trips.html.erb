@@ -4,34 +4,42 @@
 		<div class="h5 mb-4">Upcoming reservations</div>
 		<div class="w-75">
 			<% @future_trips.each do |booking| %>
-				<div class="border d-flex justify-content-between align-items-stretch reservation-listing my-4">
-					<div class="w-50 p-4">
-						<div class="h4 mb-0 listing-title"><%= booking.listing.title%></div>
-						<div class="mb-3 font-14"><%= booking.listing.property_type.name %>&nbsp;hosted by&nbsp;<%= booking.listing.user.display_name %></div>
-						<div class="line-break mb-3"></div>
-						<div class="d-flex  w-100">
-							<div class="w-25 d-flex flex-column align-items-center">
-								<div><%= booking.start_date %></div>
-								<div>to</div>
-								<div><%= booking.end_date %></div>
-							</div>
-							<div class="row-break"></div>
-							<div class="w-70 pl-20px">
-								<span><%= booking.listing.address.street%></span>
-								<br>
-								<span><%= booking.listing.address.city%>&nbsp;<%= booking.listing.address.state%></span>
-								<br>
-								<span class="font-14"><%= booking.listing.address.country%></span>
+				<a href="<%=booking_url(booking.id)%>">
+					<div class="border d-flex justify-content-between align-items-stretch reservation-listing my-4">
+						<div class="w-50 p-4">
+							<div class="h4 mb-0 listing-title"><%= booking.listing.title%></div>
+							<div class="mb-3 font-14"><%= booking.listing.property_type.name %>&nbsp;hosted by&nbsp;<%= booking.listing.user.display_name %></div>
+							<div class="line-break mb-3"></div>
+							<div class="d-flex  w-100">
+								<div class="w-16 d-flex flex-column align-items-start">
+									<% if booking.start_date.month == booking.end_date.month %>
+										<div><%= booking.start_date.strftime('%b') %></div>
+										<div><%= booking.start_date.strftime('%-d') %> - <%= booking.end_date.strftime('%-d') %></div>
+									<% else %>
+										<div><%= booking.start_date.strftime('%b %-d') %></div>
+										<div>- <%= booking.end_date.strftime('%b %-d') %></div>
+									<% end %>
+									
+									<div class="font-14"><%= booking.end_date.strftime('%Y') %></div>
+								</div>
+								<div class="row-break"></div>
+								<div class="w-70 pl-20px">
+									<span><%= booking.listing.address.street%></span>
+									<br>
+									<span><%= booking.listing.address.city%>&nbsp;<%= booking.listing.address.state%></span>
+									<br>
+									<span class="font-14"><%= booking.listing.address.country%></span>
+								</div>
 							</div>
 						</div>
-					</div>
 
-					<div class="w-50">
-						<% if booking.listing.images.attached? %>
-							<%= image_tag(url_for(booking.listing.images[0]), :alt => "listing image", :class => "listing-img border-right-radius") %>
-						<% end %>
+						<div class="w-50">
+							<% if booking.listing.images.attached? %>
+								<%= image_tag(url_for(booking.listing.images[0]), :alt => "listing image", :class => "listing-img border-right-radius") %>
+							<% end %>
+						</div>
 					</div>
-				</div>
+				</a>
 			<% end %>
 		</div>
 	</div>
