@@ -64,6 +64,8 @@ gem 'devise'
 # include mini-magick for displaying images
 gem 'mini_magick'
 
+# include clipboard-rails
+gem 'clipboard-rails'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

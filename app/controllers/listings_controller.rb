@@ -218,7 +218,6 @@ class ListingsController < ApplicationController
     booking_cost = JSON.parse((params["booking_cost"]))
     booking.booking_cost = booking_cost
 
-    byebug
     booking.save
 
     redirect_to booking_path(booking.id)

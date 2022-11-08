@@ -30,6 +30,14 @@ $(document).ready(function(){
 			},
 			map: map,
 		});
+
+		if ($('#map').hasClass('booking-map')) {
+			const infoWindow = new google.maps.InfoWindow({
+				maxWidth: 210,
+			});
+			infoWindow.setContent("Where you're staying");
+			infoWindow.open(map, marker);
+		}
 	};
 
 	// render listings map for all listings listed. 
@@ -296,11 +304,21 @@ $(document).ready(function(){
 			// hide back-arrow if the current img is the first img.
 			if ($prevImg.hasClass('first-img')) {
 				$btnSelected.addClass('d-none')
+
+				// if the page is the booking confirmation page, show the background shade ele. 
+				if ($btnSelected.siblings('a').siblings('.background-shade').length){
+					$('.booking-confirmation .background-shade').removeClass('d-none')
+				}
 			}
 
 		} else if ($btnSelected.hasClass('forward-btn')) {
 			if ($displayImg.hasClass('first-img')) {
 				$btnSelected.siblings('button.back-btn').removeClass('d-none')
+
+				// if the page is the booking confirmation page, hide the background shade ele. 
+				if ($btnSelected.siblings('a').siblings('.background-shade').length){
+					$('.booking-confirmation .background-shade').addClass('d-none')
+				}
 			}
 
 			const $nextImg = $displayImg.next()
@@ -1224,6 +1242,13 @@ $(document).ready(function(){
 		const yOffset = -100
 		const y = $datepickEle[0].getBoundingClientRect().top  + window.pageYOffset + yOffset
 		window.scrollTo({top: y, behavior: 'smooth'});
+	})
+
+	// clipboard function for copying text
+	$(document).on('click', '.clipboard-btn', function(){
+		const clipboard = new Clipboard('.clipboard-btn');
+		console.log(clipboard);
+      
 	})
 });
 

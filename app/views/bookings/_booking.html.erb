@@ -5,7 +5,33 @@
       <div class="summary-section">
         <div>
           <% if booking.listing.images.attached? %>
-            <%= image_tag(url_for(booking.listing.images[0]), :alt => "listing image", :class => "listing-img") %>
+            <div class="img-wrapper">
+              <a href="<%= users_trips_path%>">
+                <button class="back-arrow-btn"><i class="material-icons">arrow_back</i></button>
+              </a>
+              <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+              <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+              <div class="background-shade">
+                <div class="all-set-confirmation">
+                  You're all set for <%= booking.listing.address.city %>
+                </div>
+              </div>
+              <a href="#">
+                <div class="listing-imgs-collection">
+                  <%= image_tag(url_for(booking.listing.images[0]), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => -1 }) %>
+                  <% booking.listing.images.each_with_index do |image, index| %>
+                    <% if index == 0 %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                    <% elsif (index > 0) && (index < booking.listing.images.length-1 ) %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                    <% else %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none last-img", :data => {:index => index }) %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </a>
+            </div>
+            <%# image_tag(url_for(booking.listing.images[0]), :alt => "listing image", :class => "listing-img") %>
           <% end %>
         </div>
         <div class="sub-section">
@@ -27,13 +53,15 @@
             </div>
           </div>
           <div class="line-break"></div>
-          <div class="py-12px d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="material-icons font-18 mr-1rem">location_on</i>
-              <div class="font-16 fw-light">Get directions</div>  
+          <a href="https://www.google.com/maps/search/?api=1&query=<%= booking.listing.address.latitude %>,<%= booking.listing.address.longitude%>" target="_blank">
+            <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+              <div class="d-flex align-items-center">
+                <i class="material-icons font-18 mr-1rem">location_on</i>
+                <div class="font-16 fw-light">Get directions</div>  
+              </div>
+              <i class="material-icons font-20">chevron_right</i>
             </div>
-            <i class="material-icons font-20">chevron_right</i>
-          </div>
+          </a>
           <div class="line-break"></div>
           <div class="py-12px d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">
@@ -51,13 +79,15 @@
             <i class="material-icons font-20">chevron_right</i>
           </div>
           <div class="line-break"></div>
-          <div class="py-12px d-flex justify-content-between align-items-center">
-            <div class="d-flex align-items-center">
-              <i class="material-icons font-18 mr-1rem">featured_play_list</i>
-              <div class="font-16 fw-light">Show listing</div>  
+          <a href="<%= listing_url(booking.listing.id)%>">
+            <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+              <div class="d-flex align-items-center">
+                <i class="material-icons font-18 mr-1rem">featured_play_list</i>
+                <div class="font-16 fw-light">Show listing</div>  
+              </div>
+              <i class="material-icons font-20">chevron_right</i>
             </div>
-            <i class="material-icons font-20">chevron_right</i>
-          </div>
+          </a>
         </div>
       </div>
 
@@ -143,13 +173,15 @@
           <i class="material-icons font-20">chevron_right</i>
         </div>
         <div class="line-break"></div>
-        <div class="py-12px d-flex justify-content-between align-items-center">
-          <div class="d-flex align-items-center">
-            <i class="material-icons font-18 mr-1rem">location_on</i>
-            <div class="font-16 fw-light">Get directions</div>  
+        <a href="https://www.google.com/maps/search/?api=1&query=<%= booking.listing.address.latitude %>,<%= booking.listing.address.longitude%>" target="_blank">
+          <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+            <div class="d-flex align-items-center">
+              <i class="material-icons font-18 mr-1rem">location_on</i>
+              <div class="font-16 fw-light">Get directions</div>  
+            </div>
+            <i class="material-icons font-20">chevron_right</i>
           </div>
-          <i class="material-icons font-20">chevron_right</i>
-        </div>
+        </a>
       </div>
 
       <div class="display-section">
@@ -194,7 +226,7 @@
     </div>
   </div>
   <div class="booking-map">
-    <div id="map" class="mb-5" data-lat="<%= booking.listing.address.latitude %>" data-lon="<%= booking.listing.address.longitude %>" data-marker="<%= image_path("pink-circle-marker.svg")%>" ></div>
+    <div id="map" class="booking-map mb-5" data-lat="<%= booking.listing.address.latitude %>" data-lon="<%= booking.listing.address.longitude %>" data-marker="<%= image_path("black_circle_marker.svg")%>" ></div>
   </div>
 </div>
 <div class="d-none"id="<%= dom_id booking %>">

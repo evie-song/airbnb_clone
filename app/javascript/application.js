@@ -11,3 +11,23 @@ import "custom/main"
 
 import "trix"
 import "@rails/actiontext"
+
+
+// import { ClipboardJS } from "clipboard.js"
+
+// document.addEventListener('turbo:load', (event) => {
+//   new ClipboardJS('.js-clipboard', {
+//     text: function(trigger) {
+//       return trigger.getAttribute('data-clipboard-text')
+//     }
+//   })
+// })
+
+// import "clipboard"
+
+// $(document).ready(function(){  
+  
+//     var clipboard = new Clipboard('.clipboard-btn');
+//     console.log(clipboard);
+      
+// });
