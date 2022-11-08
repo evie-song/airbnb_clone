@@ -201,6 +201,24 @@ class ListingsController < ApplicationController
     booking.listing_id = params["listing_id"]
     booking.start_date = params["start_date"]
     booking.end_date = params["end_date"]
+    guest_str = params["guest_count"]
+    guest_arr = guest_str.split(", ")
+    guest_count = {}
+    guest_arr.each do |i|
+      guest_obj = i.split(" ")
+      if guest_obj.include?("guest") || guest_obj.include?("guests")
+        guest_count.merge!({ guest: guest_obj[0] })
+      elsif guest_obj.include?("infant") || guest_obj.include?("infants")
+        guest_count.merge!({ infant: guest_obj[0] })
+      elsif guest_obj.include?("pet") || guest_obj.include?("pets")
+        guest_count.merge!({ pet: guest_obj[0] })
+      end
+    end
+    booking.guest_count = guest_count
+    booking_cost = JSON.parse((params["booking_cost"]))
+    booking.booking_cost = booking_cost
+
+    byebug
     booking.save
 
     redirect_to booking_path(booking.id)

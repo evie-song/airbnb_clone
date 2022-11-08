@@ -60,6 +60,8 @@
           <input type="hidden" name="user_id" value="<%= current_user.id %>">
           <input type="hidden" name="end_date" value="<%= @end_date %>">
           <input type="hidden" name="listing_id" value="<%= @listing_id %>">
+          <input type="hidden" name="guest_count" value="<%= @guest_count%>">
+          <input type="hidden" name="booking_cost" value="<%= @cost_obj.to_json %>">
           <button type="submit" class="btn request-booking-btn">Request to book</button>
         </form>
       </div>

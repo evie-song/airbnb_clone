@@ -1,5 +1,5 @@
 class BookingsController < ApplicationController
-  before_action :set_booking, only: %i[ show edit update destroy ]
+  before_action :set_booking, only: %i[show edit update destroy]
 
   # GET /bookings or /bookings.json
   def index
@@ -25,11 +25,16 @@ class BookingsController < ApplicationController
 
     respond_to do |format|
       if @booking.save
-        format.html { redirect_to booking_url(@booking), notice: "Booking was successfully created." }
+        format.html do
+          redirect_to booking_url(@booking),
+                      notice: "Booking was successfully created."
+        end
         format.json { render :show, status: :created, location: @booking }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @booking.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -38,11 +43,16 @@ class BookingsController < ApplicationController
   def update
     respond_to do |format|
       if @booking.update(booking_params)
-        format.html { redirect_to booking_url(@booking), notice: "Booking was successfully updated." }
+        format.html do
+          redirect_to booking_url(@booking),
+                      notice: "Booking was successfully updated."
+        end
         format.json { render :show, status: :ok, location: @booking }
       else
         format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @booking.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @booking.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -52,19 +62,30 @@ class BookingsController < ApplicationController
     @booking.destroy
 
     respond_to do |format|
-      format.html { redirect_to bookings_url, notice: "Booking was successfully destroyed." }
+      format.html do
+        redirect_to bookings_url, notice: "Booking was successfully destroyed."
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_booking
-      @booking = Booking.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def booking_params
-      params.require(:booking).permit(:user_id, :listing_id, :start_date, :end_date, :cancellation_time)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_booking
+    @booking = Booking.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def booking_params
+    params.require(:booking).permit(
+      :user_id,
+      :listing_id,
+      :start_date,
+      :end_date,
+      :cancellation_time,
+      :guest_count,
+      :booking_cost
+    )
+  end
 end

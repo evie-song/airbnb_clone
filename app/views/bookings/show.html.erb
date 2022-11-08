@@ -1,9 +1,9 @@
-<div class="container p5">
-  <p style="color: green"><%= notice %></p>
+<div class="container-fluid p-0 p5">
+  <%# <p style="color: green">notice</p> %>
 
   <%= render @booking %>
 
-  <div>
+  <div class="d-none">
     <%= link_to "Edit this booking", edit_booking_path(@booking) %> |
     <%= link_to "Back to bookings", bookings_path %>
 
