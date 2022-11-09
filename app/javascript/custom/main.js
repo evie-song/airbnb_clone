@@ -1244,11 +1244,18 @@ $(document).ready(function(){
 		window.scrollTo({top: y, behavior: 'smooth'});
 	})
 
-	// clipboard function for copying text
-	$(document).on('click', '.clipboard-btn', function(){
-		const clipboard = new Clipboard('.clipboard-btn');
-		console.log(clipboard);
-      
+	// copy address to the clipboard
+	$(document).on('click', '.copy-address-btn', function(){
+		const $address = $('.booking-confirmation .full-listing-address').text();
+		navigator.clipboard.writeText($address)
+
+		const $copyConfirmationEle = $('.booking-page-wrapper .copy-confirmation')
+		$copyConfirmationEle.addClass('show')
+
+		setTimeout(() => {
+			$copyConfirmationEle.removeClass('show')	
+		}, 4000);
+		
 	})
 });
 

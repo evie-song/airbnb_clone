@@ -163,9 +163,9 @@
         <div class="h5 ">Getting there</div>
         <div class="py-4">
           <div class="font-15 fw-bold mb-1">Address</div>
-          <div class="fw-light font-15"><%= booking.listing.address.full_address%></div>
+          <div class="fw-light font-15 full-listing-address"><%= booking.listing.address.full_address%></div>
         </div>
-        <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="py-12px d-flex justify-content-between align-items-center menu-option copy-address-btn">
           <div class="d-flex align-items-center">
             <i class="material-icons font-18 mr-1rem">content_copy</i>
             <div class="font-16 fw-light">Copy address</div>  
@@ -227,6 +227,14 @@
   </div>
   <div class="booking-map">
     <div id="map" class="booking-map mb-5" data-lat="<%= booking.listing.address.latitude %>" data-lon="<%= booking.listing.address.longitude %>" data-marker="<%= image_path("black_circle_marker.svg")%>" ></div>
+  </div>
+  <div class="copy-confirmation-wrapper">
+    <div class="copy-confirmation d-flex align-items-center">
+      <div class="check-icon-wrapper">
+        <i class="material-icons small-check-icon">check</i>
+      </div>
+      <div>Copied to clipboard</div>
+    </div>
   </div>
 </div>
 <div class="d-none"id="<%= dom_id booking %>">

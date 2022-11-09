@@ -13,4 +13,3 @@ pin "bootstrap", to: "bootstrap.min.js", preload: true
 pin_all_from "app/javascript/custom", under: "custom"
 pin "trix"
 pin "@rails/actiontext", to: "actiontext.js"
-# pin "clipboard", to: "https://ga.jspm.io/npm:clipboard@2.0.11/dist/clipboard.js"
