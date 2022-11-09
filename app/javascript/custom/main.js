@@ -32,10 +32,16 @@ $(document).ready(function(){
 		});
 
 		if ($('#map').hasClass('booking-map')) {
+			const dateRange = $mapEle.data('daterange')
 			const infoWindow = new google.maps.InfoWindow({
 				maxWidth: 210,
 			});
-			infoWindow.setContent("Where you're staying");
+			infoWindow.setContent(
+				"<div class='info-window-content'>" +
+					"<div class='title'>Where you're staying</div>" +
+					"<div class='date-range'>" + dateRange + "</div>" +
+				"</div>"
+			);
 			infoWindow.open(map, marker);
 		}
 	};
@@ -95,7 +101,6 @@ $(document).ready(function(){
 				return function(evt) {
 					const listingID = marker.getTitle();
 					const $content = $(`.listing-block[data-id="${listingID}"]`)
-					console.log($content, $content[0].outerHTML)
 
 					infoWindow.setContent($content[0].outerHTML);
 					infoWindow.open(map, marker);
@@ -282,7 +287,7 @@ $(document).ready(function(){
 	})
 
 	// slide listing img when arrow keys are pressed. 
-	$(document).on("click", "button.slide-btn", function(event) {
+	$(document).on("click", ".button.slide-btn", function(event) {
 		event.stopPropagation()
 
 		const $btnSelected = $(this)
@@ -329,10 +334,72 @@ $(document).ready(function(){
 
 			// hide forward-arrow if the current img is the last img.
 			if ($nextImg.hasClass('last-img')) {
-				$btnSelected.addClass('d-none')
+				setTimeout(()=> {
+					$btnSelected.addClass('d-none')
+				}, 500)
 			}
 		}
 	})
+
+	$(document).on("click", "button.slide-btn", function(event) {
+		event.stopPropagation()
+
+		const $btnSelected = $(this)
+		const $imgCollectEle = $btnSelected.siblings('a').find('.listing-imgs-collection')
+		const $displayImg = $imgCollectEle.find('img.show')
+		
+		if ($btnSelected.hasClass('back-btn')) {
+
+			if ($displayImg.hasClass('last-img')) {
+				$btnSelected.siblings('button.forward-btn').removeClass('d-none')
+			}
+
+			const $prevImg = $displayImg.prev()
+			$prevImg.removeClass('hide-left')
+			$prevImg.addClass('show')
+			$prevImg.addClass('slide-in-from-left')
+			setTimeout(() => {
+				$prevImg.removeClass('slide-in-from-left')
+			}, 500)
+			$displayImg.removeClass('show')
+			$displayImg.addClass('hide-right')
+			
+
+			// hide back-arrow if the current img is the first img.
+			if ($prevImg.hasClass('first-img')) {
+				$btnSelected.addClass('d-none')
+
+				// if the page is the booking confirmation page, show the background shade ele. 
+				if ($btnSelected.siblings('a').siblings('.background-shade').length){
+					$('.booking-confirmation .background-shade').removeClass('d-none')
+				}
+			}
+
+		} else if ($btnSelected.hasClass('forward-btn')) {
+			if ($displayImg.hasClass('first-img')) {
+				$btnSelected.siblings('button.back-btn').removeClass('d-none')
+
+				// if the page is the booking confirmation page, hide the background shade ele. 
+				if ($btnSelected.siblings('a').siblings('.background-shade').length){
+					$('.booking-confirmation .background-shade').addClass('d-none')
+				}
+			}
+
+			const $nextImg = $displayImg.next()
+			$nextImg.removeClass('hide-right')
+			$nextImg.addClass('show')
+			$displayImg.removeClass('show')
+			$displayImg.addClass('hide-left')
+
+			// hide forward-arrow if the current img is the last img.
+			if ($nextImg.hasClass('last-img')) {
+				setTimeout(()=> {
+					$btnSelected.addClass('d-none')
+				}, 500)
+			}
+		}
+	})
+
 	
 	// function assign_prev_or_after_start_date($date, $dateSelected, $currentEle) {
 	// 	if ($date < $dateSelected) {

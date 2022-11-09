@@ -21,17 +21,16 @@
                   <%= image_tag(url_for(booking.listing.images[0]), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => -1 }) %>
                   <% booking.listing.images.each_with_index do |image, index| %>
                     <% if index == 0 %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
                     <% elsif (index > 0) && (index < booking.listing.images.length-1 ) %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none", :data => {:index => index }) %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
                     <% else %>
-                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img d-none last-img", :data => {:index => index }) %>
+                      <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right last-img", :data => {:index => index }) %>
                     <% end %>
                   <% end %>
                 </div>
               </a>
             </div>
-            <%# image_tag(url_for(booking.listing.images[0]), :alt => "listing image", :class => "listing-img") %>
           <% end %>
         </div>
         <div class="sub-section">
@@ -226,7 +225,13 @@
     </div>
   </div>
   <div class="booking-map">
-    <div id="map" class="booking-map mb-5" data-lat="<%= booking.listing.address.latitude %>" data-lon="<%= booking.listing.address.longitude %>" data-marker="<%= image_path("black_circle_marker.svg")%>" ></div>
+    <div id="map" class="booking-map mb-5" data-lat="<%= booking.listing.address.latitude %>" data-lon="<%= booking.listing.address.longitude %>" data-marker="<%= image_path("black_circle_marker.svg")%>" data-daterange="
+      <% if booking.start_date.month == booking.end_date.month %>
+        <%= booking.start_date.strftime('%b %-d') %> - <%= booking.end_date.strftime('%-d') %>, <%= booking.end_date.strftime('%Y')%>
+      <% else %>
+        <%= booking.start_date.strftime('%b %-d') %> - <%= booking.end_date.strftime('%b %-d') %>, <%= booking.end_date.strftime('%Y')%>
+      <% end %>
+    "></div>
   </div>
   <div class="copy-confirmation-wrapper">
     <div class="copy-confirmation d-flex align-items-center">
