@@ -66,6 +66,10 @@ input:-webkit-autofill {
     margin-right: 1rem;
 }
 
+.mr-6px {
+    margin-right: 6px;
+}
+
 .dotted-border {
     border: 1px #e4dbdb dotted;
     border-radius: 4px;
@@ -188,6 +192,14 @@ input:-webkit-autofill {
 
 .weight-500 {
     font-weight: 500;
+}
+
+.weight-300 {
+    font-weight: 300;
+}
+
+.color-blk {
+    color: black;
 }
 
 .material-icons.search-glass-icon {
@@ -1401,6 +1413,10 @@ td.future.date-in-between-selected .date-overwrapper {
     font-size: 13px;
 }
 
+.font-18 {
+    font-size: 18px;
+}
+
 .material-icons.font-20 {
     font-size: 20px;
 }
@@ -1722,5 +1738,46 @@ td.future.date-in-between-selected .date-overwrapper {
     display: none;
 }
 
-
 /* end of booking confirmation page styling */
+
+/* user profile page styling */
+.profile-overview {
+    width: 320px;
+    border: lightgrey 1px solid;
+    border-radius: 10px;
+    min-height: 200px;
+    padding: 24px;
+    margin-right: 48px;
+}
+
+.profile-overview .material-icons.check-icon {
+    font-size: 18px;
+    font-weight: 700;
+    color: black;
+}
+
+.profile-details {
+    width: 640px;
+}
+
+.profile-listing-container {
+    height: 300px;
+    width: 100%;
+    overflow: scroll;
+}
+
+.profile-listing-container .listing-wrapper {
+    width: 310px;
+    margin-right: 20px;
+}
+
+.profile-listing-container .img-wrapper {
+    width: 310px;
+    height: 200px;
+
+}
+
+.profile-listing-container .img-wrapper img.listing-img {
+    border-radius: 10px;
+}
+/* end of user profile page styling */

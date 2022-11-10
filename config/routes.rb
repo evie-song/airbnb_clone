@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     get "users/change_password" => "users/registrations#change_password"
     get "users/trips" => "users/sessions#trips"
     get "users/hosting_page" => "users/sessions#hosting_page"
+    get "users/show_profile" => "users/sessions#show_profile"
   end
 
   resources :bookings

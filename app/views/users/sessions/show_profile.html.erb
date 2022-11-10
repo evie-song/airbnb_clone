@@ -1,0 +1,96 @@
+<div class="container p-5">
+	<div class="user-profile-frame d-flex">
+		<div class="profile-overview">
+			<div class="profile-image-wrapper justify-content-center">
+        <div class="host-image-container">
+          <% if current_user.avatar.attached? %>
+                  <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+          <% else %>
+              <div class="user-icon-wrapper large logged-in d-flex justify-content-center align-items-center">
+                  <i class="material-icons ">person</i>
+              </div>
+          <% end %>
+        </div>
+			</div>
+
+			<div class="d-flex align-items-center mb-3">
+				<i class="material-icons mr-6px">star_border</i>
+				<div class="font-15 weight-500 ">112 reviews</div>
+			</div>
+			<div class="d-flex align-items-center mb-3">
+				<i class="material-icons mr-6px">assignment_ind</i>
+				<div class="font-15 weight-500">Identity verified</div>
+			</div>
+			<div class="line-break my-4"></div>
+			<div class="h5 mb-4">XXX verified</div>
+			<div class="d-flex align-items-center mb-2">
+				<i class="material-icons check-icon mr-6px">check</i>
+				<div class="weight-300 font-15">Identity</div>
+			</div>
+			<div class="d-flex align-items-center mb-2">
+				<i class="material-icons check-icon mr-6px">check</i>
+				<div class="weight-300 font-15">Email address</div>
+			</div>
+			<div class="d-flex align-items-center mb-2">
+				<i class="material-icons check-icon mr-6px">check</i>
+				<div class="weight-300 font-15">Phone number</div>
+			</div>
+			<div class="mt-4 font-13 color-blk">
+				<span class="text-decoration-underline weight-500">Learn more</span> 
+				<span class="weight-300">about how confirming account info helps keep the Airbnb community secure.</span>
+			</div>
+		</div>
+		
+		<div class="profile-details">
+			<div class="mb-5">
+				<div class="h2">Hi, I’m Ignacio</div>
+				<div class="font-13 text-muted font-300 mt-0">Joined since XXXX</div>
+			</div>
+			<div>
+				<div class="h5 mb-3">About</div>
+				<div class="d-flex align-items-center mb-2">
+					<i class="material-icons font-18 mr-6px">home</i>
+					<div class="weight-300 font-15">Lives in San Cristobal de La Laguna, Spain</div>
+				</div>
+				<div class="d-flex align-items-center mb-2">
+					<i class="material-icons font-18 mr-6px">language</i>
+					<div class="weight-300 font-15">Speaks English, Español</div>
+				</div>
+			</div>
+			<div class="line-break my-4"></div>
+			<div>
+				<div class="h5 mb-3">XXX's listings</div>
+				<% if current_user.listings.present? %>
+					<div class="d-flex profile-listing-container">
+						<% current_user.listings.each do |listing |%>
+							<div class="listing-wrapper">
+								<div class="img-wrapper">
+									<%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>
+								</div>
+								<div class="listing-desc">
+									<div class="d-flex align-items-center mt-2">
+										<i class="material-icons font-18 mr-6px">star</i>
+										<div class="weight-300 font-15">5.0</div>
+									</div>
+									<div class="weight-300 font-15">
+										<%= listing.property_type.name%>
+										<%= listing.title %>
+									</div>
+								</div>
+							</div>
+						<% end %>
+					</div>
+				<% end %>
+			</div>
+			<div class="line-break my-4"></div>
+			<div>
+				<div class="d-flex align-items-center mt-2">
+					<i class="material-icons font-18 mr-6px">star</i>
+					<div class="h5 mb-0">XXX Reviews</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+</div>
