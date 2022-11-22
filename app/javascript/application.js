@@ -11,3 +11,4 @@ import "custom/main"
 
 import "trix"
 import "@rails/actiontext"
+import "channels"

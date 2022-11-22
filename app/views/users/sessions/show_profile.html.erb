@@ -3,8 +3,8 @@
 		<div class="profile-overview">
 			<div class="profile-image-wrapper justify-content-center">
         <div class="host-image-container">
-          <% if current_user.avatar.attached? %>
-                  <%= image_tag current_user.avatar, :alt => "host icon", :class => "host-icon" %>
+          <% if @user.avatar.attached? %>
+                  <%= image_tag @user.avatar, :alt => "host icon", :class => "host-icon" %>
           <% else %>
               <div class="user-icon-wrapper large logged-in d-flex justify-content-center align-items-center">
                   <i class="material-icons ">person</i>
@@ -60,9 +60,9 @@
 			<div class="line-break my-4"></div>
 			<div>
 				<div class="h5 mb-3">XXX's listings</div>
-				<% if current_user.listings.present? %>
+				<% if @user.listings.present? %>
 					<div class="d-flex profile-listing-container">
-						<% current_user.listings.each do |listing |%>
+						<% @user.listings.each do |listing |%>
 							<div class="listing-wrapper">
 								<div class="img-wrapper">
 									<%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>

@@ -9,6 +9,7 @@ class Listing < ApplicationRecord
   has_many :comments
   has_many :bookings
   has_rich_text :description
+  has_many :chatrooms
 
   def get_all_booked_days
     booked_dates_arr = []

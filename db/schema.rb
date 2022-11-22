@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_07_210919) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_21_230806) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -77,6 +77,23 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_210919) do
     t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
+  create_table "chatroom_registrations", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "chatroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_chatroom_registrations_on_chatroom_id"
+    t.index ["user_id"], name: "index_chatroom_registrations_on_user_id"
+  end
+
+  create_table "chatrooms", force: :cascade do |t|
+    t.string "topic"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "listing_id", null: false
+    t.index ["listing_id"], name: "index_chatrooms_on_listing_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "listing_id", null: false
@@ -130,6 +147,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_210919) do
     t.index ["user_id"], name: "index_listings_on_user_id"
   end
 
+  create_table "messages", force: :cascade do |t|
+    t.text "content"
+    t.integer "user_id", null: false
+    t.integer "chatroom_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatroom_id"], name: "index_messages_on_chatroom_id"
+    t.index ["user_id"], name: "index_messages_on_user_id"
+  end
+
   create_table "property_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -158,6 +185,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_210919) do
   add_foreign_key "addresses", "users"
   add_foreign_key "bookings", "listings"
   add_foreign_key "bookings", "users"
+  add_foreign_key "chatroom_registrations", "chatrooms"
+  add_foreign_key "chatroom_registrations", "users"
+  add_foreign_key "chatrooms", "listings"
   add_foreign_key "comments", "listings"
   add_foreign_key "comments", "users"
   add_foreign_key "feature_registrations", "features"
@@ -166,4 +196,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_07_210919) do
   add_foreign_key "listings", "addresses"
   add_foreign_key "listings", "property_types"
   add_foreign_key "listings", "users"
+  add_foreign_key "messages", "chatrooms"
+  add_foreign_key "messages", "users"
 end

@@ -1,0 +1,47 @@
+
+<div class="d-flex position-fixed w-100 h-100 messages-page-wrapper">
+  <div class="chatroom-wrapper border-end">
+    <div class="h6 p-4 border-bottom section-header ">
+      Messages
+    </div>
+    <div class="px-3 chatroom-list">
+      <% current_user.chatrooms.each do |chatroom| %>
+        <div class="chatroom-card d-flex" data-url="<%= messages_url%>" data-id="<%= chatroom.id%>" >
+          <div>
+            <div class="user-icon-container">
+              <% if chatroom.listing.user.avatar.attached? %>
+                <%= image_tag chatroom.listing.user.avatar, :alt => "host icon", :class => "host-icon" %>
+              <% else %>
+                <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+              <% end %>
+            </div>
+          </div>
+          <div>
+            <div class="font-14 mb-1">
+              <span><%= chatroom.listing.user.display_name %></span>
+              <span>&#x2022;</span>
+              <span class="text-muted"><%= chatroom.listing.address.city %></span>
+            </div>
+            <div class="font-14 mb-1">Placeholder Airbnb update: reservation canceled</div>
+            <div class="font-12 text_muted">Placeholder Canceled - Dec 1 - 3</div>
+          </div>
+        </div>
+
+      <% end %>
+      
+    </div>
+  </div>
+  <div class="flex-grow-1 d-flex">
+    <div class="message-wrapper w-50 border-end flex-grow-1 ">
+      <%= render template: "/messages/index", locals: { chatroom: current_user.chatrooms[0] } %>
+    </div>
+    <div class="booking-details-wrapper border-end">
+      <div class="h6 p-4 border-bottom section-header ">
+        Details
+      </div>
+
+    </div>
+  </div>
+</div>
+
+

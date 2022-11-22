@@ -76,7 +76,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def show_profile
-    @user = current_user
+    @user = User.find(params[:user_id])
     render template: "users/sessions/show_profile"
   end
 

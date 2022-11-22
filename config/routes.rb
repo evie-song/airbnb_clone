@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  mount ActionCable.server => "/cable"
+  resources :chatrooms
+  resources :messages
   devise_for :users,
              controllers: {
                sessions: "users/sessions",
@@ -10,7 +13,8 @@ Rails.application.routes.draw do
     get "users/change_password" => "users/registrations#change_password"
     get "users/trips" => "users/sessions#trips"
     get "users/hosting_page" => "users/sessions#hosting_page"
-    get "users/show_profile" => "users/sessions#show_profile"
+    get "users/show_profile/:user_id" => "users/sessions#show_profile",
+        :as => :users_show_profile
   end
 
   resources :bookings

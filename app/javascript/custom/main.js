@@ -1324,6 +1324,31 @@ $(document).ready(function(){
 		}, 4000);
 		
 	})
+
+	// render selected chatroom's messages via ajax call. 
+	$(document).on('click', ".chatroom-card", function(event){
+
+		const $cardSelected = $(this)
+		const url = $cardSelected.data('url') + ".json"
+		const chatroomId = $cardSelected.data('id')
+		const payload = {
+			"chatroom_id": chatroomId
+		}
+
+		$.get({
+			url: url,
+			data: payload,
+			success: function(response) {
+				// console.log(response, "success")
+				$('.message-wrapper').html(response.partial)
+			},
+			failure: function(errors) {
+				console.log(errors, 'failure')
+			}
+		})
+
+
+	})
 });
 
 

@@ -156,6 +156,9 @@
                     <% end %>
                     <div class="login-popover d-none">
                         <% if user_signed_in? %>
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Messages", chatrooms_path, class:"nav-link" %>
+                            </div>
 
                             <div class="signin-option-wrapper">
                                 <%= link_to "Trips", users_trips_path, class:"nav-link" %>
@@ -170,18 +173,22 @@
                             <div class="line-break my-2"></div>
 
                             <div class="signin-option-wrapper">
-                                <%= link_to "Log out", destroy_user_session_path, method: :delete, class:"nav-link" %>
+                                <%= link_to "Show profile", users_show_profile_path(user_id: current_user.id), class:"nav-link" %>
                             </div>
                             
                             <div class="signin-option-wrapper">
                                 <%= link_to "Edit profile", edit_user_registration_path, class:"nav-link" %>
                             </div>
 
+                            <div class="line-break my-2"></div>
+
                             <div class="signin-option-wrapper">
                                 <%= link_to "Change password", users_change_password_path, class:"nav-link" %>
                             </div>
 
-                            
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Log out", destroy_user_session_path, method: :delete, class:"nav-link" %>
+                            </div>
 
                         <% else %>
                             <div class="signin-option-wrapper">
