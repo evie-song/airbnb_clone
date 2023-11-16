@@ -1,36 +1,77 @@
 <div class="h6 p-4 border-bottom section-header ">
-Ignacio
+Ignacio chatroom_id <%= chatroom.id%>
 </div>
 <div class="message-container" id="chatroom-messages" data-chatroom_id="<%= chatroom.id %>">
-	<% chatroom.messages.each do |message|%>
-		<div class="message-card d-flex px-3 py-2 w-100 border mb-2">
-			<div class="user-icon-container">
-				<% if message.user.avatar.attached? %>
-					<%= image_tag message.user.avatar, :alt => "host icon", :class => "host-icon" %>
-				<% else %>
-					<%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
-				<% end %>
-			</div>
-			<div>
-				<div>
-					<span><%= message.user.first_name %><span>
-					<span><%= message.created_at%></span>
-				</div>
-				<div>
-					<%= message.content%>
-				</div>
-			</div>
-		</div>
-	<% end %>
-	<div>
-		<%= form_with(model: @new_message) do |form| %>
-			<input type="hidden" name="message[chatroom_id]" value="<%= chatroom.id %>" >
-			<input type="hidden" name="message[user_id]" value="<%= current_user.id %>" >
-			<input type="text" name="message[content]" class="form-control" >
-			<div>
-				<%= form.submit %>
-			</div>
-		<% end %>
-	</div>
+  <div class="message-content">
+    <% array = [] %>
+    <% chatroom.messages.each do |message|%>
+      <% array.append(message.created_at.to_date) %>
+    <% end %>
+    <% array = array.uniq.sort! %>
+
+    <% array.each do |date| %>
+      <div class="message-date">
+        <%= date.strftime('%b %d, %Y') %>
+      </div>
+      <% messages = chatroom.messages.where(created_at: date.beginning_of_day..date.end_of_day ) %>
+      <% messages.sort.each do |message| %>
+        <div class="message-card px-3 py-2 w-100 mb-2">
+          <div class="user-icon-container">
+            <% if message.user.avatar.attached? %>
+              <%= image_tag message.user.avatar, :alt => "host icon", :class => "host-icon" %>
+            <% else %>
+              <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+            <% end %>
+          </div>
+          <div class="flex-grow-1">
+            <div>
+              <span class="message-first-name"><%= message.user.first_name.capitalize %></span>
+              <span class="message-created-time"><%= message.created_at.strftime('%I:%M %p')%></span>
+            </div>
+            <div class="message-content">
+              <%= message.content%>
+            </div>
+          </div>
+          <div class="delete-message-wrapper d-flex align-items-center delete-button">
+            <i class="material-icons">delete</i>
+          </div>
+        </div>
+      <% end %>
+    <% end %>
+
+    <% chatroom.chatroom_registrations.each do |r| %>
+      <div class="example-message-card px-3 py-2 w-100 mb-2" data-user_id="<%=r.user.id %>">
+        <div class="user-icon-container">
+          <% if r.user.avatar.attached? %>
+            <%= image_tag r.user.avatar, :alt => "host icon", :class => "host-icon" %>
+          <% else %>
+            <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+          <% end %>
+        </div>
+        <div>
+          <div>
+            <span class="message-first-name"><%= r.user.first_name.capitalize %></span>
+            <span class="message-created-time"><%# Time.zone.now.strftime('%I:%M %p')%></span>
+          </div>
+          <div class="message-content">
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="new-message-wrapper">
+  <form action="/messages" method="post">
+    <input type="hidden" name="message[chatroom_id]" value="<%= chatroom.id %>" >
+    <input type="hidden" name="message[user_id]" value="<%= current_user.id %>" >
+    <div class="message-content-input-widget">
+      <input type="text" name="message[content]" class="" >
+      <button type="submit" class="button-disabled">
+        <i class="material-icons">arrow_upward</i>
+      </button>
+    </div>
+    
+    </form>
 </div>
 

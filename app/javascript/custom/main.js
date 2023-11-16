@@ -1325,6 +1325,14 @@ $(document).ready(function(){
 		
 	})
 
+	//  when the message page loads, scroll to the bottom of the chat history. 
+	$(window).load(function() {
+		if ($('.message-wrapper').length != 0) {
+			const $messageContainer = $('.message-wrapper').find('.message-content')
+			$('.message-wrapper').find('.message-container').scrollTop($messageContainer.height())
+		}
+	  })
+
 	// render selected chatroom's messages via ajax call. 
 	$(document).on('click', ".chatroom-card", function(event){
 
@@ -1341,12 +1349,61 @@ $(document).ready(function(){
 			success: function(response) {
 				// console.log(response, "success")
 				$('.message-wrapper').html(response.partial)
+				$(".chatroom-card.selected").removeClass('selected')
+				$('.chatroom-list').find('.line-break.hidden').removeClass('hidden')
+
+				// scroll to the latest message
+				const $messageContainer = $('.message-wrapper').find('.message-content')
+				$('.message-wrapper').find('.message-container').scrollTop($messageContainer.height())
+
+				$cardSelected.addClass('selected')
+				$cardSelected.prev('.line-break').addClass('hidden')
+				$cardSelected.next('.line-break').addClass('hidden')
 			},
 			failure: function(errors) {
 				console.log(errors, 'failure')
 			}
 		})
+	})
 
+	// when message input is empty, disable the message submit button & change the button background color to grey.
+	// when message input is not empty, enable the submit button & change the button background color to black. 
+	$(document).on("keyup", ".message-content-input-widget input", function(event){
+		const $inputValue = $(this).val()
+		const $submitBtn = $(this).siblings('button')
+		if ($inputValue.trim().length == 0) {
+			$submitBtn.removeClass('button-enabled')
+			$submitBtn.addClass('button-disabled')
+		} else {
+			$submitBtn.addClass('button-enabled')
+			$submitBtn.removeClass('button-disabled')
+		}
+	})
+
+	// use ajax post call to submit a new messaeg, then clear input after the message is sent. 
+	$(document).on("submit", ".new-message-wrapper form", function(event){
+		event.preventDefault()
+		const $formSubmitted = $(this)
+		const data = $formSubmitted.serialize()
+		const url = $formSubmitted[0].action
+		const $submitBtn = $(this).find('button')
+		const $inputEle = $submitBtn.siblings('input')
+
+		$.post({
+			url: url,
+			data: data,
+			success: function(response){
+				// $('#cost-breakdown').html(response.partial)
+				console.log('success')
+				$formSubmitted[0].reset()
+				$submitBtn.removeClass('button-enabled')
+				$submitBtn.addClass('button-disabled')
+			},
+			failure: function(errors){
+				console.log(errors, "failure")
+			}
+		})
+		
 
 	})
 });

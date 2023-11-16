@@ -43,29 +43,13 @@ class MessagesController < ApplicationController
   # POST /messages or /messages.json
   def create
     @message = Message.new(message_params)
+    if @message.save
+      @chatroom = @message.chatroom
+      ChatroomsChannel.broadcast_to(@chatroom, @message.message_data)
 
-    # if @message.save
-    #   redirect_to message_url(@message),
-    #               notice: "Message was successfully created."
-    # else
-    #   render :new, status: :unprocessable_entity
-    # end
-
-    respond_to do |format|
-      if @message.save
-        format.html do
-          # redirect_to message_url(@message),
-          #             notice: "Message was successfully created."
-          @chatroom = @message.chatroom
-          ChatroomsChannel.broadcast_to(@chatroom, @message)
-        end
-        format.json { render :show, status: :created, location: @message }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @message.errors, status: :unprocessable_entity
-        end
-      end
+      render json: { success: true, message_id: @message.id }
+    else
+      render json: @message.errors, status: :unprocessable_entity
     end
   end
 
