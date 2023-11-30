@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
   mount ActionCable.server => "/cable"
-  resources :chatrooms
+
+  resources :chatrooms do
+    get "get_details",
+        on: :collection,
+        to: "chatrooms#get_details",
+        as: :get_chatroom_details
+  end
+  post "/chatroom", to: "chatrooms#create", as: :create_chatroom
+
   resources :messages
   devise_for :users,
              controllers: {

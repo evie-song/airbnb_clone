@@ -393,6 +393,21 @@
 
   <div class="listing-host my-4">
     <div class="h4">Hosted by <%=listing.user.display_name%></div>
+    <div class="my-2">
+      <% if user_signed_in? %>
+        <% if listing.user_id == current_user.id %>
+          <button type="" class="contact-host-btn cursor-not-allowed">Contact Host</button>
+        <% else %>
+          <form id="create-chatroom-form" action="/chatrooms" method="POST">
+            <input type="hidden" id="liting_id" name="listing_id" value="<%=listing.id%>">
+            <input type="hidden" id="user_id" name="user_id" value="<%= current_user.id %>">
+            <button type="submit" class="contact-host-btn <% if listing.user_id == current_user.id %> cursor-not-allowed <% end %>">Contact Host</button>
+          </form>
+        <% end %>
+      <% else %>
+        <button type="button" class="contact-host-btn redirect-to-signin-btn" id="">Contact Host</button>
+      <% end %>
+    </div>
   </div>
 
   <div class="line-break"></div>

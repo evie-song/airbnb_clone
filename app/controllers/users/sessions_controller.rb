@@ -72,6 +72,24 @@ class Users::SessionsController < Devise::SessionsController
 
   def hosting_page
     @user = current_user
+    listings = current_user.listings
+    all_reservations = []
+    listings.each do |listing|
+      reservations = listing.bookings
+      reservations.each { |reservation| all_reservations << reservation }
+    end
+
+    @upcoming_reservations = []
+    @past_reservations = []
+
+    all_reservations.each do |reservation|
+      if reservation.end_date >= Date.today
+        @upcoming_reservations << reservation
+      else
+        @past_reservations << reservation
+      end
+    end
+
     render template: "users/sessions/hosting_page"
   end
 

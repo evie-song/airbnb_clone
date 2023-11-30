@@ -9,7 +9,11 @@ class ChatroomsController < ApplicationController
 
   # GET /chatrooms/1 or /chatrooms/1.json
   def show
-    redirect_to "/chatrooms"
+    chatroom_id = params[:id]
+    @selected_chatroom = Chatroom.find(id = chatroom_id)
+
+    render "chatrooms/index"
+    # redirect_to "/chatrooms"
   end
 
   # GET /chatrooms/new
@@ -21,22 +25,79 @@ class ChatroomsController < ApplicationController
   def edit
   end
 
+  def create_new_chatroom
+    test = 1
+    byebug
+  end
+
   # POST /chatrooms or /chatrooms.json
   def create
-    @chatroom = Chatroom.new(chatroom_params)
+    listing_id = params["listing_id"].to_i
+    user_id = params["user_id"].to_i
+    listing = Listing.find(id = listing_id)
+    user = User.find(id = user_id)
 
-    respond_to do |format|
+    # check if a chatroom already exists.
+    existing_registration =
+      ChatroomRegistration.joins(:chatroom).where(
+        chatrooms: {
+          listing_id: listing_id
+        },
+        user_id: user_id
+      )
+    # if a chatroom already exist, redirect to the chatroom.
+    if existing_registration.any?
+      existing_chatroom = existing_registration.first.chatroom
+      redirect_to chatroom_url(existing_chatroom)
+    else
+      # if a chatroxom doesn't exist, create new chatroom record and then redirect to the chatroom.
+      @chatroom = Chatroom.new(listing: listing)
       if @chatroom.save
-        format.html do
+        @chatroom_registration =
+          ChatroomRegistration.new(chatroom: @chatroom, user: user)
+        if @chatroom_registration.save
           redirect_to chatroom_url(@chatroom),
                       notice: "Chatroom was successfully created."
         end
-        format.json { render :show, status: :created, location: @chatroom }
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json do
-          render json: @chatroom.errors, status: :unprocessable_entity
-        end
+        render :new, status: :unprocessable_entity
+      end
+    end
+
+    # byebug
+    # @chatroom = Chatroom.new(chatroom_params)
+
+    # respond_to do |format|
+    #   if @chatroom.save
+    #     format.html do
+    #       redirect_to chatroom_url(@chatroom),
+    #                   notice: "Chatroom was successfully created."
+    #     end
+    #     format.json { render :show, status: :created, location: @chatroom }
+    #   else
+    #     format.html { render :new, status: :unprocessable_entity }
+    #     format.json do
+    #       render json: @chatroom.errors, status: :unprocessable_entity
+    #     end
+    #   end
+    # end
+  end
+
+  def get_details
+    respond_to do |format|
+      format.json do
+        chatroom_id = params[:chatroom_id]
+        chatroom = Chatroom.find(id = chatroom_id)
+        rendered_string =
+          render_to_string(
+            template: "chatrooms/_chatroom_details_partial",
+            format: [:html],
+            layout: false,
+            locals: {
+              chatroom: chatroom
+            }
+          )
+        return render json: { partial: rendered_string }
       end
     end
   end

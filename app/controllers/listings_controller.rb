@@ -149,6 +149,7 @@ class ListingsController < ApplicationController
   # listing_calculate_cost
   # POST /listings/:listing_id/calculate_cost
   def calculate_cost
+    # byebug
     start_date = Date.strptime(params["start_date"], "%m/%d/%Y")
     end_date = Date.strptime(params["end_date"], "%m/%d/%Y")
     duration = (end_date - start_date).to_i

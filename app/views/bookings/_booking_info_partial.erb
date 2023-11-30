@@ -1,0 +1,224 @@
+
+<div class="booking-info-container">
+    <div class="summary-section">
+    <div>
+        <% if booking.listing.images.attached? %>
+        <div class="img-wrapper">
+            <a href="<%= users_trips_path%>">
+            <button class="back-arrow-btn"><i class="material-icons">arrow_back</i></button>
+            </a>
+            <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+            <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+            <div class="background-shade">
+            <div class="all-set-confirmation">
+                You're all set for <%= booking.listing.address.city %>
+            </div>
+            </div>
+            <a href="#">
+            <div class="listing-imgs-collection">
+                <%= image_tag(url_for(booking.listing.images[0]), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => -1 }) %>
+                <% booking.listing.images.each_with_index do |image, index| %>
+                <% if index == 0 %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% elsif (index > 0) && (index < booking.listing.images.length-1 ) %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% else %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right last-img", :data => {:index => index }) %>
+                <% end %>
+                <% end %>
+            </div>
+            </a>
+        </div>
+        <% end %>
+    </div>
+    <div class="sub-section">
+        <div class="d-flex py-3">
+        <div class="w-50">
+            <div class="font-15 fw-bold mb-1">Check-in</div>
+            <div class="fw-light font-15">
+            <div><%=booking.start_date.strftime('%a, %b %-d, %Y')%></div>
+            <div>3:00 PM</div>
+            </div>
+        </div>
+        <div class="row-break mr-1rem"></div>
+        <div>
+            <div class="font-15 fw-bold mb-1">Checkout</div>
+            <div class="fw-light font-15">
+            <div><%=booking.end_date.strftime('%a, %b %-d, %Y')%></div>
+            <div>3:00 PM</div>
+            </div>
+        </div>
+        </div>
+        <div class="line-break"></div>
+        <a href="https://www.google.com/maps/search/?api=1&query=<%= booking.listing.address.latitude %>,<%= booking.listing.address.longitude%>" target="_blank">
+        <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+            <div class="d-flex align-items-center">
+            <i class="material-icons font-18 mr-1rem">location_on</i>
+            <div class="font-16 fw-light">Get directions</div>  
+            </div>
+            <i class="material-icons font-20">chevron_right</i>
+        </div>
+        </a>
+        <div class="line-break"></div>
+        <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="material-icons font-18 mr-1rem">phone_iphone</i>
+            <div class="font-16 fw-light">Call Host</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+        </div>
+        <div class="line-break"></div>
+        <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+            <i class="material-icons font-18 mr-1rem">messenger</i>
+            <div class="font-16 fw-light">Message Host</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+        </div>
+        <div class="line-break"></div>
+        <a href="<%= listing_url(booking.listing.id)%>">
+        <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+            <div class="d-flex align-items-center">
+            <i class="material-icons font-18 mr-1rem">featured_play_list</i>
+            <div class="font-16 fw-light">Show listing</div>  
+            </div>
+            <i class="material-icons font-20">chevron_right</i>
+        </div>
+        </a>
+    </div>
+    </div>
+
+    <div class="display-section">
+    <div class="h5">Reservation details</div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Who's coming</div>
+        <div class="fw-light font-15"><%= booking.display_guest_count %></div>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Confirmation code</div>
+        <div class="fw-light font-15">BOOKINGID<%= booking.id%></div>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Cancellation policy</div>
+        <div class="fw-light font-15">
+        <div>Free cancellation before 3:00 PM on <%= (booking.start_date - 5.day).strftime('%b %-d') %>. Cancel before check-in at 3:00 PM on <%= booking.start_date.strftime('%b %-d')%> for a partial refund.</div>
+        </div>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">people</i>
+        <div class="font-16 fw-light">Manage guests</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">edit</i>
+        <div class="font-16 fw-light">Change reservation</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">cancel</i>
+        <div class="font-16 fw-light">Cancel reservation</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">language</i>
+        <div class="font-16 fw-light">Get a PDF for visa purposes</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">print</i>
+        <div class="font-16 fw-light">Print details</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">receipt</i>
+        <div class="font-16 fw-light">Get receipt</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    </div>
+
+    <div class="display-section">
+    <div class="h5 ">Getting there</div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Address</div>
+        <div class="fw-light font-15 full-listing-address"><%= booking.listing.address.full_address%></div>
+    </div>
+    <div class="py-12px d-flex justify-content-between align-items-center menu-option copy-address-btn">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">content_copy</i>
+        <div class="font-16 fw-light">Copy address</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <a href="https://www.google.com/maps/search/?api=1&query=<%= booking.listing.address.latitude %>,<%= booking.listing.address.longitude%>" target="_blank">
+        <div class="py-12px d-flex justify-content-between align-items-center menu-option">
+        <div class="d-flex align-items-center">
+            <i class="material-icons font-18 mr-1rem">location_on</i>
+            <div class="font-16 fw-light">Get directions</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+        </div>
+    </a>
+    </div>
+
+    <div class="display-section">
+    <div class=" d-flex justify-content-between">
+        <div class="h5">Hosted by <%=booking.listing.user.display_name%></div>
+        <div class="user-icon-container">
+        <% if booking.listing.user.avatar.attached? %>
+            <%= image_tag booking.listing.user.avatar, :alt => "host icon", :class => "host-icon" %>
+        <% else %>
+            <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+        <% end %>
+        </div>
+    </div>
+    <a href="<%= users_show_profile_path(user_id: booking.listing.user.id)%> ">
+        <div class="font-16 fw-500 mt-3 mb-2 text-decoration-underline">Show more</div>
+    </a>
+    
+    </div>
+
+    <div class="display-section">
+    <div class="h5 ">Payment info</div>
+        <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Total cost</div>
+        <div class="fw-light font-15"><%=ActionController::Base.helpers.number_to_currency(booking.booking_cost["total"]) %> USD</div>
+        </div>
+        <div class="line-break"></div>
+        <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">note_add</i>
+        <div class="font-16 fw-light">Add details for expensing your trip</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-12px d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+        <i class="material-icons font-18 mr-1rem">receipt</i>
+        <div class="font-16 fw-light">Get receipt</div>  
+        </div>
+        <i class="material-icons font-20">chevron_right</i>
+    </div>
+    </div>
+</div>

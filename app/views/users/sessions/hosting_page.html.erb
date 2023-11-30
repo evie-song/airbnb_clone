@@ -1,12 +1,118 @@
 <div class="container p-5">
   <div class="h2 mb-3">Welcome to hosting!</div>
   <div class="my-5">
-		<div class="h5 mb-3">Your addresses</div>
+		<div class="h5 mb-5">Your addresses</div>
+		<div class="">
+			<a class="" href="<%= new_address_url %>">
+				<div class="register-address-btn">
+					<i class="material-icons fs-5 mr-6px">add</i>
+					<span>Register a new address</span>
+				</div>
+				
+			</a>
+			<% if @user.addresses.present? %>
+				<% @user.addresses.each do |address| %>
+					<div>
+						<div class="d-flex my-3"> 
+							<i class="material-icons mr-6px">home</i>
+							<%= address.full_address %>
+						</div>
+						<div class="line-break my-3"></div>
+					</div>
+				<% end %>
+			<% else %>
+				<div>You don't have any addresses</div>
+			<% end %>
+		</div>
 	</div>
 	<div class="my-5">
-		<div class="h5 mb-3">Your listings</div>
+		<div class="h5 mb-5">Your listings</div>
+		<div class="d-flex profile-listing-container">
+			<div class="listing-wrapper empty-listing-wrapper">
+				<a href="/listings/new">
+					<div class="img-wrapper d-flex flex-column align-items-center justify-content-around border border-radius-10">
+						<div class="d-flex align-items-center">
+							<i class="material-icons fs-5 mr-6px">add</i>
+							<span class="fs-5">Add a new listing</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<% if @user.listings.present? %>
+				<% @user.listings.each do |listing |%>
+					<%= render 'users/sessions/listing_in_profile_partial', listing: listing %>
+				<% end %>
+			<% end %>
+		</div>
 	</div>
 	<div class="my-5">
-		<div class="h5 mb-3">Your reservations</div>
+		<div class="h5 mb-5">Your reservations</div>
+		<div class="reservation-table">
+			<table>
+				<thead>
+					<tr>
+						<th>Status</th>
+						<th>Guests</th>
+						<th>Dates</th>
+						<th>Booked</th>
+						<th>Listing</th>
+						<th>Earning</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% @upcoming_reservations.each do |reservation| %>
+						<tr>
+							<td>Upcoming</td>
+							<td>
+								<div>
+									<div>
+										<% if (user = User.find_by(id: reservation.user_id)) %>
+											<%= user.username %>
+										<% else %>
+											User not found
+										<% end %>
+									</div>
+									<div><%= reservation.guest_count %></div>
+								</div>
+							</td>
+							<td><%= reservation.start_date %> to <%= reservation.end_date %> </td>
+							<td><%= reservation.created_at %></td>
+							<td>listing_id: <%= reservation.listing_id %></td>
+							<td>$<%= reservation.booking_cost["total"] %></td>
+						</tr>
+					<% end %>
+					<% @past_reservations.each do |reservation| %>
+						<tr>
+							<td>Completed</td>
+							<td>
+								<div>
+									<div>
+										<% if (user = User.find_by(id: reservation.user_id)) %>
+											<%= user.display_name %>
+										<% else %>
+											User not found
+										<% end %>
+									</div>
+									<div><%= reservation.display_guest_count %></div>
+								</div>
+							</td>
+							<td><%= reservation.formatted_duration %> </td>
+							<td><%= reservation.created_at.strftime("%b %d, %Y") %></td>
+							<td>
+								<a href="/listings/<%= reservation.listing_id%>" class="text-decoration-underline">
+									<% if (listing = Listing.find_by(id: reservation.listing_id)) %>
+										<%= listing.title %>
+									<% else %>
+										Listing not found
+									<% end %>
+								</a>
+							</td>
+							<td>$<%= reservation.booking_cost["total"] %></td>
+						</tr>
+					<% end %>
+
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

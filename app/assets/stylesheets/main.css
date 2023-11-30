@@ -2,11 +2,13 @@ body.custom-body a {
     text-decoration: none;
 }
 
-.container a {
+.container a,
+body a  {
     color: unset;
 }
 
-.container a:hover {
+.container a:hover,
+body a:hover {
     color: unset;
 }
 
@@ -991,6 +993,31 @@ input.guest-count {
     border-radius: 0.375rem;
 }
 
+.make-reservation-btn {
+    margin-top: 24px;
+    height: 48px;
+    background-color: white;
+    color: rgb(34, 34, 34);
+    border: 1px solid #222222;
+    border-radius: 0.375rem;
+}
+
+.contact-host-btn {
+    margin: 16px 0;
+    height: 48px;
+    background-color: white;
+    padding: 13px 23px;
+    border: 1px rgb(34, 34, 34) solid;
+    border-radius: 8px;
+    color: rgb(34, 34, 34);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 20px;
+    width: 150px;
+
+    
+}
+
 .availability-btn:hover,
 .reserve-btn:hover,
 .btn.request-booking-btn:hover, 
@@ -1170,6 +1197,11 @@ input.guest-count {
 
 .back-btn {
     left: 5%;
+}
+
+.booking-info-container .img-wrapper .slide-btn {
+    top: unset;
+    bottom: 5%;
 }
 
 .listing-imgs-container .slide-btn {
@@ -1620,6 +1652,10 @@ td.future.date-in-between-selected .date-overwrapper {
     height: 400px;
 }
 
+.booking-info-container .img-wrapper {
+    position: relative;
+}
+
 .booking-confirmation .img-wrapper a {
     cursor: default;
 }
@@ -1798,6 +1834,12 @@ td.future.date-in-between-selected .date-overwrapper {
     margin: 0;
 }
 
+.chatroom-list {
+    overflow-y: scroll;
+    height: calc(100% - 140px);
+
+}
+
 .chatroom-card {
     width: 100%;
     padding: 20px 10px;
@@ -1924,3 +1966,63 @@ td.future.date-in-between-selected .date-overwrapper {
 }
 
 /* end of messages page styling */
+
+.border-radius-10 {
+    border-radius: 10px;
+}
+
+.register-address-btn {
+    padding: 10px;
+    width: 300px;
+    border: 1px #dee2e6 solid;
+    border-radius: 10px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.reservation-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.reservation-table th, 
+.reservation-table td {
+    border-bottom: 1px solid #ddd;
+    padding: 20px 8px;
+    text-align: left;
+}
+
+.reservation-table th {
+    /* background-color: #f2f2f2; */
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed !important;
+}
+
+.detail-container {
+    height: calc(100% - 140px);
+    overflow-y: scroll;
+    padding: 24px;
+}
+
+.detail-container .booking-info-container {
+    overflow: unset;
+    box-shadow: unset;
+}
+
+.detail-container .background-shade,
+.detail-container .back-arrow-btn {
+    display: none;
+}
+
+.chatroom_detail_title {
+    font-size: 26px;
+    color: rgb(34, 34, 34);
+    font-weight: 600;
+    line-height: 30px;
+    margin-bottom: 24px;
+}

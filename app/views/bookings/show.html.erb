@@ -1,7 +1,7 @@
 <div class="container-fluid p-0 p5">
   <%# <p style="color: green">notice</p> %>
 
-  <%= render @booking %>
+  <%= render partial: "booking", locals: {booking: @booking} %>
 
   <div class="d-none">
     <%= link_to "Edit this booking", edit_booking_path(@booking) %> |

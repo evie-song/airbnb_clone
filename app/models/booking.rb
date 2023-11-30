@@ -13,4 +13,12 @@ class Booking < ApplicationRecord
     end
     return guest_str.chop.chop
   end
+
+  def formatted_duration
+    if start_date.month == end_date.month
+      "#{start_date.strftime("%b %e")}-#{end_date.strftime("%e, %Y")}"
+    else
+      "#{start_date.strftime("%b %e")}-#{end_date.strftime("%b %e, %Y")}"
+    end
+  end
 end

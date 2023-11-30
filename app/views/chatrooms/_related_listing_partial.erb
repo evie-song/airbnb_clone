@@ -1,0 +1,33 @@
+ <div class="booking-info-container">
+    <div class="summary-section">
+    <div>
+        <% if listing.images.attached? %>
+        <div class="img-wrapper">
+            <a href="<%= users_trips_path%>">
+            <button class="back-arrow-btn"><i class="material-icons">arrow_back</i></button>
+            </a>
+            <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+            <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+            <a href="#">
+            <div class="listing-imgs-collection">
+                <%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => -1 }) %>
+                <% listing.images.each_with_index do |image, index| %>
+                <% if index == 0 %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% elsif (index > 0) && (index < listing.images.length-1 ) %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% else %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right last-img", :data => {:index => index }) %>
+                <% end %>
+                <% end %>
+            </div>
+            </a>
+        </div>
+        <% end %>
+        <a href="/listings/<%= listing.id%>">
+            <button type="button" class="w-100 make-reservation-btn">Make a reservation</button>
+        </a>
+    </div>
+    
+    </div>
+</div>

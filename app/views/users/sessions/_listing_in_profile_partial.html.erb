@@ -1,0 +1,16 @@
+
+    <div class="listing-wrapper">
+        <div class="img-wrapper">
+            <%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>
+        </div>
+        <div class="listing-desc">
+            <div class="d-flex align-items-center mt-2">
+                <i class="material-icons font-18 mr-6px">star</i>
+                <div class="weight-300 font-15">5.0</div>
+            </div>
+            <div class="weight-300 font-15">
+                <%= listing.property_type.name%>
+                <%= listing.title %>
+            </div>
+        </div>
+    </div>

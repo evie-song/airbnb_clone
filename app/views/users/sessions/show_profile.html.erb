@@ -15,14 +15,14 @@
 
 			<div class="d-flex align-items-center mb-3">
 				<i class="material-icons mr-6px">star_border</i>
-				<div class="font-15 weight-500 ">112 reviews</div>
+				<div class="font-15 weight-500 ">No reviews</div>
 			</div>
 			<div class="d-flex align-items-center mb-3">
 				<i class="material-icons mr-6px">assignment_ind</i>
 				<div class="font-15 weight-500">Identity verified</div>
 			</div>
 			<div class="line-break my-4"></div>
-			<div class="h5 mb-4">XXX verified</div>
+			<div class="h5 mb-4"><%= current_user.display_name%>'s confirmed information</div>
 			<div class="d-flex align-items-center mb-2">
 				<i class="material-icons check-icon mr-6px">check</i>
 				<div class="weight-300 font-15">Identity</div>
@@ -43,8 +43,8 @@
 		
 		<div class="profile-details">
 			<div class="mb-5">
-				<div class="h2">Hi, I’m Ignacio</div>
-				<div class="font-13 text-muted font-300 mt-0">Joined since XXXX</div>
+				<div class="h2">Hi, I’m <%= current_user.display_name%></div>
+				<div class="font-13 text-muted font-300 mt-0">Joined since <%= current_user.created_at.strftime('%Y')%></div>
 			</div>
 			<div>
 				<div class="h5 mb-3">About</div>
@@ -59,25 +59,11 @@
 			</div>
 			<div class="line-break my-4"></div>
 			<div>
-				<div class="h5 mb-3">XXX's listings</div>
+				<div class="h5 mb-3"><%= current_user.display_name%>'s listings</div>
 				<% if @user.listings.present? %>
 					<div class="d-flex profile-listing-container">
 						<% @user.listings.each do |listing |%>
-							<div class="listing-wrapper">
-								<div class="img-wrapper">
-									<%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>
-								</div>
-								<div class="listing-desc">
-									<div class="d-flex align-items-center mt-2">
-										<i class="material-icons font-18 mr-6px">star</i>
-										<div class="weight-300 font-15">5.0</div>
-									</div>
-									<div class="weight-300 font-15">
-										<%= listing.property_type.name%>
-										<%= listing.title %>
-									</div>
-								</div>
-							</div>
+							<%= render 'users/sessions/listing_in_profile_partial', listing: listing %>
 						<% end %>
 					</div>
 				<% end %>
@@ -86,7 +72,7 @@
 			<div>
 				<div class="d-flex align-items-center mt-2">
 					<i class="material-icons font-18 mr-6px">star</i>
-					<div class="h5 mb-0">XXX Reviews</div>
+					<div class="h5 mb-0"><%= current_user.display_name%>'s Reviews</div>
 				</div>
 				
 			</div>

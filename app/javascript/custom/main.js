@@ -110,6 +110,21 @@ $(document).ready(function(){
 		})
 
 	};
+
+	// make the chatroom being selected always visible. 
+	const $selectedChatroom = $('.chatroom-card.selected')
+	if ($selectedChatroom.length) {
+		$selectedChatroom.prev('.line-break').addClass('hidden')
+		var $chatroomList = $('.chatroom-list');
+
+		var scrollTop = $chatroomList.scrollTop();
+		var selectedTop = $selectedChatroom.position().top;
+
+		if (selectedTop < 0 || selectedTop > $chatroomList.height()) {
+		// Scroll the container to make the selected chatroom visible
+		$chatroomList.scrollTop(scrollTop + selectedTop);
+		}
+	}
 	
 	// Config defaul bedroom name when adding a new bedroom. 
 	$(document).on('click', 'button.add-bedroom-btn', function(){
@@ -287,59 +302,60 @@ $(document).ready(function(){
 	})
 
 	// slide listing img when arrow keys are pressed. 
-	$(document).on("click", ".button.slide-btn", function(event) {
-		event.stopPropagation()
+	// seems duplicate code as the following code. comment out for now.
+	// $(document).on("click", ".button.slide-btn", function(event) {
+	// 	event.stopPropagation()
 
-		const $btnSelected = $(this)
-		const $imgCollectEle = $btnSelected.siblings('a').find('.listing-imgs-collection')
-		const $displayImg = $imgCollectEle.find('img.show')
+	// 	const $btnSelected = $(this)
+	// 	const $imgCollectEle = $btnSelected.siblings('a').find('.listing-imgs-collection')
+	// 	const $displayImg = $imgCollectEle.find('img.show')
 		
-		if ($btnSelected.hasClass('back-btn')) {
+	// 	if ($btnSelected.hasClass('back-btn')) {
 
-			if ($displayImg.hasClass('last-img')) {
-				$btnSelected.siblings('button.forward-btn').removeClass('d-none')
-			}
+	// 		if ($displayImg.hasClass('last-img')) {
+	// 			$btnSelected.siblings('button.forward-btn').removeClass('d-none')
+	// 		}
 
-			const $prevImg = $displayImg.prev()
-			$prevImg.removeClass('d-none')
-			$prevImg.addClass('show')
-			$displayImg.removeClass('show')
-			$displayImg.addClass('d-none')
+	// 		const $prevImg = $displayImg.prev()
+	// 		$prevImg.removeClass('d-none')
+	// 		$prevImg.addClass('show')
+	// 		$displayImg.removeClass('show')
+	// 		$displayImg.addClass('d-none')
 
-			// hide back-arrow if the current img is the first img.
-			if ($prevImg.hasClass('first-img')) {
-				$btnSelected.addClass('d-none')
+	// 		// hide back-arrow if the current img is the first img.
+	// 		if ($prevImg.hasClass('first-img')) {
+	// 			$btnSelected.addClass('d-none')
 
-				// if the page is the booking confirmation page, show the background shade ele. 
-				if ($btnSelected.siblings('a').siblings('.background-shade').length){
-					$('.booking-confirmation .background-shade').removeClass('d-none')
-				}
-			}
+	// 			// if the page is the booking confirmation page, show the background shade ele. 
+	// 			if ($btnSelected.siblings('a').siblings('.background-shade').length){
+	// 				$('.booking-confirmation .background-shade').removeClass('d-none')
+	// 			}
+	// 		}
 
-		} else if ($btnSelected.hasClass('forward-btn')) {
-			if ($displayImg.hasClass('first-img')) {
-				$btnSelected.siblings('button.back-btn').removeClass('d-none')
+	// 	} else if ($btnSelected.hasClass('forward-btn')) {
+	// 		if ($displayImg.hasClass('first-img')) {
+	// 			$btnSelected.siblings('button.back-btn').removeClass('d-none')
 
-				// if the page is the booking confirmation page, hide the background shade ele. 
-				if ($btnSelected.siblings('a').siblings('.background-shade').length){
-					$('.booking-confirmation .background-shade').addClass('d-none')
-				}
-			}
+	// 			// if the page is the booking confirmation page, hide the background shade ele. 
+	// 			if ($btnSelected.siblings('a').siblings('.background-shade').length){
+	// 				$('.booking-confirmation .background-shade').addClass('d-none')
+	// 			}
+	// 		}
 
-			const $nextImg = $displayImg.next()
-			$nextImg.removeClass('d-none')
-			$nextImg.addClass('show')
-			$displayImg.removeClass('show')
-			$displayImg.addClass('d-none')
+	// 		const $nextImg = $displayImg.next()
+	// 		$nextImg.removeClass('d-none')
+	// 		$nextImg.addClass('show')
+	// 		$displayImg.removeClass('show')
+	// 		$displayImg.addClass('d-none')
 
-			// hide forward-arrow if the current img is the last img.
-			if ($nextImg.hasClass('last-img')) {
-				setTimeout(()=> {
-					$btnSelected.addClass('d-none')
-				}, 500)
-			}
-		}
-	})
+	// 		// hide forward-arrow if the current img is the last img.
+	// 		if ($nextImg.hasClass('last-img')) {
+	// 			setTimeout(()=> {
+	// 				$btnSelected.addClass('d-none')
+	// 			}, 500)
+	// 		}
+	// 	}
+	// })
 
 	$(document).on("click", "button.slide-btn", function(event) {
 		event.stopPropagation()
@@ -907,7 +923,7 @@ $(document).ready(function(){
 	})
 
 	// show and hide custom login modal.
-	$(document).on('click', '.loginOrSignupBtn, #redirect-to-signin-btn', function(event){
+	$(document).on('click', '.loginOrSignupBtn, #redirect-to-signin-btn, .redirect-to-signin-btn', function(event){
 		event.stopPropagation()
 		const $loginPopover = $('.login-popover')
 		$loginPopover.addClass('d-none')
@@ -915,7 +931,7 @@ $(document).ready(function(){
 		event.preventDefault()
 		
 		let url 
-		if ($(this).hasClass('reserve-btn')) {
+		if ($(this).hasClass('reserve-btn') || $(this).hasClass('contact-host-btn')) {
 			url = $('#loginModalButton').attr('href')
 		} else {
 			url = $(this).attr('href')
@@ -1337,12 +1353,13 @@ $(document).ready(function(){
 	$(document).on('click', ".chatroom-card", function(event){
 
 		const $cardSelected = $(this)
-		const url = $cardSelected.data('url') + ".json"
+		const url = $cardSelected.data('messages_url') + ".json"
 		const chatroomId = $cardSelected.data('id')
 		const payload = {
 			"chatroom_id": chatroomId
 		}
 
+		// get the massages of the chatroom. 
 		$.get({
 			url: url,
 			data: payload,
@@ -1359,6 +1376,24 @@ $(document).ready(function(){
 				$cardSelected.addClass('selected')
 				$cardSelected.prev('.line-break').addClass('hidden')
 				$cardSelected.next('.line-break').addClass('hidden')
+				// update the url to reflect the selected chatroom. 
+				const newUrl = "/chatrooms/" + chatroomId
+				history.pushState({}, '', newUrl);
+
+				// get the details of the chatroom
+				console.log("this is a test")
+				$.get({
+					url: $cardSelected.data('details_url') + ".json",
+					data: payload,
+					success: function(response) {
+						// console.log(response, "success")
+						$('.detail-container').html(response.partial)
+						
+					},
+					failure: function(errors) {
+						console.log(errors, 'failure')
+					}
+				})
 			},
 			failure: function(errors) {
 				console.log(errors, 'failure')

@@ -14,4 +14,17 @@ class User < ApplicationRecord
   has_many :messages
   has_many :chatroom_registrations
   has_many :chatrooms, through: :chatroom_registrations
+
+  def get_sorted_chatrooms
+    chatrooms =
+      self
+        .chatrooms
+        .includes(:messages)
+        .sort do |a, b|
+          latest_message_a = a.messages.maximum(:created_at) || a.created_at
+          latest_message_b = b.messages.maximum(:created_at) || b.created_at
+
+          latest_message_b <=> latest_message_a
+        end
+  end
 end
