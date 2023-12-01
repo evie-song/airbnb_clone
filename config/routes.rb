@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     get :request_booking
     post :booking_confirmation
     post :remove_image
+    get :search, on: :collection
   end
   resources :addresses, except: %i[update edit destroy]
 

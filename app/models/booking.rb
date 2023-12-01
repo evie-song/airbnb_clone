@@ -2,6 +2,19 @@ class Booking < ApplicationRecord
   belongs_to :user
   belongs_to :listing
 
+  scope :overlapping,
+        ->(checkin, checkout) {
+          where(
+            "(start_date < ? AND end_date > ?) OR (start_date >= ? AND start_date < ?) OR (end_date > ? AND end_date <= ?)",
+            checkin,
+            checkout,
+            checkin,
+            checkout,
+            checkin,
+            checkout
+          )
+        }
+
   def display_guest_count
     guest_str = ""
     guest_count.each do |key, value|

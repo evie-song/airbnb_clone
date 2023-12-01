@@ -18,52 +18,36 @@
       <% date_range.each_slice(7) do |week| %>
         <tr>
           <% week.each do |day| %>
-            <% if passed_options[:show_booked_dates] %>
+            <% custom_class = "" %>
+            <% if passed_options[:show_selected_dates] %>
+                <% if @selected_date_range.include? day.to_date %>
+                  <% if @checkin_date == day.to_date %>
+                    <% custom_class = "start-date-selected" %>
+                  <% elsif @checkout_date == day.to_date %>
+                    <% custom_class = "end-date-selected" %>
+                  <% else %>
+                    <% custom_class = "date-in-between-selected" %>
+                  <% end %>
+                <% end %>
+            <% elsif passed_options[:show_booked_dates] %>
               <% if @booked_dates.include? day.to_date %>
-                <%= content_tag :td, data: {date: day.to_date.to_s }, class: [calendar.td_classes_for(day), "booked"].join(' ') do %>
-                  <div class="date-overwrapper">
-                    <div class="date-wrapper" data-date="<%= day.to_date %>">
-                      <p>
-                          <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
-                            <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
-                          <% else %>
-                            <% passed_block.call day.day, sorted_events.fetch(day, []) %>
-                          <% end %>
-                      </p>
-                    </div>
-                  </div>
-                <% end %>
+                <% custom_class = "booked" %>
               <% else %>
-                <%= content_tag :td, data: {date: day.to_date.to_s }, class: [calendar.td_classes_for(day), "unbooked"].join(' ') do %>
-                  <div class="date-overwrapper">
-                    <div class="date-wrapper" data-date="<%= day.to_date %>">
-                      <p>
-                          <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
-                            <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
-                          <% else %>
-                            <% passed_block.call day.day, sorted_events.fetch(day, []) %>
-                          <% end %>
-                      </p>
-                    </div>
-                  </div>
-                <% end %>
+                <% custom_class = "unbooked" %>
               <% end %>
-            <% else %>
-              
-              <%= content_tag :td, data: {date: day.to_date.to_s }, class: calendar.td_classes_for(day) do %>
-                <div class="date-overwrapper">
-                  <div class="date-wrapper" data-date="<%= day.to_date %>">
-                    <p>
-                        <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
-                          <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
-                        <% else %>
-                          <% passed_block.call day.day, sorted_events.fetch(day, []) %>
-                        <% end %>
-                    </p>
-                  </div>
+            <% end %>
+            <%= content_tag :td, data: {date: day.to_date.to_s }, class: [calendar.td_classes_for(day), custom_class].join(' ') do %>
+              <div class="date-overwrapper">
+                <div class="date-wrapper" data-date="<%= day.to_date %>">
+                  <p>
+                      <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                        <% capture_haml(day.day, sorted_events.fetch(day, []), &passed_block) %>
+                      <% else %>
+                        <% passed_block.call day.day, sorted_events.fetch(day, []) %>
+                      <% end %>
+                  </p>
                 </div>
-              <% end %>
-
+              </div>
             <% end %>
           <% end %>
         </tr>

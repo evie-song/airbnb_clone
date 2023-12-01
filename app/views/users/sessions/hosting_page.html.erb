@@ -67,7 +67,7 @@
 								<div>
 									<div>
 										<% if (user = User.find_by(id: reservation.user_id)) %>
-											<%= user.username %>
+											<%= user.display_name %>
 										<% else %>
 											User not found
 										<% end %>

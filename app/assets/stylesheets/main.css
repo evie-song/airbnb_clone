@@ -993,7 +993,7 @@ input.guest-count {
     border-radius: 0.375rem;
 }
 
-.make-reservation-btn {
+.make-reservation-btn{
     margin-top: 24px;
     height: 48px;
     background-color: white;
@@ -1001,6 +1001,11 @@ input.guest-count {
     border: 1px solid #222222;
     border-radius: 0.375rem;
 }
+
+.edit-listing-btn {
+    font-size: 18px;
+    border-radius: 8px;
+    margin-left: 10px;}
 
 .contact-host-btn {
     margin: 16px 0;
@@ -1240,11 +1245,11 @@ input.guest-count {
 
 .listing-unit-price {
     font-size: 15px;
-    color: #222222;
+    color:rgb(34, 34, 34);
 }
 
 .listing-unit-price .price-number {
-    font-weight: bold;
+    font-weight: 600;
 }
 
 /* Simple calendar format */
@@ -1370,6 +1375,14 @@ input.guest-count {
 .future.after-start-date.unbooked.after-first-booked-date .date-wrapper:hover {
     cursor: default;
     border: unset;
+}
+
+.start-date-selected .date-overwrapper {
+    background-image: linear-gradient(to left, rgb(247, 247, 247), rgb(255, 255, 255));
+}
+
+.end-date-selected .date-overwrapper {
+    background-image: linear-gradient(to right, rgb(247, 247, 247), rgb(255, 255, 255));
 }
 
 .future {
@@ -2026,3 +2039,55 @@ td.future.date-in-between-selected .date-overwrapper {
     line-height: 30px;
     margin-bottom: 24px;
 }
+
+.listing-display-title {
+    height: 42px;
+    overflow: hidden;
+}
+
+.search-item-wrapper button {
+    border: unset;
+    background-color: unset;
+}
+
+@media (max-width: 1125px)  {
+    .logo-letter-airbnb {
+        display: none;
+    }
+}
+
+@media (min-width: 950px) and (max-width: 1124px) {
+    .search-bar-overwrap {
+        margin-left: -100px;
+
+    }
+}
+
+@media (min-width: 800px) and (max-width: 949px) {
+    .search-bar-overwrap {
+        margin-left: -150px;
+
+    }
+}
+
+@media (max-width: 900px)  {
+    .become-host {
+        display: none;
+    }
+}
+
+@media (max-width: 799px)  {
+    .nav-navbar-brand {
+        display: none !important;
+    }
+}
+
+@media (max-width: 800px)  {
+    .nav-brand-wrapper {
+        display: none;
+    }
+}
+
+
+
+

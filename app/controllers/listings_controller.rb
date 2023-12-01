@@ -7,6 +7,21 @@ class ListingsController < ApplicationController
     @listings = Listing.all
   end
 
+  def search
+    checkin_date_str = params[:checkin_date]
+    checkout_date_str = params[:checkout_date]
+    @checkin_date = Date.strptime(checkin_date_str, "%m/%d/%Y")
+    @checkout_date = Date.strptime(checkout_date_str, "%m/%d/%Y")
+    @selected_date_range = (@checkin_date..@checkout_date).to_a
+
+    @listings =
+      Listing
+        .includes(:bookings)
+        .where.not(bookings: Booking.overlapping(@checkin_date, @checkout_date))
+
+    render "index"
+  end
+
   # GET /listings/1 or /listings/1.json
   def show
     @booked_dates = @listing.get_all_booked_days

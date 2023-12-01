@@ -32,16 +32,17 @@
             <div>
               <%= listing.address.city %>, <%=listing.address.state%>
             </div>
-            <div>
-              5.0
+            <div class="d-flex align-items-center">
+              <i class="material-icons small-start-icon">star</i>
+              <span>5.0</span>
             </div>
           </div>
           <div class="listing-distance-date">
-            <div class="">337 miles</div>
-            <div class="">Oct 16 - 21</div>
+            <div class="listing-display-title"><%= listing.title %></div>
+            <div class="d-none">Oct 16 - 21</div>
           </div>
           <div class="listing-unit-price">
-            $<span class="price-number"><%= listing.default_price %></span> night
+            $<span class="price-number"><%= number_with_precision(listing.default_price.round(0), precision: 0) %></span> night
           </div>
 
       </div>
@@ -66,7 +67,7 @@
 
 
 <% if user_signed_in? %>
-  <%= link_to "New listing", new_listing_path %>
+  <%# link_to "New listing", new_listing_path %>
 <% end %>
 
 </div>

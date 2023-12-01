@@ -1,3 +1,4 @@
+
 <div class="container calendar-overwrapper p-0" data-current="<%= Date.current %>" data-start="" data-end="">
     <div class="row">
         <div class="col calendar-wrapper calendar-first-month calendar-show left">
@@ -7,7 +8,7 @@
             <div class="calendar-arrow forward">
                 <i class="material-icons">keyboard_arrow_right</i>
             </div>
-            <%= month_calendar(show_booked_dates: show_booked_dates) do |date| %>
+            <%= month_calendar(show_booked_dates: show_booked_dates, show_selected_dates: show_selected_dates) do |date| %>
                 <%= date %>
             <% end %>
         </div>
@@ -18,7 +19,7 @@
             <div class="calendar-arrow forward">
                 <i class="material-icons">keyboard_arrow_right</i>
             </div>
-            <%= month_calendar(start_date: (Date.current+1.month).beginning_of_month, show_booked_dates: show_booked_dates) do |date| %>
+            <%= month_calendar(start_date: (Date.current+1.month).beginning_of_month, show_booked_dates: show_booked_dates, show_selected_dates: show_selected_dates) do |date| %>
                 <%= date %>
             <% end %>
         </div>
@@ -30,7 +31,7 @@
                 <div class="calendar-arrow forward">
                     <i class="material-icons">keyboard_arrow_right</i>
                 </div>
-                <%= month_calendar(start_date: (Date.current+number.month).beginning_of_month, show_booked_dates: show_booked_dates) do |date| %>
+                <%= month_calendar(start_date: (Date.current+number.month).beginning_of_month, show_booked_dates: show_booked_dates, show_selected_dates: show_selected_dates) do |date| %>
                     <%= date %>
                 <% end %>
             </div>

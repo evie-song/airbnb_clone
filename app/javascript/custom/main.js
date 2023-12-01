@@ -961,6 +961,7 @@ $(document).ready(function(){
 	// function to update guest summary after clicking plus o minus btn. 
 	$(document).on('click', ".search-popover.guest button.btn-round, .listing-popover.guest button.btn-round", function(e){
 		e.stopPropagation()
+		e.preventDefault()
 		const $btnClicked = $(this)
 		const $counterEle = $btnClicked.siblings('.counter-num')
 		const $wrapper = $btnClicked.closest('.guest')
@@ -1440,6 +1441,14 @@ $(document).ready(function(){
 		})
 		
 
+	})
+
+	// validate if the checkin and checkout dates are empty before submiting the search. 
+	$(document).on("click", ".listing-search-btn", function(event){
+		event.stopPropagation()
+		if (($('input[name="checkin_date"]').val() == "") || ($('input[name="checkout_date"]').val() == "") )  {
+			event.preventDefault()
+		}
 	})
 });
 
