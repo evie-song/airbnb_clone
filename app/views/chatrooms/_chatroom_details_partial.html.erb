@@ -7,7 +7,7 @@
     </div>
 <% else %>
     <div>
-        <div class="chatroom_detail_title "><%= displayed_chatroom.listing.user.display_name %>'s place</div>
+        <div class="chatroom_detail_title "> <%= displayed_chatroom.listing.user.display_name %>'s place</div>
         <%= render partial: "related_listing_partial", :locals => {listing: displayed_chatroom.listing } %>
     </div>
 <% end %>
