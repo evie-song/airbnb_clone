@@ -19,12 +19,12 @@ Feel free to reach out to me with any questions at evie.shuangsong@gmail.com
 
 Below are a few screenshots:
 
-!(screenshot 1)[https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%201.png?raw=true]
+![screenshot 1](https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%201.png?raw=true)
 
-!(screenshot 2)[https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%202.png?raw=true]
+![screenshot 2](https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%202.png?raw=true)
 
-!(screenshot 3)[https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%203.png?raw=true]
+![screenshot 3](https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%203.png?raw=true)
 
-!(screenshot 4)[https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%204.png?raw=true]
+![screenshot 4](https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%204.png?raw=true)
 
-!(screenshot 5)[https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%205.png?raw=true]
+![screenshot 5](https://github.com/evie-song/airbnb_clone/blob/main/public/screenshot%205.png?raw=true)
