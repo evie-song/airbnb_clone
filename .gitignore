@@ -13,7 +13,7 @@
 
 # Ignore all logfiles and tempfiles.
 /log/*
-/tmp/*
+# /tmp/*
 !/log/.keep
 !/tmp/.keep
 
@@ -23,11 +23,11 @@
 !/tmp/pids/.keep
 
 # Ignore uploaded files in development.
-/storage/*
-!/storage/.keep
-/tmp/storage/*
-!/tmp/storage/
-!/tmp/storage/.keep
+# /storage/*
+# !/storage/.keep
+# /tmp/storage/*
+# !/tmp/storage/
+# !/tmp/storage/.keep
 
 /public/assets
 
