@@ -1,24 +1,17 @@
-# README
+# Airbnb Clone
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is a practice project clone of Airbnb's website. It is not a complete clone, but it copies most of the core functionality of the real Airbnb and its visuals. It uses Ruby on Rails on the backend and has JS logic built with jQuery.
 
-Things you may want to cover:
+To try this project out locally, clone the repo and check out the `with_storage` branch. That branch has the local storage files and sqlite DB checked in so that you can click around the app with some example data and images pre-populated.
 
-* Ruby version
+- `bundle install` to install dependencies
+  - you might need to install ruby 3.1.2 if you don't already have it. to do this with `asdf`:
+    - `asdf plugin add ruby`
+    - `adsf ruby install 3.1.2`
+    - `asdf local ruby 3.1.2`
 
-* System dependencies
+- `rails s` to start the server
 
-* Configuration
+- navigate to `localhost:3000` to try it out!
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Feel free to reach out to me with any questions at evie.shuangsong@gmail.com
