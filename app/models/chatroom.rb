@@ -17,4 +17,10 @@ class Chatroom < ApplicationRecord
     latest_booking = bookings.max_by(&:start_date)
     return latest_booking
   end
+
+  def guest_user
+    chatroom_registration = self.chatroom_registrations[0]
+    guest_user = chatroom_registration.user
+    return guest_user
+  end
 end

@@ -1,0 +1,82 @@
+
+<div class="booking-info-container">
+    <div class="summary-section">
+    <div>
+        <% if booking.listing.images.attached? %>
+        <div class="img-wrapper">
+            <a href="<%= users_trips_path%>">
+            <button class="back-arrow-btn"><i class="material-icons">arrow_back</i></button>
+            </a>
+            <button class="back-btn slide-btn d-none"><i class="material-icons">keyboard_arrow_left</i></button>
+            <button class="forward-btn slide-btn"><i class="material-icons">keyboard_arrow_right</i></button>
+            <div class="background-shade">
+            <div class="all-set-confirmation">
+                You're all set for <%= booking.listing.address.city %>
+            </div>
+            </div>
+            <a href="#">
+            <div class="listing-imgs-collection">
+                <%= image_tag(url_for(booking.listing.images[0]), :alt => "listing main img", :class => "listing-img show first-img", :data => {:index => -1 }) %>
+                <% booking.listing.images.each_with_index do |image, index| %>
+                <% if index == 0 %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% elsif (index > 0) && (index < booking.listing.images.length-1 ) %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right", :data => {:index => index }) %>
+                <% else %>
+                    <%= image_tag(url_for(image), :alt => "listing main img", :class => "listing-img hide-right last-img", :data => {:index => index }) %>
+                <% end %>
+                <% end %>
+            </div>
+            </a>
+        </div>
+        <% end %>
+    </div>
+    <div class="sub-section">
+        <div class="d-flex py-3">
+        <div class="w-50">
+            <div class="font-15 fw-bold mb-1">Check-in</div>
+            <div class="fw-light font-15">
+            <div><%=booking.start_date.strftime('%a, %b %-d, %Y')%></div>
+            <div>3:00 PM</div>
+            </div>
+        </div>
+        <div class="row-break mr-1rem"></div>
+        <div>
+            <div class="font-15 fw-bold mb-1">Checkout</div>
+            <div class="fw-light font-15">
+            <div><%=booking.end_date.strftime('%a, %b %-d, %Y')%></div>
+            <div>3:00 PM</div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="display-section">
+    <div class="h5">Reservation details</div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Who's coming</div>
+        <div class="fw-light font-15"><%= booking.display_guest_count %></div>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Confirmation code</div>
+        <div class="fw-light font-15">BOOKINGID<%= booking.id%></div>
+    </div>
+    <div class="line-break"></div>
+    <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Cancellation policy</div>
+        <div class="fw-light font-15">
+        <div>Free cancellation before 3:00 PM on <%= (booking.start_date - 5.day).strftime('%b %-d') %>. Cancel before check-in at 3:00 PM on <%= booking.start_date.strftime('%b %-d')%> for a partial refund.</div>
+        </div>
+    </div>
+    </div>
+
+    <div class="display-section">
+    <div class="h5 ">Payment info</div>
+        <div class="py-4">
+        <div class="font-15 fw-bold mb-1">Total cost</div>
+        <div class="fw-light font-15"><%=ActionController::Base.helpers.number_to_currency(booking.booking_cost["total"]) %> USD</div>
+        </div>
+    </div>
+</div>

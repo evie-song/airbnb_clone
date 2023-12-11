@@ -13,7 +13,7 @@
       <% if current_user.get_sorted_chatrooms.count == 0 %>
       <% else %>
       <% current_user.get_sorted_chatrooms.each do |chatroom| %>
-        <div class="chatroom-card d-flex <% if chatroom == displayed_chatroom %>selected <% end %>" data-messages_url="<%= messages_url%>" data-details_url="<%= get_chatroom_details_chatrooms_url%>" data-id="<%= chatroom.id%>" >
+        <div class="chatroom-card d-flex <% if chatroom == displayed_chatroom %>selected <% end %>" data-chatroom_url="http://localhost:3000/chatrooms/<%=chatroom.id%>" data-messages_url="<%= messages_url%>" data-details_url="<%= get_chatroom_details_chatrooms_url%>" data-id="<%= chatroom.id%>" >
           <div>
             <div class="user-icon-container">
               <% if chatroom.listing.user.avatar.attached? %>

@@ -16,6 +16,12 @@ class ChatroomsController < ApplicationController
     # redirect_to "/chatrooms"
   end
 
+  def chatroom_as_host
+    chatroom_id = params[:chatroom_id]
+    @selected_chatroom = Chatroom.find(id = chatroom_id)
+    render "chatrooms/chatrooms_as_host"
+  end
+
   # GET /chatrooms/new
   def new
     @chatroom = Chatroom.new
@@ -102,10 +108,29 @@ class ChatroomsController < ApplicationController
     end
   end
 
+  def get_details_as_host
+    respond_to do |format|
+      format.json do
+        chatroom_id = params[:chatroom_id]
+        chatroom = Chatroom.find(id = chatroom_id)
+        rendered_string =
+          render_to_string(
+            partial: "chatrooms/chatroom_as_host_details_partial",
+            format: [:html],
+            layout: false,
+            locals: {
+              chatroom: chatroom
+            }
+          )
+        return render json: { partial: rendered_string }
+      end
+    end
+  end
+
   def chatrooms_as_host
     @user = current_user
+    @is_host_chatroom = true
     # @chatrooms = Chatroom.joins(listing: :user).where(users: { id: user_id })
-
     render "chatrooms/chatrooms_as_host"
   end
 

@@ -1,0 +1,13 @@
+<% displayed_chatroom = chatroom %>
+
+<% if displayed_chatroom.bookings_exists %>
+    <div> 
+        <div class="chatroom_detail_title "><%= displayed_chatroom.guest_user.display_name %>'s booking detail</div>
+        <%= render partial: "bookings/booking_info_for_host_partial", :locals => {booking: displayed_chatroom.last_booking} %>
+    </div>
+<% else %>
+    <div>
+        <div class="chatroom_detail_title "> Related listing</div>
+        <%= render partial: "related_listing_partial", :locals => {listing: displayed_chatroom.listing } %>
+    </div>
+<% end %>

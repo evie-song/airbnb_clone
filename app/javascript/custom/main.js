@@ -1352,7 +1352,6 @@ $(document).ready(function(){
 
 	// render selected chatroom's messages via ajax call. 
 	$(document).on('click', ".chatroom-card", function(event){
-
 		const $cardSelected = $(this)
 		const url = $cardSelected.data('messages_url') + ".json"
 		const chatroomId = $cardSelected.data('id')
@@ -1378,7 +1377,7 @@ $(document).ready(function(){
 				$cardSelected.prev('.line-break').addClass('hidden')
 				$cardSelected.next('.line-break').addClass('hidden')
 				// update the url to reflect the selected chatroom. 
-				const newUrl = "/chatrooms/" + chatroomId
+				const newUrl = $cardSelected.data('chatroom_url')
 				history.pushState({}, '', newUrl);
 
 				// get the details of the chatroom

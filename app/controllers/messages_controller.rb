@@ -83,6 +83,25 @@ class MessagesController < ApplicationController
     end
   end
 
+  def messages_as_host
+    respond_to do |format|
+      format.json do
+        chatroom_id = params[:chatroom_id]
+        chatroom = Chatroom.find(id = chatroom_id)
+        rendered_string =
+          render_to_string(
+            partial: "messages/messages_as_host_partial",
+            format: [:html],
+            layout: false,
+            locals: {
+              chatroom: chatroom
+            }
+          )
+        return render json: { partial: rendered_string }
+      end
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

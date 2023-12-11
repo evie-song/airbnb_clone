@@ -1,5 +1,4 @@
 
-
 <div class="d-flex position-fixed w-100 messages-page-wrapper">
   <div class="chatroom-wrapper border-end">
     <div class="h6 p-4 border-bottom section-header ">
@@ -15,11 +14,11 @@
       no chatrooms
       <% else %>
       <% current_user.get_chatrooms_as_host.each do |chatroom| %>
-        <div class="chatroom-card d-flex <% if chatroom == displayed_chatroom %>selected <% end %>" data-messages_url="<%= messages_url%>" data-details_url="<%= get_chatroom_details_chatrooms_url%>" data-id="<%= chatroom.id%>" >
+        <div class="chatroom-card d-flex <% if chatroom == displayed_chatroom %>selected <% end %>" data-chatroom_url="http://localhost:3000/chatrooms/chatrooms_as_host/<%=chatroom.id%>" data-messages_url="<%= messages_as_host_messages_url%>" data-details_url="<%= get_chatroom_details_as_host_chatrooms_url%>" data-id="<%= chatroom.id%>" >
           <div>
             <div class="user-icon-container">
-              <% if chatroom.listing.user.avatar.attached? %>
-                <%= image_tag chatroom.listing.user.avatar, :alt => "host icon", :class => "host-icon" %>
+              <% if chatroom.guest_user.avatar.attached? %>
+                <%= image_tag chatroom.guest_user.avatar, :alt => "host icon", :class => "host-icon" %>
               <% else %>
                 <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
               <% end %>
@@ -27,7 +26,7 @@
           </div>
           <div>
             <div class="font-14 mb-1">
-              <span><%= chatroom.listing.user.display_name %></span>
+              <span><%= chatroom.guest_user.display_name %><%= chatroom.id %></span>
               <span>&#x2022;</span>
               <span class="text-muted"><%= chatroom.listing.address.city %></span>
             </div>
@@ -49,7 +48,7 @@
       <% if current_user.get_chatrooms_as_host == 0 %>
         No messages
       <% else %>
-      <%= render template: "/messages/index", locals: { chatroom: displayed_chatroom } %>
+      <%= render partial: "/messages/messages_as_host_partial", locals: { chatroom: displayed_chatroom } %>
       <% end %>
     </div>
     <div class="booking-details-wrapper border-end">
@@ -59,7 +58,7 @@
       <div class="detail-container">
         <% if current_user.get_chatrooms_as_host == 0 %>
         <% else %>
-        <%= render partial: "chatroom_details_partial", locals: { chatroom: displayed_chatroom } %>
+        <%= render partial: "chatroom_as_host_details_partial", locals: { chatroom: displayed_chatroom } %>
         <% end %>
       </div>
 

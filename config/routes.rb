@@ -6,14 +6,27 @@ Rails.application.routes.draw do
         on: :collection,
         to: "chatrooms#get_details",
         as: :get_chatroom_details
+    get "get_details_as_host",
+        on: :collection,
+        to: "chatrooms#get_details_as_host",
+        as: :get_chatroom_details_as_host
     get "chatrooms_as_host",
         on: :collection,
         to: "chatrooms#chatrooms_as_host",
         as: :chatrooms_as_host
+    get "chatrooms_as_host/:chatroom_id",
+        on: :collection,
+        to: "chatrooms#chatroom_as_host",
+        as: :chatroom_as_host
   end
   post "/chatroom", to: "chatrooms#create", as: :create_chatroom
 
-  resources :messages
+  resources :messages do
+    get "messages_as_host",
+        on: :collection,
+        to: "messages#messages_as_host",
+        as: :messages_as_host
+  end
   devise_for :users,
              controllers: {
                sessions: "users/sessions",
