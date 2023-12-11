@@ -175,7 +175,7 @@
                     <div class="login-popover d-none">
                         <% if user_signed_in? %>
                             <div class="signin-option-wrapper">
-                                <%= link_to "Messages", chatrooms_path, class:"nav-link" %>
+                                <%= link_to "Messages To Hosts", chatrooms_path, class:"nav-link" %>
                             </div>
 
                             <div class="signin-option-wrapper">
@@ -186,6 +186,10 @@
 
                             <div class="signin-option-wrapper">
                                 <%= link_to "Switch to hosting", users_hosting_page_path, class:"nav-link" %>
+                            </div>
+
+                            <div class="signin-option-wrapper">
+                                <%= link_to "Messages To Guests", chatrooms_as_host_chatrooms_path, class:"nav-link" %>
                             </div>
 
                             <div class="line-break my-2"></div>

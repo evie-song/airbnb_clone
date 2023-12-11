@@ -2,7 +2,7 @@
 <div class="listing-container" data-listingid="<%= listing.id %>">
   <div class="listing-title-and-photoes">
     <div class="my-3 pt-3">
-      <div class="h3"><%= listing.title %><%= listing.id%>
+      <div class="h3"><%= listing.title %>
       <% if listing.user == current_user %>
         <button class="edit-listing-btn">
           <%= link_to "Edit this listing", edit_listing_path(listing)  %>

@@ -27,4 +27,18 @@ class User < ApplicationRecord
           latest_message_b <=> latest_message_a
         end
   end
+
+  def get_chatrooms_as_host
+    chatrooms =
+      Chatroom
+        .joins(listing: :user)
+        .where(users: { id: self.id })
+        .includes(:messages)
+        .sort do |a, b|
+          latest_message_a = a.messages.maximum(:created_at) || a.created_at
+          latest_message_b = b.messages.maximum(:created_at) || b.created_at
+
+          latest_message_b <=> latest_message_a
+        end
+  end
 end

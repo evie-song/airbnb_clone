@@ -6,6 +6,10 @@ Rails.application.routes.draw do
         on: :collection,
         to: "chatrooms#get_details",
         as: :get_chatroom_details
+    get "chatrooms_as_host",
+        on: :collection,
+        to: "chatrooms#chatrooms_as_host",
+        as: :chatrooms_as_host
   end
   post "/chatroom", to: "chatrooms#create", as: :create_chatroom
 

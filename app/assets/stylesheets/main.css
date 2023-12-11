@@ -2070,7 +2070,7 @@ td.future.date-in-between-selected .date-overwrapper {
     }
 }
 
-@media (max-width: 900px)  {
+@media (max-width: 1200px)  {
     .become-host {
         display: none;
     }

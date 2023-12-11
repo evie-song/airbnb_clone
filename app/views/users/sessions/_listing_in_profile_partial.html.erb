@@ -1,4 +1,5 @@
 
+    <a href="<%= listing_path(listing) %>">
     <div class="listing-wrapper">
         <div class="img-wrapper">
             <%= image_tag(url_for(listing.images[0]), :alt => "listing main img", :class => "listing-img") %>
@@ -14,3 +15,4 @@
             </div>
         </div>
     </div>
+    </a>

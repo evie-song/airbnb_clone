@@ -72,12 +72,20 @@
 											User not found
 										<% end %>
 									</div>
-									<div><%= reservation.guest_count %></div>
+									<div><%= reservation.display_guest_count %></div>
 								</div>
 							</td>
-							<td><%= reservation.start_date %> to <%= reservation.end_date %> </td>
-							<td><%= reservation.created_at %></td>
-							<td>listing_id: <%= reservation.listing_id %></td>
+							<td><%= reservation.formatted_duration %> </td>
+							<td><%= reservation.created_at.strftime("%b %d, %Y") %></td>
+							<td>
+								<a href="/listings/<%= reservation.listing_id%>" class="text-decoration-underline">
+									<% if (listing = Listing.find_by(id: reservation.listing_id)) %>
+										<%= listing.title %>
+									<% else %>
+										Listing not found
+									<% end %>
+								</a>
+							</td>
 							<td>$<%= reservation.booking_cost["total"] %></td>
 						</tr>
 					<% end %>

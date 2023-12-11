@@ -32,9 +32,9 @@
               <%= message.content%>
             </div>
           </div>
-          <div class="delete-message-wrapper d-flex align-items-center delete-button">
+          <%# <div class="delete-message-wrapper d-flex align-items-center delete-button">
             <i class="material-icons">delete</i>
-          </div>
+          </div> %>
         </div>
       <% end %>
     <% end %>
@@ -58,6 +58,24 @@
         </div>
       </div>
     <% end %>
+
+    <div class="example-message-card px-3 py-2 w-100 mb-2" data-user_id="<%=chatroom.listing.user.id %>">
+      <div class="user-icon-container">
+        <% if chatroom.listing.user.avatar.attached? %>
+          <%= image_tag chatroom.listing.user.avatar, :alt => "host icon", :class => "host-icon" %>
+        <% else %>
+          <%= image_tag("castle.webp", :alt => "host icon", :class => "host-icon") %>
+        <% end %>
+      </div>
+      <div>
+        <div>
+          <span class="message-first-name"><%= chatroom.listing.user.first_name.capitalize %></span>
+          <span class="message-created-time"><%# Time.zone.now.strftime('%I:%M %p')%></span>
+        </div>
+        <div class="message-content">
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

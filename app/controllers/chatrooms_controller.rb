@@ -90,7 +90,7 @@ class ChatroomsController < ApplicationController
         chatroom = Chatroom.find(id = chatroom_id)
         rendered_string =
           render_to_string(
-            template: "chatrooms/_chatroom_details_partial",
+            partial: "chatrooms/chatroom_details_partial",
             format: [:html],
             layout: false,
             locals: {
@@ -100,6 +100,13 @@ class ChatroomsController < ApplicationController
         return render json: { partial: rendered_string }
       end
     end
+  end
+
+  def chatrooms_as_host
+    @user = current_user
+    # @chatrooms = Chatroom.joins(listing: :user).where(users: { id: user_id })
+
+    render "chatrooms/chatrooms_as_host"
   end
 
   # PATCH/PUT /chatrooms/1 or /chatrooms/1.json

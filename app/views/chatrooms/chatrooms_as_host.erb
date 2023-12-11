@@ -1,18 +1,20 @@
 
+
 <div class="d-flex position-fixed w-100 messages-page-wrapper">
   <div class="chatroom-wrapper border-end">
     <div class="h6 p-4 border-bottom section-header ">
       <% if @selected_chatroom != nil %>
         <% displayed_chatroom = @selected_chatroom %>
       <% else %>
-        <% displayed_chatroom = current_user.get_sorted_chatrooms[0] %>
+        <% displayed_chatroom = current_user.get_chatrooms_as_host[0] %>
       <% end %>
       <div class="font-18">Messages</div>
     </div>
     <div class="px-3 chatroom-list">
-      <% if current_user.get_sorted_chatrooms.count == 0 %>
+      <% if current_user.get_chatrooms_as_host == 0 %>
+      no chatrooms
       <% else %>
-      <% current_user.get_sorted_chatrooms.each do |chatroom| %>
+      <% current_user.get_chatrooms_as_host.each do |chatroom| %>
         <div class="chatroom-card d-flex <% if chatroom == displayed_chatroom %>selected <% end %>" data-messages_url="<%= messages_url%>" data-details_url="<%= get_chatroom_details_chatrooms_url%>" data-id="<%= chatroom.id%>" >
           <div>
             <div class="user-icon-container">
@@ -33,7 +35,7 @@
           </div>
         </div>
 
-        <% if chatroom != current_user.get_sorted_chatrooms[-1] %>
+        <% if chatroom != current_user.get_chatrooms_as_host[-1] %>
             <div class="line-break <% if chatroom == displayed_chatroom %>hidden <% end %> "></div>
         <% end %>
     
@@ -44,7 +46,7 @@
   </div>
   <div class="flex-grow-1 d-flex">
     <div class="message-wrapper w-50 border-end flex-grow-1 ">
-      <% if current_user.get_sorted_chatrooms.count == 0 %>
+      <% if current_user.get_chatrooms_as_host == 0 %>
         No messages
       <% else %>
       <%= render template: "/messages/index", locals: { chatroom: displayed_chatroom } %>
@@ -55,7 +57,7 @@
         Details
       </div>
       <div class="detail-container">
-        <% if current_user.get_sorted_chatrooms.count == 0 %>
+        <% if current_user.get_chatrooms_as_host == 0 %>
         <% else %>
         <%= render partial: "chatroom_details_partial", locals: { chatroom: displayed_chatroom } %>
         <% end %>
