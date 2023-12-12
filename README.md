@@ -12,7 +12,9 @@ To try this project out locally, clone the repo and check out the `with_storage`
 
 - `rails s` to start the server
 
-- navigate to `localhost:3000` to try it out!
+- navigate to `localhost:3000`
+
+- you can create your own account or use username `test@email.com` password `Test@ccount` to try it out!
 
 Feel free to reach out to me with any questions at evie.shuangsong@gmail.com
 
