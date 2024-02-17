@@ -1019,8 +1019,6 @@ input.guest-count {
     font-weight: 600;
     line-height: 20px;
     width: 150px;
-
-    
 }
 
 .availability-btn:hover,
@@ -1032,8 +1030,6 @@ input.guest-count {
 
 .modal#amenityAllModal .modal-dialog,
 .modal#reviewsAllModal .modal-dialog {
-    min-width: 750px;
-} {
     min-width: 750px;
 }
 
