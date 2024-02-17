@@ -315,11 +315,11 @@ input:-webkit-autofill {
     top: 70px;
     background-color: white;
     border-radius: 40px;
-    border: 1px solid rgb(232 232 232);
+    border: 1px solid rgb(232, 232, 232);
 }
 
 .extend-search-container.focused {
-    background-color: rgb(232 232 232);
+    background-color: rgb(232, 232, 232);
 }
 
 .search-item-wrapper {
@@ -1884,7 +1884,7 @@ td.future.date-in-between-selected .date-overwrapper {
 
 .message-date {
     text-align: center;
-    color: rgb(113 113 113);
+    color: rgb(113, 113, 113);
     font-size: 12px;
     margin: 10px 0;
     font-weight: 600;
@@ -1965,7 +1965,7 @@ td.future.date-in-between-selected .date-overwrapper {
     width: 34px;
     visibility: hidden;
     cursor: pointer;
-    background-color: rgb(255 56 93 / 52%);
+    background-color: rgb(255, 56, 93, 52%);
     border-radius: 10px;
     justify-content: center;
 }
