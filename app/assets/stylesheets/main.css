@@ -272,7 +272,7 @@ input:-webkit-autofill {
     width: 250px;
     background-color: white;
     border-radius: 10px;
-    box-shadow: 0 1px 2px rgba(0,0,0,8%), 0 4px 12px rgba(0,0,0,5%);
+    box-shadow: var(--unfocused-box-shadow);
     border: #f1efef 1px solid;
 }
 
@@ -349,7 +349,7 @@ input:-webkit-autofill {
 
 .search-item-wrapper.focused {
     background-color: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,1%), 8px 4px 18px rgba(0,0,0,6%);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.01), 8px 4px 18px rgba(0,0,0,0.06);
 }
 
 .search-item-title {
@@ -682,7 +682,7 @@ input.login-btn {
 
 .profile-image-wrapper {
     display: flex;
-    align-items: end;
+    align-items: flex-end;
     margin-bottom: 30px;
 }
 
@@ -876,7 +876,7 @@ li {
 .pricing-container {
     margin-top: 40px;
     margin-left: 40px;
-    box-shadow: rgba(0,0,0,12%) 0px 6px 16px;
+    box-shadow: rgba(0,0,0,0.12) 0px 6px 16px;
 }
 
 .listing-pricing {
@@ -982,7 +982,7 @@ input.guest-count {
     top: 220px;
     width: 88%;
     background-color: white;
-    box-shadow: rgba(0,0,0,12%) 0px 6px 16px;
+    box-shadow: rgba(0,0,0,0.12) 0px 6px 16px;
     border: 1px solid rgb(221, 221, 221);
     border-radius: 12px;
     padding: 18px 14px 28px;
@@ -1605,12 +1605,12 @@ td.future.date-in-between-selected .date-overwrapper {
     overflow: scroll;
     height: 100%;
     border-radius: 1.5%;
-    box-shadow: 0 0px 10px 3px rgba(0,0,0,8%), 0 4px 12px rgba(0,0,0,5%);
+    box-shadow: var(--unfocused-box-shadow);
 }
 .booking-confirmation .display-section {
     margin-bottom: 8px;
     padding: 1rem;
-    box-shadow: 0 0px 10px 3px rgba(0,0,0,8%), 0 4px 12px rgba(0,0,0,5%);
+    box-shadow: var(--unfocused-box-shadow);
     border: #f1efef 1px solid;
 }
 
@@ -1620,7 +1620,7 @@ td.future.date-in-between-selected .date-overwrapper {
 
 .booking-confirmation .summary-section {
     margin-bottom: 8px;
-    box-shadow: 0 0px 10px 3px rgba(0,0,0,8%), 0 4px 12px rgba(0,0,0,5%);
+    box-shadow: var(--unfocused-box-shadow);
     border: #f1efef 1px solid;
 }
 
