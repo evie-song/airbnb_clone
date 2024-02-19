@@ -2,7 +2,7 @@
 
 This is a practice project clone of Airbnb's website. It is not a complete clone, but it copies most of the core functionality of the real Airbnb and its visuals. It uses Ruby on Rails on the backend and has JS logic built with jQuery.
 
-This app is hosted on render.com at following url https://evie-airbnb-clone.onrender/, feel free to give it a try. Note the initial load of the app may be very slow. This app uses a sqlite DB so your data may be lost if I re-deploy.
+This app is hosted on render.com at following url https://evie-airbnb-clone.onrender/, feel free to give it a try. Note I'm using the free tier of the hosting service so the site may be slow. This app uses a sqlite DB so your data may be lost if I re-deploy.
 
 To try this project out locally, clone the repo and check out the `with_storage` branch. That branch has the local storage files and sqlite DB checked in so that you can click around the app with some example data and images pre-populated.
 
