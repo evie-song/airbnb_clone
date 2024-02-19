@@ -1449,6 +1449,14 @@ $(document).ready(function(){
 			event.preventDefault()
 		}
 	})
+
+
+	// auto populates test account user info to the login form 
+	$(document).on('click', ".test-account-btn", ()=> {
+		console.log('test')
+		$('#login-form input[id="user_email"]').val("test@email.com");
+		$('#login-form input[id="user_password"]').val("Test@ccount");
+	})
 });
 
 

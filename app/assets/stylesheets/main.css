@@ -175,6 +175,16 @@ input:-webkit-autofill {
     padding: 6px;
 }
 
+.use-test-account {
+    color: #4c525d;
+    font-size: 14px;
+}
+
+.test-account-btn {
+    color: rgb(0, 82, 204);
+    cursor: pointer;
+}
+
 .search-bar-col {
     padding: 3px 14px;
     font-size: 15px;

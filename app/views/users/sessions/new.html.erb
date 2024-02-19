@@ -10,7 +10,7 @@
   <% end %>
   <p class="custom-alert alert alert-danger d-none"></p>
   <div class="mb-3 h4">Welcome to Airbnb</div>
-  <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+  <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { id: "login-form" }) do |f| %>
     <div class="border border-secondary rounded">
       <div class="border-bottom border-secondary login-input-wrapper">
         <div class="">
@@ -28,6 +28,11 @@
       <%= f.submit "Log in", class:"login-btn", id: 'loginButton' %>
     </div>
   <% end %>
+
+  <div class="mt-3 text-center use-test-account">
+    Click <span class="test-account-btn"> here</span> to use a test account (email: test@email.com, password: Test@ccount) or create your own
+  </div>
+
   <div class="option-change-overwrap">
     <div class="d-flex align-items-center option-change-or">
       or
@@ -43,6 +48,8 @@
       </a>
     </div>
   </div>
+
+  
 
 
   <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: {class:"d-none"}) do |f| %>
